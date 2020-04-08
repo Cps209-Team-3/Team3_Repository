@@ -1,14 +1,12 @@
 package model;
 
-public class GameObject implements Serializer{
+public class GameObject {
     
-    @Override
     public String serialization() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public void deserialization(String data) {
         // TODO Auto-generated method stub
     }
