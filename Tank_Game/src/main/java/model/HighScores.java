@@ -5,7 +5,7 @@ import java.util.*;
 public class HighScores {
 
     /**
-     * List of Players and their corrosponding High Scores
+     * List of Players and their corresponding High Scores
      */
     ArrayList<PlayerData> highScores = new ArrayList<PlayerData>();
 
