@@ -6,10 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 public class World {
+
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
     
     public World() {
@@ -21,7 +19,7 @@ public class World {
         String line = "";
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         while ((line = reader.readLine()) != null) {
-            GameObject gameObject = new GameObject();
+            GameObject gameObject = new Wall();
             gameObject.deserialization(line);
             listOfEntities.add(gameObject);
         }
@@ -43,7 +41,11 @@ public class World {
         return listOfEntities;
     }
 
-    public void addToList(GameObject gameObject) {
+    public void addObject(GameObject gameObject) {
         listOfEntities.add(gameObject);
+    }
+
+    public void removeObject(GameObject gameObject) {
+        listOfEntities.remove(gameObject);
     }
 }

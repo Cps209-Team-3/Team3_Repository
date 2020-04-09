@@ -1,15 +1,20 @@
 package model;
 
-public class GameObject {
-    
-    public String serialization() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+import java.awt.Point;
 
-    public void deserialization(String data) {
-        // TODO Auto-generated method stub
-    }
+import javafx.scene.image.Image; // Probably needs fixing
 
+public abstract class GameObject {
 
+    Image image;
+    Point position;
+    int direction;
+    int height;
+    int width;
+
+    abstract String serialization();
+
+    abstract void deserialization(String data);
+
+    abstract void onCollision();
 }
