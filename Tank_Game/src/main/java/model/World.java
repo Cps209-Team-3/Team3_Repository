@@ -2,6 +2,7 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,8 +14,11 @@ import javafx.scene.control.Alert.AlertType;
 public class World {
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
     
+    public World() {
 
-    void load(String filename) {
+    }
+
+    public void load(String filename) {
         try {
             listOfEntities.clear();
             String line;
@@ -24,13 +28,13 @@ public class World {
                 gameObject.deserialization(line);
             }
             reader.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             Alert alert = new Alert(AlertType.ERROR, e.toString());
             alert.show();
         }
     }
 
-    void save(String filename) {
+    public void save(String filename) {
         try {
             FileWriter writer = new FileWriter(filename);
             for (GameObject gameObject : listOfEntities) {
@@ -43,5 +47,13 @@ public class World {
             Alert alert = new Alert(AlertType.ERROR, e.toString());
             alert.show();
         }
+    }
+
+    public ArrayList<GameObject> getListOfEntities() {
+        return listOfEntities;
+    }
+
+    public void addToList(GameObject gameObject) {
+        listOfEntities.add(gameObject);
     }
 }
