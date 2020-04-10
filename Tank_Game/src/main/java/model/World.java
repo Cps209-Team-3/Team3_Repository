@@ -6,24 +6,32 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class World {
-    ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
+    ArrayList<Tank> enemyTanks = new ArrayList<Tank>();
+    ArrayList<Wall> walls = new ArrayList<Wall>();
+    ArrayList<Bullet> bullets = new ArrayList<Bullet>();
     
     public World() {
 
     }
 
     public void load(String filename) throws IOException {
-        listOfEntities.clear();
         String line = "";
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         while ((line = reader.readLine()) != null) {
-            GameObject gameObject = new GameObject();
-            gameObject.deserialization(line);
-            listOfEntities.add(gameObject);
+            String[] splitLine = line.split(",");
+            switch (splitLine[0]) {
+                case "World":
+                    break;
+                case "Wall":      
+                    break;
+                case "Bullet":
+                    break;
+                case "enemyTanks":
+                    break;
+            }
+
         }
         reader.reset();
         reader.close();
@@ -31,7 +39,7 @@ public class World {
 
     public void save(String filename) throws Exception {
         FileWriter writer = new FileWriter(filename);
-        for (GameObject gameObject : listOfEntities) {
+        for (Tankgi gameObject : enemyTanks) {
             writer.append(gameObject.serialization());
             writer.append("\n");
         }
