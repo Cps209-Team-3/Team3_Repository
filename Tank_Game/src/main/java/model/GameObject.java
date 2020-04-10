@@ -2,7 +2,7 @@ package model;
 
 import java.awt.Point;
 
-import javafx.scene.image.Image; // Probably needs fixing
+import javafx.scene.image.Image; // TODO
 
 public abstract class GameObject {
 
