@@ -17,21 +17,21 @@ public class World {
     public void load(String filename) throws IOException {
         String line = "";
         BufferedReader reader = new BufferedReader(new FileReader(filename));
-        //while ((line = reader.readLine()) != null) {
-        //    GameObject gameObject = new Wall();
-        //    gameObject.deserialization(line);
-        //    listOfEntities.add(gameObject);
-        //}
+        while ((line = reader.readLine()) != null) {
+            GameObject gameObject = new Wall();
+            gameObject.deserialization(line);
+            listOfEntities.add(gameObject);
+        }
         reader.reset();
         reader.close();
     }
 
     public void save(String filename) throws Exception {
         FileWriter writer = new FileWriter(filename);
-        //for (Tankgi gameObject : enemyTanks) {
-        //    writer.append(gameObject.serialization());
-        //    writer.append("\n");
-        //}
+        for (GameObject gameObject : listOfEntities) {
+            writer.append(gameObject.serialization());
+            writer.append("\n");
+        }
         writer.flush();
         writer.close();
     }

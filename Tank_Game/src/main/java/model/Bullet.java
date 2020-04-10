@@ -1,9 +1,5 @@
 package model;
 
-<<<<<<< HEAD
-public class Bullet {
-
-=======
 public class Bullet extends GameObject {
 
     int speed;
@@ -28,5 +24,4 @@ public class Bullet extends GameObject {
     void onCollision() {
         //  TODO Auto-generated method stub
     }
->>>>>>> 33cf2a68967a45fe16e16a039a3526d68e90f792
 }
