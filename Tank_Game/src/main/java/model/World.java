@@ -6,11 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class World {
-    ArrayList<Tank> enemyTanks = new ArrayList<Tank>();
-    ArrayList<Wall> walls = new ArrayList<Wall>();
-    ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+
+    ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
     
     public World() {
 
@@ -19,30 +17,21 @@ public class World {
     public void load(String filename) throws IOException {
         String line = "";
         BufferedReader reader = new BufferedReader(new FileReader(filename));
-        while ((line = reader.readLine()) != null) {
-            String[] splitLine = line.split(",");
-            switch (splitLine[0]) {
-                case "World":
-                    break;
-                case "Wall":      
-                    break;
-                case "Bullet":
-                    break;
-                case "enemyTanks":
-                    break;
-            }
-
-        }
+        //while ((line = reader.readLine()) != null) {
+        //    GameObject gameObject = new Wall();
+        //    gameObject.deserialization(line);
+        //    listOfEntities.add(gameObject);
+        //}
         reader.reset();
         reader.close();
     }
 
     public void save(String filename) throws Exception {
         FileWriter writer = new FileWriter(filename);
-        for (Tankgi gameObject : enemyTanks) {
-            writer.append(gameObject.serialization());
-            writer.append("\n");
-        }
+        //for (Tankgi gameObject : enemyTanks) {
+        //    writer.append(gameObject.serialization());
+        //    writer.append("\n");
+        //}
         writer.flush();
         writer.close();
     }
@@ -51,7 +40,11 @@ public class World {
         return listOfEntities;
     }
 
-    public void addToList(GameObject gameObject) {
+    public void addObject(GameObject gameObject) {
         listOfEntities.add(gameObject);
+    }
+
+    public void removeObject(GameObject gameObject) {
+        listOfEntities.remove(gameObject);
     }
 }
