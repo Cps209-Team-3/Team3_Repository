@@ -6,11 +6,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.scene.image.Image; // TODO
+import model.enums.Difficulty;
+
 public class World {
+
+    int width;
+    int height;
+    int score;
+    int currentWave;
+    Difficulty difficulty;
+    Player playerTank;
+    Image floor;
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
     
-    public World() {
+    public World() { // Initialization function
 
     }
 
@@ -35,6 +46,54 @@ public class World {
         }
         writer.flush();
         writer.close();
+    }
+
+    public void gameLoop() {
+        // TODO
+    }
+
+    public void spawnWave() {
+        // TODO
+    }
+
+    public void handleInput() {
+        // TODO
+    }
+
+    public void toggleCheatMode() {
+        // TODO
+    }
+
+    public void createWave() {
+        // TODO
+    }
+
+    public void onWaveEnd() {
+        // TODO
+    }
+
+    public void handleCollision() {
+        // TODO
+    }
+
+    public void detectCollision() {
+        // TODO
+    }
+  
+    public void checkSpawn() {
+        // TODO
+    }
+
+    public void pause() {
+        // TODO
+    }
+
+    public void serialization() {
+        // TODO
+    }
+
+    public void deserialization() {
+        // TODO
     }
 
     public ArrayList<GameObject> getListOfEntities() {

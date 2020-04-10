@@ -12,11 +12,9 @@ import org.junit.Test;
 public class WorldTest {
     @Test
     public void testWorld_Save_Success() {
-        try {
+        try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
             World world = new World();            
             world.save("GameBackup.txt");
-
-            BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"));
             String line = "";
             line = reader.readLine();
             if (line != null)
@@ -30,12 +28,10 @@ public class WorldTest {
 
     @Test
     public void testWorld_Load_Success() {
-        try {
+        try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
             World world = new World();
             assertNotEquals(world.getListOfEntities(), null);
             world.load("GameBackup.txt");
-
-            BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"));
             String line = reader.readLine();
             assertEquals(line, null);
             assertEquals(world.getListOfEntities(), null);
