@@ -12,8 +12,16 @@ public abstract class GameObject {
     int height;
     int width;
 
+    /**
+     * Takes all the variables from a GameObject
+     * and puts it into a comma-delimited string
+     */
     abstract String serialization();
 
+    /**
+     * Sets all the variables in a GameObject from a string
+     * @param data - A string that will be split
+     */
     abstract void deserialization(String data);
 
     abstract void onCollision();

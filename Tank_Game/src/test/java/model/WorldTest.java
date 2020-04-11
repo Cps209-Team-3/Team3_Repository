@@ -17,9 +17,10 @@ public class WorldTest {
             world.save("GameBackup.txt");
             String line = "";
             line = reader.readLine();
+            assertNotEquals(line, null);
+            assertEquals(true, line.contains("World"));
             if (line != null)
                 assertEquals("", line);
-
 
         } catch (Exception e) {
             System.out.println(e);
@@ -30,11 +31,12 @@ public class WorldTest {
     public void testWorld_Load_Success() {
         try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
             World world = new World();
-            assertNotEquals(world.getListOfEntities(), null);
+            assertEquals(world.getListOfEntities(), null);
             world.load("GameBackup.txt");
             String line = reader.readLine();
-            assertEquals(line, null);
-            assertEquals(world.getListOfEntities(), null);
+            assertNotEquals(line, null);
+            assertEquals(true, line.contains("World"));
+            assertNotEquals(world.getListOfEntities(), null);
         } catch (Exception e) {
             System.out.println(e);
         }
