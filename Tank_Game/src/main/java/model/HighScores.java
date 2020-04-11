@@ -9,10 +9,11 @@ public class HighScores {
      */
     ArrayList<PlayerData> highScores = new ArrayList<PlayerData>();
 
-
     /**
-     * Creates a PlayerData object that stores the name and high score of the player then adds the data to a list of PlayerData objects.
-     * @param name String
+     * Creates a PlayerData object that stores the name and high score of the player
+     * then adds the data to a list of PlayerData objects.
+     * 
+     * @param name      String
      * @param highScore double
      */
     void addHighScore(String name, double highScore) {
