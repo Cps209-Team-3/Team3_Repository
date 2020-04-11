@@ -1,7 +1,6 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import java.util.*;
 import org.junit.Test;
@@ -18,9 +17,9 @@ public class HighScoresTest {
         ArrayList<PlayerData> list = highScores.getHighScores();
 
         assertEquals("Jeremy", list.get(0).getName());
-        assertEquals(23000, list.get(0).getHighScore());
+        assertEquals(23000, list.get(0).getHighScore(), 0);
 
         assertEquals("Michael", list.get(1).getName());
-        assertEquals(35000, list.get(1).getHighScore());
+        assertEquals(35000, list.get(1).getHighScore(), 0);
     }
 }
