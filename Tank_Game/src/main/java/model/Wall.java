@@ -2,6 +2,10 @@ package model;
 
 public class Wall extends GameObject {
 
+    public Wall() {
+        // TODO Auto-generated method stub
+    }
+
 
     @Override
     String serialization() {
