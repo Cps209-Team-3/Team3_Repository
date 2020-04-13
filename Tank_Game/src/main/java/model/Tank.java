@@ -6,7 +6,7 @@ public abstract class Tank extends GameObject {
     int speed;
     int turretDirection;
 
-    void onDeath(){
+    void onDeath() {
         // TODO
     }
 
@@ -15,8 +15,11 @@ public abstract class Tank extends GameObject {
     abstract void fire();
 
     @Override
-    void onCollision() {
-        //  TODO Auto-generated method stub
+    void onCollision(GameObject object) {
+        if (object instanceof Tank) {
+            // Push tank out of collision
+        } else if (object instanceof Wall) {
+            // Push itself (this) out of wall
+        }
     }
-
 }

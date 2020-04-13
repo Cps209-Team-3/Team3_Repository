@@ -17,13 +17,15 @@ public class Player extends Tank {
     @Override
     String serialization() {
         // TODO Auto-generated method stub
+        String base = baseSerialize();
         return null;
     }
 
     @Override
     void deserialization(String data) {
         // TODO Auto-generated method stub
+        baseDeserialize(data);
 
     }
-    
+
 }

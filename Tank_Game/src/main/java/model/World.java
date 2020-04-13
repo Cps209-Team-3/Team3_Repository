@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.scene.image.Image; // TODO
+import javafx.scene.image.Image;
 import model.enums.Difficulty;
 
 public class World {
@@ -34,9 +34,9 @@ public class World {
      */
     public void load(String filename) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
-        
+
         this.deserialization(reader.readLine());
-        
+
         String line = "";
         GameObject gameObject = null;
         while ((line = reader.readLine()) != null) {
@@ -48,7 +48,7 @@ public class World {
                 gameObject = new Enemy();
             } else if (line.contains("Bullet")) {
                 gameObject = new Bullet();
-            } 
+            }
             gameObject.deserialization(line);
             listOfEntities.add(gameObject);
         }
@@ -105,14 +105,40 @@ public class World {
         // TODO
     }
 
-    // handles collision
-    public void handleCollision() {
-        // TODO
+    /**
+     * Handles a Collision between two objects. Creates preference in order of
+     * Bullet, Tank, Wall to determine which onCollision method to call.
+     * 
+     * @param object1
+     * @param object2
+     */
+    public void handleCollision(GameObject object1, GameObject object2) {
+        if (object1 instanceof Bullet) {
+            object1.onCollision(object2);
+        } else if (object2 instanceof Bullet) {
+            object2.onCollision(object1);
+        } else if (object1 instanceof Tank) {
+            object1.onCollision(object2);
+        } else if (object2 instanceof Tank) {
+            object2.onCollision(object1);
+        } else {
+            // Wall collided with Wall?
+        }
     }
 
     // detects collision
     public void detectCollision() {
-        // TODO
+        ArrayList<GameObject> handledObjects = new ArrayList<>();
+        for (GameObject object : listOfEntities) { // Run through all objects
+            handledObjects.add(object);
+            for (GameObject object2 : listOfEntities) { // Test current object with all other objects
+                if (!handledObjects.contains(object)) {
+                    if (true) { // test for collision
+                        handleCollision(object, object2);
+                    }
+                }
+            }
+        }
     }
 
     /**
