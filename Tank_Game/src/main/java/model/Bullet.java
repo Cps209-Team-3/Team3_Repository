@@ -10,13 +10,13 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    String serialization() {
+    String serialize() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    void deserialization(String data) {
+    void deserialize(String data) {
         // TODO Auto-generated method stub
     }
 

@@ -1,7 +1,6 @@
 package model;
 
-import java.io.FileWriter;
-import java.util.*;
+import java.util.ArrayList;
 
 public class HighScores {
 
