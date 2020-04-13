@@ -27,13 +27,12 @@ public class Wall extends GameObject {
     public Wall() {
     }
 
-    @Override
-    String serialization() {
+    String serialize() {
         return baseSerialize();
     }
 
     @Override
-    void deserialization(String data) {
+    void deserialize(String data) {
         baseDeserialize(data);
     }
 

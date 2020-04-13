@@ -34,9 +34,9 @@ public class World {
      */
     public void load(String filename) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
-
-        this.deserialization(reader.readLine());
-
+        
+        this.deserialize(reader.readLine());
+        
         String line = "";
         GameObject gameObject = null;
         while ((line = reader.readLine()) != null) {
@@ -48,8 +48,8 @@ public class World {
                 gameObject = new Enemy();
             } else if (line.contains("Bullet")) {
                 gameObject = new Bullet();
-            }
-            gameObject.deserialization(line);
+            } 
+            gameObject.deserialize(line);
             listOfEntities.add(gameObject);
         }
         reader.close();
@@ -63,9 +63,9 @@ public class World {
      */
     public void save(String filename) throws IOException {
         FileWriter writer = new FileWriter(filename);
-        writer.append(this.serialization() + "\n");
+        writer.append(this.serialize() + "\n");
         for (GameObject gameObject : listOfEntities) {
-            writer.append(gameObject.serialization() + "\n");
+            writer.append(gameObject.serialize() + "\n");
         }
         writer.flush();
         writer.close();
@@ -156,13 +156,13 @@ public class World {
     }
 
     // serializes the world
-    public String serialization() {
+    public String serialize() {
         // TODO
         return new String();
     }
 
     // deserializes the world from a file
-    public void deserialization(String data) {
+    public void deserialize(String data) {
         // TODO
     }
 
@@ -186,5 +186,61 @@ public class World {
      */
     public void removeObject(GameObject gameObject) {
         listOfEntities.remove(gameObject);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getCurrentWave() {
+        return currentWave;
+    }
+
+    public void setCurrentWave(int currentWave) {
+        this.currentWave = currentWave;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Player getPlayerTank() {
+        return playerTank;
+    }
+
+    public void setPlayerTank(Player playerTank) {
+        this.playerTank = playerTank;
+    }
+
+    public Image getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Image floor) {
+        this.floor = floor;
     }
 }
