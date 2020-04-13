@@ -1,1 +1,5 @@
-
+World,10,10,EASY,1000,4,image
+Wall,image,10,10,180,10,10
+PlayerTank,image,10,10,180,10,10,100,50,180
+EnemyTank,image,10,10,180,10,10,100,50,180,Flee
+Bullet,image,10,10,180,10,10,50,100,enemy

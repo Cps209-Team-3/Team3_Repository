@@ -16,17 +16,15 @@ import model.enums.Difficulty;
 public class WorldTest {
     public void fillFile(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            String world = "World,10,10,EASY,1000,4,image";
-            String wall = "Wall,image,10,10,180,10,10";
-            String playerTank = "PlayerTank,image,10,10,180,10,10,100,50,180";
-            String enemyTank = "EnemyTank,image,10,10,180,10,10,100,50,180,Flee";
-            String bullet = "Bullet,image,10,10,180,10,10,50,100,enemy";
+            String world = "World,10,10,EASY,1000,4,image\n";
+            String wall = "Wall,image,10,10,180,10,10\n";
+            String playerTank = "PlayerTank,image,10,10,180,10,10,100,50,180\n";
+            String enemyTank = "EnemyTank,image,10,10,180,10,10,100,50,180,Flee\n";
+            String bullet = "Bullet,image,10,10,180,10,10,50,100,enemy\n";
             writer.write(world);
-            writer.write(wall);
             writer.write(wall);
             writer.write(playerTank);
             writer.write(enemyTank);
-            writer.write(bullet);
             writer.write(bullet);
         } catch (Exception e) {
             System.out.println(e);
