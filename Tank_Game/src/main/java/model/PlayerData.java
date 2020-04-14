@@ -1,6 +1,6 @@
 package model;
 
-public class PlayerData implements Comparable {
+public class PlayerData {
 
     String name; // Name of the Player
     double highScore = 0; // High Score the Player earned

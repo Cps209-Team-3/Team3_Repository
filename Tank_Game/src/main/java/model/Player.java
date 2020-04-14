@@ -2,6 +2,10 @@ package model;
 
 public class Player extends Tank {
 
+    // Initializes a new Player.
+    public Player() {
+    }
+
     @Override
     void move() {
         // TODO Auto-generated method stub
@@ -15,15 +19,17 @@ public class Player extends Tank {
     }
 
     @Override
-    String serialization() {
+    String serialize() {
         // TODO Auto-generated method stub
+        String base = baseSerialize();
         return null;
     }
 
     @Override
-    void deserialization(String data) {
+    void deserialize(String data) {
         // TODO Auto-generated method stub
+        baseDeserialize(data);
 
     }
-    
+
 }

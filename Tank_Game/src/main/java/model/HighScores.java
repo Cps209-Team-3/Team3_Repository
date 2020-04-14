@@ -1,6 +1,5 @@
 package model;
 
-import java.io.FileWriter;
 import java.util.*;
 
 public class HighScores {
