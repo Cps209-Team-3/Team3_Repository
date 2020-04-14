@@ -58,7 +58,7 @@ public class WorldTest {
     public void testWorld_Save_Success() {
         try {
             String filename = "GameSave.txt";
-            World world = new World();
+            World world = World.instance();
             fillWorld(world);
             world.save(filename);
 
@@ -102,7 +102,7 @@ public class WorldTest {
             String filename = "GameLoad.txt";
 
             fillFile(filename);
-            World world = new World();
+            World world = World.instance();
             assertEquals(world.getListOfEntities(), null);
             world.load(filename);
             assertNotEquals(world.getListOfEntities(), null);

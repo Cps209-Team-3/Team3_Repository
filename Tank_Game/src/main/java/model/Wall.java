@@ -2,7 +2,6 @@ package model;
 
 import javafx.scene.image.Image;
 import java.awt.Point;
-import java.util.ArrayList;
 
 public class Wall extends GameObject {
 
@@ -28,7 +27,7 @@ public class Wall extends GameObject {
     }
 
     String serialize() {
-        return baseSerialize();
+        return "Wall," + baseSerialize();
     }
 
     @Override

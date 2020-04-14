@@ -18,11 +18,25 @@ public class World {
     int currentWave;
     Difficulty difficulty;
     Player playerTank;
+    boolean cheatMode = false;
     Image floor;
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
 
-    public World() { // Initialization function
+    // Singleton Implementation
+    // Unsure if we want to finalize this or not
+
+    private static World instance = new World();
+
+    public static World instance() {
+        return instance;
+    }
+
+    public static void reset() {
+        instance = new World();
+    }
+
+    private World() {
 
     }
 
@@ -74,6 +88,28 @@ public class World {
     // Main game loop to run every frame
     public void gameLoop() {
         // TODO
+        boolean waveComplete = true;
+        for (GameObject object : listOfEntities) {
+            if (object instanceof Tank) {
+                if (object instanceof Player) {
+                    // handle input, move tank
+                } else {
+                    if (waveComplete) {
+                        waveComplete = false;
+                    }
+                    Enemy tank = (Enemy) object;
+                    tank.move();
+                }
+            } else if (object instanceof Bullet) {
+                Bullet bullet = (Bullet) object;
+                bullet.move();
+            }
+        }
+        if (waveComplete) {
+            score += 20;
+            createWave();
+            spawnWave();
+        }
     }
 
     // Spawn a new wave
@@ -92,7 +128,11 @@ public class World {
 
     // Turns on cheat mode if on, turns off otherwise.
     public void toggleCheatMode() {
-        // TODO
+        if (cheatMode) {
+            cheatMode = false;
+        } else {
+            cheatMode = true;
+        }
     }
 
     // Creates a new wave

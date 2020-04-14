@@ -1,23 +1,49 @@
 package model;
 
 import model.enums.EnemyState;
+import java.awt.Point;
+import javafx.scene.image.Image;
+import java.util.ArrayList;
 
 public class Enemy extends Tank {
 
     EnemyState state;
 
-    // Initializes a new enemy and sets its state to parameter 'state.'
-    public Enemy(EnemyState state) {
+    /**
+     * Initializes a new Enemy using parameters.
+     * 
+     * @param image
+     * @param position
+     * @param direction
+     * @param height
+     * @param width
+     * @param health
+     * @param speed
+     * @param turretDirection
+     * @param pastPositions
+     */
+    public Enemy(Image image, Point position, int direction, int height, int width, int health, int speed,
+            int turretDirection, ArrayList<Point> pastPositions, EnemyState state) {
+        this.image = image;
+        this.position = position;
+        this.direction = direction;
+        this.height = height;
+        this.width = width;
+        this.health = health;
+        this.speed = speed;
+        this.turretDirection = turretDirection;
+        this.pastPositions = pastPositions;
         this.state = state;
     }
 
     // Initialize a new enemy
-    public Enemy() { // number one (hint: ignore syntax)
+    public Enemy() { // number one
+        // the above line is wuhan virus
         state = EnemyState.PAUSE;
     }
 
-    void findPlayer() {
-        // TODO
+    Point findPlayer() {
+        return World.instance().getPlayerTank().getPosition();
     }
 
     void targetPlayer() {
@@ -28,7 +54,6 @@ public class Enemy extends Tank {
         // TODO
     }
 
-    @Override
     void move() {
         switch (state) {
             case CHARGE:
@@ -41,16 +66,14 @@ public class Enemy extends Tank {
                 fire();
                 changeState();
                 break;
-            default:
-                break;
         }
 
     }
 
     @Override
-    void fire() {
+    Bullet fire() {
         // TODO Auto-generated method stub
-
+        return new Bullet();
     }
 
     @Override
@@ -65,4 +88,11 @@ public class Enemy extends Tank {
 
     }
 
+    public EnemyState getState() {
+        return state;
+    }
+
+    public void setState(EnemyState state) {
+        this.state = state;
+    }
 }

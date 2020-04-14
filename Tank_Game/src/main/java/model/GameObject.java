@@ -28,12 +28,12 @@ public abstract class GameObject {
      */
     void baseDeserialize(String data) {
         String[] separatedData = data.split(",");
-        this.image = new Image(separatedData[0]); // NOTE: IF FILENAME CONTAINS THE DELIMETER (comma in this case) IT WILL BREAK
-        this.position = new Point(Integer.parseInt(separatedData[1].split(":")[0]),
-                Integer.parseInt(separatedData[1].split(":")[1]));
-        this.direction = Integer.parseInt(separatedData[2]);
-        this.height = Integer.parseInt(separatedData[3]);
-        this.width = Integer.parseInt(separatedData[4]);
+        this.image = new Image(separatedData[1]); // NOTE: IF FILENAME CONTAINS THE DELIMETER (comma in this case) IT WILL BREAK
+        this.position = new Point(Integer.parseInt(separatedData[2].split(":")[0]),
+                Integer.parseInt(separatedData[2].split(":")[1]));
+        this.direction = Integer.parseInt(separatedData[3]);
+        this.height = Integer.parseInt(separatedData[4]);
+        this.width = Integer.parseInt(separatedData[5]);
     }
 
     /**

@@ -3,6 +3,8 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+
 public abstract class Tank extends GameObject {
 
     int health;
@@ -13,12 +15,23 @@ public abstract class Tank extends GameObject {
     /**
      * Initializes a new tank using parameters.
      * 
+     * @param image
+     * @param position
+     * @param direction
+     * @param height
+     * @param width
      * @param health
      * @param speed
      * @param turretDirection
      * @param pastPositions
      */
-    public Tank(int health, int speed, int turretDirection, ArrayList<Point> pastPositions) {
+    public Tank(Image image, Point position, int direction, int height, int width, int health, int speed,
+            int turretDirection, ArrayList<Point> pastPositions) {
+        this.image = image;
+        this.position = position;
+        this.direction = direction;
+        this.height = height;
+        this.width = width;
         this.health = health;
         this.speed = speed;
         this.turretDirection = turretDirection;
@@ -33,23 +46,21 @@ public abstract class Tank extends GameObject {
         // TODO
     }
 
-    // Moves the tank into a new position, and saves it's last position into pastPositions
-    abstract void move();
-
     // Creates a new bullet travelling in the direction of turretDirection
-    abstract void fire();
+    abstract Bullet fire();
 
-    /** 
+    /**
      * Moves tank back to last position to stop collision.
      * 
      * @param object - the object collided with
-    */
+     */
     @Override
     void onCollision(GameObject object) {
         if (object instanceof Tank) {
             this.position = pastPositions.get(pastPositions.size() - 1);
             pastPositions.remove(pastPositions.size() - 1);
-            // TODO: Use current position to calculate mid-point, so both tanks don't jump back too far.
+            // TODO: Use current position to calculate mid-point, so both tanks don't jump
+            // back too far.
         } else if (object instanceof Wall) {
             this.position = pastPositions.get(pastPositions.size() - 1);
             pastPositions.remove(pastPositions.size() - 1);
