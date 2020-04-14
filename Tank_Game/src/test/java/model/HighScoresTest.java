@@ -16,10 +16,10 @@ public class HighScoresTest {
 
         ArrayList<PlayerData> list = highScores.getHighScores();
 
-        assertEquals("Jeremy", list.get(0).getName());
-        assertEquals(23000, list.get(0).getHighScore(), 0);
+        assertEquals("Jeremy", list.get(1).getName());
+        assertEquals(23000, list.get(1).getHighScore(), 0);
 
-        assertEquals("Michael", list.get(1).getName());
-        assertEquals(35000, list.get(1).getHighScore(), 0);
+        assertEquals("Michael", list.get(0).getName());
+        assertEquals(35000, list.get(0).getHighScore(), 0);
     }
 }

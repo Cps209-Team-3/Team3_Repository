@@ -20,6 +20,7 @@ public class HighScores {
     void addHighScore(String name, double highScore) {
         PlayerData player = new PlayerData(name, highScore);
         highScores.add(player);
+        Collections.sort(highScores, new SortByScore());
     }
 
     /**

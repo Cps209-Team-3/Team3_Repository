@@ -1,6 +1,6 @@
 package model;
 
-public class PlayerData {
+public class PlayerData implements Comparable {
 
     String name; // Name of the Player
     double highScore = 0; // High Score the Player earned
@@ -21,7 +21,7 @@ public class PlayerData {
      * 
      * @param name String
      */
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -30,7 +30,7 @@ public class PlayerData {
      * 
      * @return name
      */
-    String getName() {
+    public String getName() {
         return name;
     }
 
@@ -39,7 +39,7 @@ public class PlayerData {
      * 
      * @param highScore double
      */
-    void setHighScore(double highScore) {
+    public void setHighScore(double highScore) {
         this.highScore = highScore;
     }
 
@@ -48,7 +48,7 @@ public class PlayerData {
      * 
      * @return highScore
      */
-    double getHighScore() {
+    public double getHighScore() {
         return highScore;
     }
 }
