@@ -2,6 +2,10 @@ package model;
 
 public class Player extends Tank {
 
+    // Initializes a new Player.
+    public Player() {
+    }
+
     @Override
     void move() {
         // TODO Auto-generated method stub

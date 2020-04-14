@@ -6,6 +6,10 @@ public class Bullet extends GameObject {
     int damageAmount;
 
     void move() {
+        // CODE BELOW IS FROM ONE OF ANDREW'S OLD PYTHON SCRIPTS AND NEEDS BE TRANSLATED
+        // the math checks out though, so it works
+        // newy = -(float(speed)/2)*math.sin(math.radians(float(-(heading) + 90)))+ycoord
+        // newx = (float(speed)/2)*math.cos(math.radians(float(-(heading) + 90)))+xcoord
         // TODO create movement based off speed
     }
 
@@ -26,7 +30,7 @@ public class Bullet extends GameObject {
             Tank tank = (Tank) object;
             tank.health -= 1;
             if (tank.health <= 0) {
-                // Kill Tank
+                tank.onDeath();
             }
         } else if (object instanceof Wall || object instanceof Bullet) {
             // Run explosion animation

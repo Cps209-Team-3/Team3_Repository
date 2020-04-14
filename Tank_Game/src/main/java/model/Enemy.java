@@ -6,6 +6,16 @@ public class Enemy extends Tank {
 
     EnemyState state;
 
+    // Initializes a new enemy and sets its state to parameter 'state.'
+    public Enemy(EnemyState state) {
+        this.state = state;
+    }
+
+    // Initialize a new enemy
+    public Enemy() { // number one (hint: ignore syntax)
+        state = EnemyState.PAUSE;
+    }
+
     void findPlayer() {
         // TODO
     }
@@ -20,7 +30,20 @@ public class Enemy extends Tank {
 
     @Override
     void move() {
-        // TODO Auto-generated method stub
+        switch (state) {
+            case CHARGE:
+                // move toward player
+                break;
+            case FLEE:
+                // move away from player
+                break;
+            case PAUSE:
+                fire();
+                changeState();
+                break;
+            default:
+                break;
+        }
 
     }
 

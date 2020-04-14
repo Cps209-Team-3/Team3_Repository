@@ -34,9 +34,9 @@ public class World {
      */
     public void load(String filename) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
-        
+
         this.deserialize(reader.readLine());
-        
+
         String line = "";
         GameObject gameObject = null;
         while ((line = reader.readLine()) != null) {
@@ -48,7 +48,7 @@ public class World {
                 gameObject = new Enemy();
             } else if (line.contains("Bullet")) {
                 gameObject = new Bullet();
-            } 
+            }
             gameObject.deserialize(line);
             listOfEntities.add(gameObject);
         }
@@ -133,7 +133,11 @@ public class World {
             handledObjects.add(object);
             for (GameObject object2 : listOfEntities) { // Test current object with all other objects
                 if (!handledObjects.contains(object)) {
-                    if (true) { // test for collision
+                    // test for collision
+                    if (object.getPosition().getX() < object2.getPosition().getX() + object2.getWidth()
+                            && object.getPosition().getX() + object.getWidth() > object2.getPosition().getX()
+                            && object.getPosition().getY() < object2.getPosition().getY() + object2.getHeight()
+                            && object.getPosition().getY() + object.getHeight() > object2.getPosition().getY()) {
                         handleCollision(object, object2);
                     }
                 }
