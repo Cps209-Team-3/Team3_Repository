@@ -87,7 +87,7 @@ public class World {
 
     // Main game loop to run every frame
     public void gameLoop() {
-        // TODO
+        // TODO: get inputs
         boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {

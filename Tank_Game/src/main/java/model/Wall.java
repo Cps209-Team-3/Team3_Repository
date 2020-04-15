@@ -8,14 +8,13 @@ public class Wall extends GameObject {
     /**
      * Initializes a new Wall using parameters.
      * 
-     * @param image
      * @param position
      * @param direction
      * @param height
      * @param width
      */
-    public Wall(Image image, Point position, int direction, int height, int width) {
-        this.image = image;
+    public Wall(Point position, int direction, int height, int width) {
+        image = new Image("@Images/wall.png");
         this.position = position;
         this.direction = direction;
         this.height = height;

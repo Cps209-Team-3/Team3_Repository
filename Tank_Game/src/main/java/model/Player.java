@@ -9,7 +9,6 @@ public class Player extends Tank {
     /**
      * Initializes a new Player using parameters.
      * 
-     * @param image
      * @param position
      * @param direction
      * @param height
@@ -19,9 +18,9 @@ public class Player extends Tank {
      * @param turretDirection
      * @param pastPositions
      */
-    public Player(Image image, Point position, int direction, int height, int width, int health, int speed,
+    public Player(Point position, int direction, int height, int width, int health, int speed,
             int turretDirection, ArrayList<Point> pastPositions) {
-        this.image = image;
+        image = new Image("@Images/greentankv1wider.gif");
         this.position = position;
         this.direction = direction;
         this.height = height;
@@ -34,6 +33,7 @@ public class Player extends Tank {
 
     // Initializes a new Player.
     public Player() {
+        image = new Image("@Images/greentankv1wider.gif");
     }
 
     // Moves tank in the direction of 'input' and saves last position to pastPositions

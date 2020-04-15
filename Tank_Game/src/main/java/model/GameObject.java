@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Point;
-
 import javafx.scene.image.Image;
 
 public abstract class GameObject {
