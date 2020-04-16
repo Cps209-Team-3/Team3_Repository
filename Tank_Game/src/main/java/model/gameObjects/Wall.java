@@ -1,4 +1,4 @@
-package model;
+package model.gameObjects;
 
 import javafx.scene.image.Image;
 import java.awt.Point;
@@ -25,17 +25,17 @@ public class Wall extends GameObject {
     public Wall() {
     }
 
-    String serialize() {
+    public String serialize() {
         return "Wall," + baseSerialize();
     }
 
     @Override
-    void deserialize(String data) {
+    public void deserialize(String data) {
         baseDeserialize(data);
     }
 
     @Override
-    void onCollision(GameObject object) {
+    public void onCollision(GameObject object) {
         if (object instanceof Wall) {
             // oops, Wall collided with Wall
         }
