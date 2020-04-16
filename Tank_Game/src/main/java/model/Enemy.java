@@ -44,7 +44,7 @@ public class Enemy extends Tank {
     public Enemy(boolean useRandom) {
         if (useRandom) {
             Random random = new Random();
-            image = new Image("@Images/bluetankv1wider.gif");
+            image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
             position = new Point(random.nextInt(1400), random.nextInt(900));
             direction = random.nextInt(360);
             height = 50; // TODO: adjust size
@@ -59,7 +59,7 @@ public class Enemy extends Tank {
     // Initialize a new enemy
     public Enemy() { // number one
         // wuhan virus is the above line when read as a sentence
-        image = new Image("@Images/bluetankv1wider.gif");
+        image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
         state = EnemyState.PAUSE;
     }
 
@@ -114,15 +114,40 @@ public class Enemy extends Tank {
     }
 
     @Override
-    String serialize() {
-        // TODO Auto-generated method stub
-        return null;
+    public String serialize() {
+        String serialization = "EnemyPlayer,";
+        Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width, health, speed, turretDirection, state};
+        for (int i = 0; i < list.length; i++) {
+            serialization += list[i].toString();
+            if (i != list.length - 1) {
+                serialization += ",";
+            } 
+        }
+        return serialization;
     }
 
     @Override
-    void deserialize(String data) {
-        // TODO Auto-generated method stub
-
+    public void deserialize(String data) {
+        String[] list = data.split(",");
+        image = new Image(getClass().getResource("/Images/" + list[1]).toString());
+        position = new Point(Integer.parseInt(list[2]), Integer.parseInt(list[3]));
+        direction = Integer.parseInt(list[4]);
+        height = Integer.parseInt(list[5]);
+        width = Integer.parseInt(list[6]);
+        health = Integer.parseInt(list[7]);
+        speed = Integer.parseInt(list[8]);
+        turretDirection = Integer.parseInt(list[9]);
+        switch (list[10]) {
+            case "CHARGE":
+                state = state.CHARGE;
+                break;
+            case "FLEE":
+                state = state.FLEE;
+                break;
+            case "PAUSE":
+                state = state.PAUSE;   
+                break;
+        }
     }
 
     public EnemyState getState() {

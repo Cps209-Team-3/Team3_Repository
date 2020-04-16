@@ -14,7 +14,7 @@ public class Wall extends GameObject {
      * @param width
      */
     public Wall(Point position, int direction, int height, int width) {
-        image = new Image("@Images/wall.png");
+        image = new Image(getClass().getResource("/Images/wall.png").toString());
         this.position = position;
         this.direction = direction;
         this.height = height;
@@ -25,13 +25,26 @@ public class Wall extends GameObject {
     public Wall() {
     }
 
-    String serialize() {
-        return "Wall," + baseSerialize();
+    public String serialize() {
+        String serialization = "Wall,";
+        Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width};
+        for (int i = 0; i < list.length; i++) {
+            serialization += list[i].toString();
+            if (i != list.length - 1) {
+                serialization += ",";
+            } 
+        }
+        return serialization;
     }
 
     @Override
-    void deserialize(String data) {
-        baseDeserialize(data);
+    public void deserialize(String data) {
+        String[] list = data.split(",");
+        image = new Image(getClass().getResource("/Images/" + list[1]).toString());
+        position = new Point(Integer.parseInt(list[2]), Integer.parseInt(list[3]));
+        direction = Integer.parseInt(list[4]);
+        height = Integer.parseInt(list[5]);
+        width = Integer.parseInt(list[6]);
     }
 
     @Override

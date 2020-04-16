@@ -47,14 +47,36 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    String serialize() {
-        // TODO Auto-generated method stub
-        return null;
+    public String serialize() {
+        String serialization = "Bullet,";
+        Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width, speed, speed, damageAmount, type};
+        for (int i = 0; i < list.length; i++) {
+            serialization += list[i].toString();
+            if (i != list.length - 1) {
+                serialization += ",";
+            } 
+        }
+        return serialization;
     }
 
     @Override
-    void deserialize(String data) {
-        // TODO Auto-generated method stub
+    public void deserialize(String data) {
+        String[] list = data.split(",");
+        image = new Image(getClass().getResource("/Images/" + list[1]).toString());
+        position = new Point(Integer.parseInt(list[2]), Integer.parseInt(list[3]));
+        direction = Integer.parseInt(list[4]);
+        height = Integer.parseInt(list[5]);
+        width = Integer.parseInt(list[6]);
+        speed = Integer.parseInt(list[7]);
+        damageAmount = Integer.parseInt(list[8]);
+        switch (list[9]) {
+            case "PLAYER":
+                type = type.PLAYER;
+                break;
+            case "ENEMY":
+                type = type.ENEMY;
+                break;
+        }
     }
 
     @Override

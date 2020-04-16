@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import model.enums.Difficulty;
 
 public class World {
@@ -18,7 +19,9 @@ public class World {
     Difficulty difficulty;
     Player playerTank;
     boolean cheatMode = false;
-    Image floor = new Image("@Images/map.png");
+    Image floor = null;
+
+    
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
 
@@ -35,8 +38,12 @@ public class World {
         instance = new World();
     }
 
-    private World() {
-
+    public World() {
+        try {
+            floor = new Image(getClass().getResource("/Images/map.png").toString());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -227,13 +234,36 @@ public class World {
 
     // serializes the world
     public String serialize() {
-        // TODO
-        return new String();
+        String serialization = "World,";
+        Object[] list = new Object[] {width, height, difficulty, score, currentWave, floor.getUrl().split("/")[17]};
+        for (int i = 0; i < list.length; i++) {
+            serialization += list[i].toString();
+            if (i != list.length - 1) {
+                serialization += ",";
+            } 
+        }
+        return serialization;
     }
 
     // deserializes the world from a file
     public void deserialize(String data) {
-        // TODO
+        String[] list = data.split(",");
+        width = Integer.parseInt(list[1]);
+        height = Integer.parseInt(list[2]);
+        switch (list[3]) {
+            case "EASY":
+                difficulty = difficulty.EASY;
+                break;
+            case "MEDIUM":
+                difficulty = difficulty.MEDIUM;
+                break;
+            case "HARD":
+                difficulty = difficulty.HARD;
+                break;
+        }
+        score = Integer.parseInt(list[4]);
+        currentWave = Integer.parseInt(list[5]);
+        floor = new Image(getClass().getResource("/Images/" + list[6]).toString());
     }
 
     public ArrayList<GameObject> getListOfEntities() {

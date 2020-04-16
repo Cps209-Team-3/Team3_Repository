@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="GameWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="MainWindow.css"
+    spacing="10" prefHeight="400" prefWidth="250">
+
+    <Pane fx:id="pane" prefHeight="1400" prefWidth="900" <graphic><ImageView><image><Image url="@images/map.png" /></image></ImageView></graphic>/>
+
+</VBox>
