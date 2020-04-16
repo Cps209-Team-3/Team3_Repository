@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,7 +18,7 @@ public class World {
     Difficulty difficulty;
     Player playerTank;
     boolean cheatMode = false;
-    Image floor;
+    Image floor = new Image("@Images/map.png");
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
 
@@ -92,7 +91,7 @@ public class World {
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
                 if (object instanceof Player) {
-                    // handle input, move tank
+                    handleInput('C'); // TODO
                 } else {
                     if (waveComplete) {
                         waveComplete = false;
@@ -106,9 +105,7 @@ public class World {
             }
         }
         if (waveComplete) {
-            score += 20;
-            createWave();
-            spawnWave();
+            onWaveEnd();
         }
     }
 
@@ -137,12 +134,23 @@ public class World {
 
     // Creates a new wave
     public void createWave() {
-        // TODO
+        for (int i = 0; i < currentWave; ++i) {
+            Enemy tank = new Enemy(true);
+            while (!checkSpawn(tank)) {
+                tank = new Enemy(true); // TODO: infinite loop when no space left.
+            }
+            listOfEntities.add(tank);
+        }
     }
 
     // Handles wave ending
     public void onWaveEnd() {
-        // TODO
+        score += 20;
+        currentWave += 1;
+        listOfEntities.clear();
+        listOfEntities.add(playerTank);
+        createWave();
+        spawnWave();
     }
 
     /**
@@ -166,18 +174,15 @@ public class World {
         }
     }
 
-    // detects collision
-    public void detectCollision() {
+    // detects collision between any two objects within listOfEntities
+    public void detectAnyCollisions() {
         ArrayList<GameObject> handledObjects = new ArrayList<>();
         for (GameObject object : listOfEntities) { // Run through all objects
             handledObjects.add(object);
             for (GameObject object2 : listOfEntities) { // Test current object with all other objects
                 if (!handledObjects.contains(object)) {
                     // test for collision
-                    if (object.getPosition().getX() < object2.getPosition().getX() + object2.getWidth()
-                            && object.getPosition().getX() + object.getWidth() > object2.getPosition().getX()
-                            && object.getPosition().getY() < object2.getPosition().getY() + object2.getHeight()
-                            && object.getPosition().getY() + object.getHeight() > object2.getPosition().getY()) {
+                    if (detectCollision(object, object2)) {
                         handleCollision(object, object2);
                     }
                 }
@@ -186,17 +191,38 @@ public class World {
     }
 
     /**
-     * Checks weather location chosen is valid
+     * Returns true if object1 and object2 collide, false otherwise.
      * 
-     * @param loc - the point to be tested
+     * @param object1
+     * @param object2
+     * @return - true if object1 and object2 collide, false otherwise.
      */
-    public void checkSpawn(Point loc) {
-        // TODO
+    public boolean detectCollision(GameObject object1, GameObject object2) {
+        if (object1.getPosition().getX() < object2.getPosition().getX() + object2.getWidth()
+                && object1.getPosition().getX() + object1.getWidth() > object2.getPosition().getX()
+                && object1.getPosition().getY() < object2.getPosition().getY() + object2.getHeight()
+                && object1.getPosition().getY() + object1.getHeight() > object2.getPosition().getY()) {
+            return true;
+        }
+        return false;
     }
 
-    // Pauses the game loop & pops up pause screen
-    public void pause() {
-        // TODO
+    /**
+     * Checks weather location chosen to spawn a tank is valid
+     * 
+     * @param tank - the tank that contains the area to be tested
+     */
+    public boolean checkSpawn(Tank tank) {
+        boolean valid = true;
+        for (GameObject object : listOfEntities) {
+            if (tank != object) {
+                if (detectCollision(tank, object)) {
+                    valid = false;
+                    break;
+                }
+            }
+        }
+        return valid;
     }
 
     // serializes the world

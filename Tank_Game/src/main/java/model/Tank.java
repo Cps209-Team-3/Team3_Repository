@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import javafx.scene.image.Image;
 
-public abstract class Tank extends GameObject {
-
+public abstract class Tank extends GameObject { 
+    // TODO: WILL HEIGHT AND WIDTH BE THE SAME FOR ALL TANKS?
     int health;
     int speed;
     int turretDirection; // 0-360

@@ -26,6 +26,11 @@ public class GameWindow {
         clock.play();
     }
 
+    // Pauses the game loop & pops up pause screen
+    public void pause() {
+        clock.pause();
+    }
+
     public void gameLoop() {
         World.instance().gameLoop();
         pane.getChildren().clear();
@@ -33,17 +38,34 @@ public class GameWindow {
         for (GameObject object : objects) {
             // had idea to move images instead of re-creating every frame, currently
             // unimplemented.
-            ImageView img = new ImageView();
+            if (object instanceof Tank || object instanceof Bullet) {
+                ImageView img = new ImageView();
 
-            img.setX(object.getPosition().getX());
-            img.setY(object.getPosition().getY());
+                img.setX(object.getPosition().getX());
+                img.setY(object.getPosition().getY());
 
-            img.setFitHeight(object.getHeight());
-            img.setFitWidth(object.getWidth());
-            img.setRotate(object.getDirection());
+                img.setFitHeight(object.getHeight());
+                img.setFitWidth(object.getWidth());
+                img.setRotate(object.getDirection());
 
-            img.setImage(object.getImage());
-            pane.getChildren().add(img);
+                img.setImage(object.getImage());
+                pane.getChildren().add(img);
+            }
+        }
+        for (GameObject object : objects) {
+            if (object instanceof Wall) {
+                ImageView img = new ImageView();
+
+                img.setX(object.getPosition().getX());
+                img.setY(object.getPosition().getY());
+
+                img.setFitHeight(object.getHeight());
+                img.setFitWidth(object.getWidth());
+                img.setRotate(object.getDirection());
+
+                img.setImage(object.getImage());
+                pane.getChildren().add(img);
+            }
         }
     }
 }
