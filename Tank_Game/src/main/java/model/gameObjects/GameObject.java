@@ -1,4 +1,4 @@
-package model;
+package model.gameObjects;
 
 import java.awt.Point;
 import javafx.scene.image.Image;
@@ -41,21 +41,21 @@ public abstract class GameObject {
      * 
      * @return data of object in string format
      */
-    abstract String serialize();
+    public abstract String serialize();
 
     /**
      * Sets all the variables in a GameObject from a string
      * 
      * @param data - The string to be split
      */
-    abstract void deserialize(String data);
+    public abstract void deserialize(String data);
 
     /**
      * Handles a collison with another object.
      * 
      * @param object - The object collided with
      */
-    abstract void onCollision(GameObject object);
+    public abstract void onCollision(GameObject object);
 
     public Image getImage() {
         return image;

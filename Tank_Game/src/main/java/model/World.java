@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.enums.Difficulty;
+import model.gameObjects.*;
 
 public class World {
 
@@ -93,13 +94,10 @@ public class World {
 
     // Main game loop to run every frame
     public void gameLoop() {
-        // TODO: get inputs
         boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
-                if (object instanceof Player) {
-                    handleInput('C'); // TODO
-                } else {
+                if (object instanceof Enemy) {
                     if (waveComplete) {
                         waveComplete = false;
                     }
@@ -118,7 +116,7 @@ public class World {
 
     // Spawn a new wave
     public void spawnWave() {
-        // TODO
+        // TODO: possibly remove this?
     }
 
     /**
@@ -127,7 +125,11 @@ public class World {
      * @param inp - input of the user
      */
     public void handleInput(char inp) {
-        // TODO
+        if (inp == '%') {
+            playerTank.fire();
+        } else {
+            playerTank.move(inp);
+        }
     }
 
     // Turns on cheat mode if on, turns off otherwise.
@@ -173,6 +175,9 @@ public class World {
         } else if (object2 instanceof Bullet) {
             object2.onCollision(object1);
         } else if (object1 instanceof Tank) {
+            if (object2 instanceof Tank) {
+                // TODO: Remove random push-back priority
+            }
             object1.onCollision(object2);
         } else if (object2 instanceof Tank) {
             object2.onCollision(object1);
@@ -188,8 +193,7 @@ public class World {
             handledObjects.add(object);
             for (GameObject object2 : listOfEntities) { // Test current object with all other objects
                 if (!handledObjects.contains(object)) {
-                    // test for collision
-                    if (detectCollision(object, object2)) {
+                    if (isCollision(object, object2)) {
                         handleCollision(object, object2);
                     }
                 }
@@ -204,7 +208,7 @@ public class World {
      * @param object2
      * @return - true if object1 and object2 collide, false otherwise.
      */
-    public boolean detectCollision(GameObject object1, GameObject object2) {
+    public boolean isCollision(GameObject object1, GameObject object2) {
         if (object1.getPosition().getX() < object2.getPosition().getX() + object2.getWidth()
                 && object1.getPosition().getX() + object1.getWidth() > object2.getPosition().getX()
                 && object1.getPosition().getY() < object2.getPosition().getY() + object2.getHeight()
@@ -223,7 +227,7 @@ public class World {
         boolean valid = true;
         for (GameObject object : listOfEntities) {
             if (tank != object) {
-                if (detectCollision(tank, object)) {
+                if (isCollision(tank, object)) {
                     valid = false;
                     break;
                 }

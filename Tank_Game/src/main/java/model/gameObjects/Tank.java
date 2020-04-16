@@ -1,49 +1,20 @@
-package model;
+package model.gameObjects;
 
 import java.awt.Point;
 import java.util.ArrayList;
-
-import javafx.scene.image.Image;
 
 public abstract class Tank extends GameObject { 
     // TODO: WILL HEIGHT AND WIDTH BE THE SAME FOR ALL TANKS?
     int health;
     int speed;
     int turretDirection; // 0-360
+    int reloadTime;
+    int reloadStatus;
+
     ArrayList<Point> pastPositions = new ArrayList<>(); // track previous position for collision handling
 
-    /**
-     * Initializes a new tank using parameters.
-     * 
-     * @param image
-     * @param position
-     * @param direction
-     * @param height
-     * @param width
-     * @param health
-     * @param speed
-     * @param turretDirection
-     * @param pastPositions
-     */
-    public Tank(Image image, Point position, int direction, int height, int width, int health, int speed,
-            int turretDirection, ArrayList<Point> pastPositions) {
-        this.image = image;
-        this.position = position;
-        this.direction = direction;
-        this.height = height;
-        this.width = width;
-        this.health = health;
-        this.speed = speed;
-        this.turretDirection = turretDirection;
-        this.pastPositions = pastPositions;
-    }
-
-    // Initializes a new tank.
-    public Tank() {
-    }
-
     void onDeath() {
-        // TODO
+        // TODO: on player death
     }
 
     // Creates a new bullet travelling in the direction of turretDirection
@@ -55,7 +26,7 @@ public abstract class Tank extends GameObject {
      * @param object - the object collided with
      */
     @Override
-    void onCollision(GameObject object) {
+    public void onCollision(GameObject object) {
         if (object instanceof Tank) {
             this.position = pastPositions.get(pastPositions.size() - 1);
             pastPositions.remove(pastPositions.size() - 1);

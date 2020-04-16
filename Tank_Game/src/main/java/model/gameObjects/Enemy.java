@@ -1,6 +1,9 @@
-package model;
+package model.gameObjects;
 
+import model.World;
+import model.enums.BulletType;
 import model.enums.EnemyState;
+
 import java.awt.Point;
 import javafx.scene.image.Image;
 import java.util.ArrayList;
@@ -22,8 +25,8 @@ public class Enemy extends Tank {
      * @param turretDirection
      * @param pastPositions
      */
-    public Enemy(Point position, int direction, int height, int width, int health, int speed,
-            int turretDirection, ArrayList<Point> pastPositions, EnemyState state) {
+    public Enemy(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
+            int reloadTime, int reloadStatus, ArrayList<Point> pastPositions, EnemyState state) {
         image = new Image("@Images/bluetankv1wider.gif");
         this.position = position;
         this.direction = direction;
@@ -32,6 +35,8 @@ public class Enemy extends Tank {
         this.health = health;
         this.speed = speed;
         this.turretDirection = turretDirection;
+        this.reloadTime = reloadTime;
+        this.reloadStatus = reloadStatus;
         this.pastPositions = pastPositions;
         this.state = state;
     }
@@ -39,7 +44,8 @@ public class Enemy extends Tank {
     /**
      * Initializes a new enemy using random variables
      * 
-     * @param useRandom - used as a way to specify weather to use random values or null values, as with Enemy().
+     * @param useRandom - used as a way to specify weather to use random values or
+     *                  null values, as with Enemy().
      */
     public Enemy(boolean useRandom) {
         if (useRandom) {
@@ -86,12 +92,12 @@ public class Enemy extends Tank {
                 state = num == 0 ? EnemyState.CHARGE : EnemyState.PAUSE;
                 break;
             case PAUSE:
-            state = num == 0 ? EnemyState.CHARGE : EnemyState.FLEE;
+                state = num == 0 ? EnemyState.CHARGE : EnemyState.FLEE;
                 break;
         }
     }
 
-    void move() { 
+    public void move() { 
         switch (state) {
             case CHARGE:
                 // move toward player
@@ -109,8 +115,10 @@ public class Enemy extends Tank {
 
     @Override
     Bullet fire() {
-        // TODO Auto-generated method stub
-        return new Bullet();
+        // TODO: fire
+        return new Bullet(new Image("@Images/projectile.png"),
+        new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
+        10, 5, 1, BulletType.ENEMY);
     }
 
     @Override

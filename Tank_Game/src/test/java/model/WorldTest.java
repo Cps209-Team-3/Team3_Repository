@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import org.junit.Test;
 
 import model.enums.Difficulty;
+import model.gameObjects.*;
 
 public class WorldTest {
     public void fillFile(String fileName) {

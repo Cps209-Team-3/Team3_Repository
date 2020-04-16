@@ -1,4 +1,4 @@
-package model;
+package model.gameObjects;
 
 import model.enums.BulletType;
 import javafx.scene.image.Image;
@@ -10,19 +10,20 @@ public class Bullet extends GameObject {
     int damageAmount;
     BulletType type;
 
-     /**
-      * Initializes a new Bullet using parameters.
-      *
-      * @param image
-      * @param position
-      * @param direction
-      * @param height
-      * @param width
-      * @param speed
-      * @param damageAmount
-      * @param type
-      */
-    public Bullet(Image image, Point position, int direction, int height, int width, int speed, int damageAmount, BulletType type) {
+    /**
+     * Initializes a new Bullet using parameters.
+     *
+     * @param image
+     * @param position
+     * @param direction
+     * @param height
+     * @param width
+     * @param speed
+     * @param damageAmount
+     * @param type
+     */
+    public Bullet(Image image, Point position, int direction, int width, int height, int speed, int damageAmount,
+            BulletType type) {
         this.image = image;
         this.position = position;
         this.direction = direction;
@@ -34,16 +35,15 @@ public class Bullet extends GameObject {
     }
 
     // Initializes a new bullet.
-    public Bullet(){
+    public Bullet() {
 
     }
 
-    void move() {
-        // CODE BELOW IS FROM ONE OF ANDREW'S OLD PYTHON SCRIPTS AND NEEDS BE TRANSLATED
-        // the math checks out though, so it works.
-        // newy = -(float(speed)/2)*math.sin(math.radians(float(-(heading) + 90)))+ycoord
-        // newx = (float(speed)/2)*math.cos(math.radians(float(-(heading) + 90)))+xcoord
-        // TODO create movement based off speed
+    // moves the bullet in the direction of 'direction', by the amount of 'speed'.
+    public void move() {
+        double newY = -(speed / 2.0) * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
+        double newX = (speed / 2.0) * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
+        position = new Point((int) (newX + 0.5), (int) (newY + 0.5));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    void onCollision(GameObject object) {
+    public void onCollision(GameObject object) {
         if (object instanceof Tank) {
             Tank tank = (Tank) object;
             tank.health -= 1;

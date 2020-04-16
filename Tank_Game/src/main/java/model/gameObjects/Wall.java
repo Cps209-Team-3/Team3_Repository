@@ -1,4 +1,4 @@
-package model;
+package model.gameObjects;
 
 import javafx.scene.image.Image;
 import java.awt.Point;
@@ -48,7 +48,7 @@ public class Wall extends GameObject {
     }
 
     @Override
-    void onCollision(GameObject object) {
+    public void onCollision(GameObject object) {
         if (object instanceof Wall) {
             // oops, Wall collided with Wall
         }

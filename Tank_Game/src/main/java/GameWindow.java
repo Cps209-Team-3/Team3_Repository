@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import model.*;
+import model.gameObjects.*;
 import java.util.ArrayList;
 
 public class GameWindow {

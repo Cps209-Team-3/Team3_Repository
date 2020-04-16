@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import model.gameObjects.*;
+
 public class GameObjectsTest {
 
     @Test
@@ -17,7 +19,7 @@ public class GameObjectsTest {
         String serialized = wall.serialize();
         assertEquals("Wall,@Images/wall.png,37:64,0,50,60", serialized);
 
-        Player playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, new ArrayList<>());
+        Player playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new ArrayList<>());
         assertEquals(10, playerTank.getSpeed());
         assertEquals(90, playerTank.getDirection());
         playerTank.move('W');
