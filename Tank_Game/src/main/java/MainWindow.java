@@ -7,7 +7,7 @@ import javafx.scene.control.Alert.AlertType;
 public class MainWindow {
 
     @FXML
-    void onGreetClicked(ActionEvent event) {
+    void onGreetClicked(ActionEvent event) {      
         var alert = new Alert(AlertType.INFORMATION, "Hello, world!");
         alert.setHeaderText(null);
         alert.show();

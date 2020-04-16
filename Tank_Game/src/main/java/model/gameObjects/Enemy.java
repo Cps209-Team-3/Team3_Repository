@@ -27,7 +27,7 @@ public class Enemy extends Tank {
      */
     public Enemy(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
             int reloadTime, int reloadStatus, ArrayList<Point> pastPositions, EnemyState state) {
-        image = new Image("@Images/bluetankv1wider.gif");
+        image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
         this.height = height;

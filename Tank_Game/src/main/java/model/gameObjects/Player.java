@@ -25,7 +25,7 @@ public class Player extends Tank {
      */
     public Player(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
             int reloadTime, int reloadStatus, ArrayList<Point> pastPositions) {
-        image = new Image("@Images/greentankv1wider.gif");
+                image = new Image(getClass().getResource("/Images/greentankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
         this.height = height;

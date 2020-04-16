@@ -8,11 +8,17 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
+import javafx.scene.image.Image;
+import model.enums.BulletType;
 import model.enums.Difficulty;
-import model.gameObjects.*;
+import model.gameObjects.Bullet;
+import model.gameObjects.Enemy;
+import model.gameObjects.Player;
+import model.gameObjects.Wall;
 
 public class WorldTest {
     public void fillFile(String fileName) {
@@ -33,22 +39,15 @@ public class WorldTest {
     }
 
     public void fillWorld(World world) {
+        world.setWidth(1);
+        world.setHeight(2);
         world.setDifficulty(Difficulty.EASY);
-        world.setHeight(10);
-        world.setScore(1000);;
-        Wall wall = new Wall();
-        wall.setWidth(10);
-        wall.setHeight(10);
-        wall.setPosition(new Point(10,10));
-        Player playerTank = new Player();
-        playerTank.setDirection(180);
-        playerTank.setHeight(10);
-        Enemy enemyTank = new Enemy();
-        enemyTank.setDirection(180);
-        enemyTank.setHeight(10);
-        Bullet bullet = new Bullet();
-        bullet.setDirection(180);
-        bullet.setWidth(10);
+        world.setScore(4);
+        world.setCurrentWave(5);
+        Wall wall = new Wall(new Point(1,2), 3, 4, 5);
+        Player playerTank = new Player(new Point(1,2), 3,4,5,6,7,8,9,10,new ArrayList<Point>());
+        Enemy enemyTank = new Enemy(true);
+        Bullet bullet = new Bullet(new Image(getClass().getResource("/Images/projectile.png").toString()), new Point(1,2), 3,4,5,6,7,BulletType.ENEMY);
         world.addObject(wall);
         world.addObject(playerTank);
         world.addObject(enemyTank);
@@ -67,29 +66,29 @@ public class WorldTest {
                 String line = reader.readLine();
                 String[] worldList = line.split(",");
                 assertEquals("EASY", worldList[3]);
-                assertEquals("1000", worldList[4]);
-                assertEquals("10", worldList[2]);
+                assertEquals("4", worldList[4]);
+                assertEquals("2", worldList[2]);
 
                 line = reader.readLine();
                 String[] wallList = line.split(",");
-                assertEquals("10", wallList[5]);
-                assertEquals("10", wallList[6]);
-                assertEquals("10", wallList[2]);
+                assertEquals("4", wallList[5]);
+                assertEquals("5", wallList[6]);
+                assertEquals("1", wallList[2]);
 
                 line = reader.readLine();
                 String[] playerList = line.split(",");
-                assertEquals("180", playerList[4]);
-                assertEquals("10", playerList[5]);
+                assertEquals("3", playerList[4]);
+                assertEquals("4", playerList[5]);
 
                 line = reader.readLine();
                 String[] enemyList = line.split(",");
-                assertEquals("180", enemyList[4]);
-                assertEquals("10", enemyList[5]);
+                assertEquals("3", enemyList[4]);
+                assertEquals("4", enemyList[5]);
 
                 line = reader.readLine();
                 String[] bulletList = line.split(",");
-                assertEquals("180", bulletList[4]);
-                assertEquals("10", bulletList[6]);
+                assertEquals("3", bulletList[4]);
+                assertEquals("5", bulletList[6]);
 
             }
         } catch (Exception e) {
@@ -104,9 +103,7 @@ public class WorldTest {
 
             fillFile(filename);
             World world = World.instance();
-            assertEquals(world.getListOfEntities(), null);
             world.load(filename);
-            assertNotEquals(world.getListOfEntities(), null);
 
             assertEquals(Difficulty.EASY, world.getDifficulty());
             assertNotEquals(null, world.getFloor());

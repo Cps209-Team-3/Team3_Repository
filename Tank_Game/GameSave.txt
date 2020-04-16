@@ -1,5 +1,5 @@
-
-null
-null
-null
-null
+World,1,2,EASY,4,5,map.png
+Wall,wall.png,1.0,2.0,3,4,5
+PlayerTank,greentankv1wider.gif,1.0,2.0,3,4,5,6,7,8
+EnemyPlayer,bluetankv1wider.gif,1384.0,467.0,11,50,20,1,5,11,PAUSE
+Bullet,projectile.png,1.0,2.0,3,5,4,6,6,7,ENEMY
