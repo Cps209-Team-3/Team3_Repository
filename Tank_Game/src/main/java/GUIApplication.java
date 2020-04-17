@@ -13,7 +13,7 @@ public class GUIApplication extends Application{
         var scene = new Scene(loader.load());
 
         stage.setScene(scene);
-        stage.setTitle("Hello"); // Title of main window
+        stage.setTitle("Tank Attack Arena"); // Title of main window
         stage.show();
     }
 
