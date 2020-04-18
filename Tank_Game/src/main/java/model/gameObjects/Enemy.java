@@ -76,16 +76,12 @@ public class Enemy extends Tank {
                 (int) player.getPosition().getY() + player.getHeight() / 2);
     }
 
-    public void targetPlayer() {
+    public int targetPlayer() {
         Point playerPosition = findPlayer();
-        double dx = playerPosition.getX() - position.getX();
-        double dy = playerPosition.getY() - position.getY();
-        double dist = Math.hypot(dx, dy);
-
-        dx = dx / dist;
-        dy = dy / dist;
-
-        position = new Point((int) position.getX() + ((int) dx * speed), (int) position.getY() + ((int) dy * speed));
+        double y2 = playerPosition.getY() - position.getY();
+        double x2 = playerPosition.getX() - position.getX();
+        direction = (int) Math.toDegrees(Math.atan2(y2, x2));
+        return direction;
     }
 
     // Changes state randomly to a different state than the current one.
@@ -106,40 +102,28 @@ public class Enemy extends Tank {
     }
 
     public void move() {
-        Point playerPosition;
-        double dx;
-        double dy;
-        double dist;
+        Point playerPosition = findPlayer();;
+        double dx = playerPosition.getX() - position.getX();
+        double dy = playerPosition.getY() - position.getY();
+        double dist = Math.hypot(dx, dy);
+        dx = dx / dist;
+        dy = dy / dist;
         int x;
         int y;
         switch (state) {
             case CHARGE:
                 // move toward player
-                playerPosition = findPlayer();
-                dx = playerPosition.getX() - position.getX();
-                dy = playerPosition.getY() - position.getY();
-                dist = Math.hypot(dx, dy);
-
-                dx = dx / dist;
-                dy = dy / dist;
-
                 x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
                 position = new Point(x, y);
+                turretDirection = targetPlayer();
                 break;
             case FLEE:
                 // move away from player
-                playerPosition = findPlayer();
-                dx = playerPosition.getX() - position.getX();
-                dy = playerPosition.getY() - position.getY();
-                dist = Math.hypot(dx, dy);
-
-                dx = dx / dist;
-                dy = dy / dist;
-
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
                 position = new Point(x, y);
+                turretDirection = targetPlayer();
                 break;
             case PAUSE:
                 World.instance().addObject(fire());

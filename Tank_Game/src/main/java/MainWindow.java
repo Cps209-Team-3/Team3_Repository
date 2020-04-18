@@ -72,47 +72,47 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws IOException {
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
-        // Stage gameWindow = new Stage();
-        // gameWindow.setScene(new Scene(loader.load()));
-        // GameWindow window = loader.getController();
-        // window.initialize();
+        Stage gameWindow = new Stage();
+        gameWindow.setScene(new Scene(loader.load()));
+        GameWindow window = loader.getController();
+        window.initialize();
 
-        // gameWindow.show();
-        MainHbox.getChildren().add(LeftVbox);
-        LeftVbox.setPrefWidth(150);
-        LeftVbox.setAlignment(Pos.CENTER);
+        gameWindow.show();
+        // MainHbox.getChildren().add(LeftVbox);
+        // LeftVbox.setPrefWidth(150);
+        // LeftVbox.setAlignment(Pos.CENTER);
 
-        MainHbox.getChildren().add(MidVbox);
-        MidVbox.setPrefWidth(1200);
-        MidVbox.setAlignment(Pos.CENTER);
-        MidVbox.getChildren().add(imgView);
-        lbl.setStyle("-fx-font-size: 28pt;");
-        MidVbox.getChildren().add(lbl);
+        // MainHbox.getChildren().add(MidVbox);
+        // MidVbox.setPrefWidth(1200);
+        // MidVbox.setAlignment(Pos.CENTER);
+        // MidVbox.getChildren().add(imgView);
+        // lbl.setStyle("-fx-font-size: 28pt;");
+        // MidVbox.getChildren().add(lbl);
 
-        MainHbox.getChildren().add(RightVbox);
-        RightVbox.setPrefWidth(150);
-        RightVbox.setAlignment(Pos.CENTER);
+        // MainHbox.getChildren().add(RightVbox);
+        // RightVbox.setPrefWidth(150);
+        // RightVbox.setAlignment(Pos.CENTER);
 
-        btns.add(firstBtn);
-        btns.add(secondBtn);
-        btns.add(thirdBtn);
-        btns.add(fourthBtn);
-        btns.add(fifthBtn);
+        // btns.add(firstBtn);
+        // btns.add(secondBtn);
+        // btns.add(thirdBtn);
+        // btns.add(fourthBtn);
+        // btns.add(fifthBtn);
 
-        for (Button btn : btns) {
-            btn.setOnAction(e -> onButtonClicked(e));
-            btn.setPrefWidth(250);
-            btn.setPrefHeight(100);
-            btn.setStyle("-fx-font-size: 20pt;");
-            MidVbox.getChildren().add(btn);
-        }
-        backBtn.setOnAction(e -> onButtonClicked(e));
-        leftBtn.setOnAction(e -> onButtonClicked(e));
-        rightBtn.setOnAction(e -> onButtonClicked(e));
+        // for (Button btn : btns) {
+        //     btn.setOnAction(e -> onButtonClicked(e));
+        //     btn.setPrefWidth(250);
+        //     btn.setPrefHeight(100);
+        //     btn.setStyle("-fx-font-size: 20pt;");
+        //     MidVbox.getChildren().add(btn);
+        // }
+        // backBtn.setOnAction(e -> onButtonClicked(e));
+        // leftBtn.setOnAction(e -> onButtonClicked(e));
+        // rightBtn.setOnAction(e -> onButtonClicked(e));
 
-        fourthBtn.setStyle("-fx-font-size: 10pt;"); // REMOVE FOR BETA!!!
+        // fourthBtn.setStyle("-fx-font-size: 10pt;"); // REMOVE FOR BETA!!!
     }
 
     @FXML
