@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import model.enums.Difficulty;
 import model.gameObjects.*;
 
@@ -21,8 +20,6 @@ public class World {
     Player playerTank;
     boolean cheatMode = false;
     Image floor = null;
-
-    
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
 
@@ -239,12 +236,12 @@ public class World {
     // serializes the world
     public String serialize() {
         String serialization = "World,";
-        Object[] list = new Object[] {width, height, difficulty, score, currentWave, floor.getUrl().split("/")[17]};
+        Object[] list = new Object[] { width, height, difficulty, score, currentWave, floor.getUrl().split("/")[17] };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
                 serialization += ",";
-            } 
+            }
         }
         return serialization;
     }
@@ -256,13 +253,13 @@ public class World {
         height = Integer.parseInt(list[2]);
         switch (list[3]) {
             case "EASY":
-                difficulty = difficulty.EASY;
+                difficulty = Difficulty.EASY;
                 break;
             case "MEDIUM":
-                difficulty = difficulty.MEDIUM;
+                difficulty = Difficulty.MEDIUM;
                 break;
             case "HARD":
-                difficulty = difficulty.HARD;
+                difficulty = Difficulty.HARD;
                 break;
         }
         score = Integer.parseInt(list[4]);

@@ -41,8 +41,8 @@ public class Bullet extends GameObject {
 
     // moves the bullet in the direction of 'direction', by the amount of 'speed'.
     public void move() {
-        double newY = -(speed / 2.0) * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
-        double newX = (speed / 2.0) * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
+        double newY = -speed * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
+        double newX = speed * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
         position = new Point((int) (newX + 0.5), (int) (newY + 0.5));
     }
 
@@ -71,10 +71,10 @@ public class Bullet extends GameObject {
         damageAmount = Integer.parseInt(list[8]);
         switch (list[9]) {
             case "PLAYER":
-                type = type.PLAYER;
+                type = BulletType.PLAYER;
                 break;
             case "ENEMY":
-                type = type.ENEMY;
+                type = BulletType.ENEMY;
                 break;
         }
     }
@@ -83,7 +83,7 @@ public class Bullet extends GameObject {
     public void onCollision(GameObject object) {
         if (object instanceof Tank) {
             Tank tank = (Tank) object;
-            tank.health -= 1;
+            tank.health -= damageAmount;
             if (tank.health <= 0) {
                 tank.onDeath();
             }
@@ -91,5 +91,29 @@ public class Bullet extends GameObject {
             // Run explosion animation
             // Delete itself (this)
         }
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getDamageAmount() {
+        return damageAmount;
+    }
+
+    public void setDamageAmount(int damageAmount) {
+        this.damageAmount = damageAmount;
+    }
+
+    public BulletType getType() {
+        return type;
+    }
+
+    public void setType(BulletType type) {
+        this.type = type;
     }
 }

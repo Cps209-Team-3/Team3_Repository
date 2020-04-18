@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import model.enums.BulletType;
 
 import java.util.ArrayList;
-import javafx.scene.image.Image;
 
 public class Player extends Tank {
 
@@ -25,7 +24,7 @@ public class Player extends Tank {
      */
     public Player(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
             int reloadTime, int reloadStatus, ArrayList<Point> pastPositions) {
-                image = new Image(getClass().getResource("/Images/greentankv1wider.gif").toString());
+        image = new Image(getClass().getResource("/Images/greentankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
         this.height = height;
@@ -56,8 +55,8 @@ public class Player extends Tank {
                 direction -= 2;
                 break;
             case 'S':
-                double newY2 = (speed / 2.0) * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
-                double newX2 = -(speed / 2.0) * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
+                double newY2 = speed * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
+                double newX2 = -speed * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
                 position = new Point((int) (newX2 + 0.5), (int) (newY2 + 0.5));
                 break;
             case 'D':
@@ -77,12 +76,13 @@ public class Player extends Tank {
     @Override
     public String serialize() {
         String serialization = "PlayerTank,";
-        Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width, health, speed, turretDirection};
+        Object[] list = new Object[] { image.getUrl().split("/")[17], position.getX(), position.getY(), direction,
+                height, width, health, speed, turretDirection };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
                 serialization += ",";
-            } 
+            }
         }
         return serialization;
     }

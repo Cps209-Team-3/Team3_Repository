@@ -13,12 +13,12 @@ public abstract class Tank extends GameObject {
 
     ArrayList<Point> pastPositions = new ArrayList<>(); // track previous position for collision handling
 
-    void onDeath() {
+    public void onDeath() {
         // TODO: on player death
     }
 
     // Creates a new bullet travelling in the direction of turretDirection
-    abstract Bullet fire();
+    public abstract Bullet fire();
 
     /**
      * Moves tank back to last position to stop collision.

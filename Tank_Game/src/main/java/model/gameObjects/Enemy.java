@@ -70,18 +70,18 @@ public class Enemy extends Tank {
     }
 
     // returns the center position of the players tank.
-    Point findPlayer() {
+    public Point findPlayer() {
         Player player = World.instance().getPlayerTank();
         return new Point((int)player.getPosition().getX() + player.getWidth()/2, (int)player.getPosition().getY() + player.getHeight()/2);
     }
 
-    void targetPlayer() {
+    public void targetPlayer() {
         Point playerPosition = findPlayer();
 
     }
 
     // Changes state randomly to a different state than the current one.
-    void changeState() {
+    public void changeState() {
         Random random = new Random();
         int num = random.nextInt(2);
         switch (state) {
@@ -114,9 +114,9 @@ public class Enemy extends Tank {
     }
 
     @Override
-    Bullet fire() {
+    public Bullet fire() {
         // TODO: fire
-        return new Bullet(new Image("@Images/projectile.png"),
+        return new Bullet(new Image("/Images/projectile.png"),
         new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
         10, 5, 1, BulletType.ENEMY);
     }
@@ -147,13 +147,13 @@ public class Enemy extends Tank {
         turretDirection = Integer.parseInt(list[9]);
         switch (list[10]) {
             case "CHARGE":
-                state = state.CHARGE;
+                state = EnemyState.CHARGE;
                 break;
             case "FLEE":
-                state = state.FLEE;
+                state = EnemyState.FLEE;
                 break;
             case "PAUSE":
-                state = state.PAUSE;   
+                state = EnemyState.PAUSE;   
                 break;
         }
     }
