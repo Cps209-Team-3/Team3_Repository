@@ -156,6 +156,8 @@ public class Enemy extends Tank {
                 state = EnemyState.PAUSE;   
                 break;
         }
+        reloadTime = Integer.parseInt(list[11]);
+        reloadStatus = Integer.parseInt(list[12]);
     }
 
     public EnemyState getState() {

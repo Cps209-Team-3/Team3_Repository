@@ -265,6 +265,11 @@ public class World {
         score = Integer.parseInt(list[4]);
         currentWave = Integer.parseInt(list[5]);
         floor = new Image(getClass().getResource("/Images/" + list[6]).toString());
+        if (list[7].equals("true")) {
+            cheatMode = true;
+        } else if (list[7].equals("false")) {
+            cheatMode = false;
+        }
     }
 
     public ArrayList<GameObject> getListOfEntities() {

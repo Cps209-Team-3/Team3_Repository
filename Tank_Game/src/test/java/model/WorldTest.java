@@ -23,7 +23,7 @@ import model.gameObjects.Wall;
 public class WorldTest {
     public void fillFile(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            String world = "World,10,10,EASY,1000,4,image\n";
+            String world = "World,10,10,EASY,1000,4,image,false\n";
             String wall = "Wall,image,10,10,180,10,10\n";
             String playerTank = "PlayerTank,image,10,10,180,10,10,100,50,180\n";
             String enemyTank = "EnemyTank,image,10,10,180,10,10,100,50,180,Flee\n";

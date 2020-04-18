@@ -98,6 +98,8 @@ public class Player extends Tank {
         health = Integer.parseInt(list[7]);
         speed = Integer.parseInt(list[8]);
         turretDirection = Integer.parseInt(list[9]);
+        reloadTime = Integer.parseInt(list[10]);
+        reloadStatus = Integer.parseInt(list[11]);
     }
 
 }
