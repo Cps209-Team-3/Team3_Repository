@@ -1,2 +1,2 @@
 
-public enum HelpSlide {CONTROLS, ENEMIES, POWERUPS, SCORING}
+public enum HelpSlide { CONTROLS, ENEMIES, POWERUPS, SCORING }

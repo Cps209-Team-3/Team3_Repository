@@ -5,6 +5,12 @@ import java.util.*;
 
 public class HighScores {
 
+    private static HighScores instance = new HighScores();
+
+    public static HighScores scoreList() {
+        return instance;
+    }
+
     /**
      * List of Players and their corresponding High Scores
      */
@@ -17,42 +23,51 @@ public class HighScores {
      * @param name      String
      * @param highScore double
      */
-    void addHighScore(String name, double highScore) {
+    public void addHighScore(String name, double highScore) {
         PlayerData player = new PlayerData(name, highScore);
         highScores.add(player);
-        Collections.sort(highScores, new SortByScore());
+        Collections.sort(highScores, (a, b) -> {
+            return (int) b.getHighScore() - (int) a.getHighScore();
+        });
     }
 
     /**
      * Returns the list of PlayerData objects.
      */
-    ArrayList<PlayerData> getHighScores() {
+    public ArrayList<PlayerData> getHighScores() {
         return highScores;
     }
 
     /**
      * Saves the high scores in the highScores list to comma delimited text file
+     * 
      * @throws Exception
      */
     public void save() throws Exception {
-        try {
-        String file = "highScores.txt";
-        FileWriter writer = new FileWriter(file);
-        PrintWriter printer = new PrintWriter(writer);
-            for (PlayerData highScore : highScores) {
-
-
+        try (PrintWriter printer = new PrintWriter(new FileWriter("highScores.txt"))) {
+            for (PlayerData player : highScores) {
+                printer.println(player.getName() + "," + player.getHighScore());
             }
-        } catch (IOException e) {
-            
+            highScores.removeAll(highScores);
+        } catch (Exception e) {
+            System.out.println("Error with High Scores save");
         }
     }
 
     /**
      * Loads the high scores in the highScores list from a comma delimited text file
+     * 
      * @throws Exception
      */
     public void load() throws Exception {
-
+        try (BufferedReader reader = new BufferedReader(new FileReader("highScores.txt"))) {
+            String str;
+            while ((str = reader.readLine()) != null) {
+                List<String> player = Arrays.asList(str.split(","));
+                String name = player.get(0);
+                double score = Double.parseDouble(player.get(1));
+                highScores.add(new PlayerData(name, score));
+            }
+        }
     }
 }

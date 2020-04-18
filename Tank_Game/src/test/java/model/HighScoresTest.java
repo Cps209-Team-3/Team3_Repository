@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.*;
 import org.junit.Test;
 
-
 public class HighScoresTest {
 
     @Test
@@ -24,7 +23,15 @@ public class HighScoresTest {
     }
 
     @Test
-    public void testHighScores_Save_Success() {
-        
+    public void testHighScores_Save_Success() throws Exception {
+        HighScores highScores = new HighScores();
+        highScores.addHighScore("Jeremy", 23000);
+        highScores.addHighScore("Michael", 35000);
+        highScores.save();
+        highScores.load();
+        assertEquals("Michael", highScores.getHighScores().get(0).getName());
+        assertEquals(35000, highScores.getHighScores().get(0).getHighScore(), 0);
+        assertEquals("Jeremy", highScores.getHighScores().get(1).getName());
+        assertEquals(23000, highScores.getHighScores().get(1).getHighScore(), 0);
     }
 }

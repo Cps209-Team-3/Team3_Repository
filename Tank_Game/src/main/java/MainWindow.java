@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import model.*;
 
 public class MainWindow {
 
@@ -61,6 +62,10 @@ public class MainWindow {
     Screen screen = Screen.TITLE;
 
     HelpSlide slide = HelpSlide.CONTROLS;
+
+    World world = World.instance();
+
+    HighScores highScores = HighScores.scoreList();
 
     @FXML
     public void initialize() {
@@ -142,8 +147,13 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
-                    
+                    ArrayList<PlayerData> scores = highScores.getHighScores();
+                    for (PlayerData player : scores) {
+                        
+                    }
                 }
+
+                break;
 
                 // case DIFF :
 
