@@ -106,7 +106,6 @@ public class WorldTest {
             world.load(filename);
 
             assertEquals(Difficulty.EASY, world.getDifficulty());
-            assertNotEquals(null, world.getFloor());
             assertEquals(10, world.getHeight());
 
             Wall wall = (Wall) world.getListOfEntities().get(0);

@@ -39,7 +39,7 @@ public class Player extends Tank {
 
     // Initializes a new Player.
     public Player() {
-        image = new Image("@Images/greentankv1wider.gif");
+        image = new Image("/Images/greentankv1wider.gif");
     }
 
     // Moves tank in the direction of 'input' and saves last position to
@@ -47,8 +47,8 @@ public class Player extends Tank {
     public void move(char input) {
         switch (input) {
             case 'W':
-                double newY = -(speed / 2.0) * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
-                double newX = (speed / 2.0) * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
+                double newY = -speed * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
+                double newX = speed * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
                 position = new Point((int) (newX + 0.5), (int) (newY + 0.5));
                 break;
             case 'A':

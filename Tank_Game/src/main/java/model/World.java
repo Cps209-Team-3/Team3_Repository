@@ -1,12 +1,12 @@
 package model;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.scene.image.Image;
 import model.enums.Difficulty;
 import model.gameObjects.*;
 
@@ -19,7 +19,6 @@ public class World {
     Difficulty difficulty;
     Player playerTank;
     boolean cheatMode = false;
-    Image floor = null;
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
 
@@ -37,8 +36,10 @@ public class World {
     }
 
     public World() {
+        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new ArrayList<>());
+            listOfEntities.add(playerTank);
         try {
-            floor = new Image(getClass().getResource("/Images/map.png").toString());
+            String lol = "what";
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -91,6 +92,7 @@ public class World {
 
     // Main game loop to run every frame
     public void gameLoop() {
+        System.out.println("hi");
         boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
@@ -236,7 +238,7 @@ public class World {
     // serializes the world
     public String serialize() {
         String serialization = "World,";
-        Object[] list = new Object[] { width, height, difficulty, score, currentWave, floor.getUrl().split("/")[17] };
+        Object[] list = new Object[] { width, height, difficulty, score, currentWave };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
@@ -264,7 +266,6 @@ public class World {
         }
         score = Integer.parseInt(list[4]);
         currentWave = Integer.parseInt(list[5]);
-        floor = new Image(getClass().getResource("/Images/" + list[6]).toString());
         if (list[7].equals("true")) {
             cheatMode = true;
         } else if (list[7].equals("false")) {
@@ -342,11 +343,4 @@ public class World {
         this.playerTank = playerTank;
     }
 
-    public Image getFloor() {
-        return floor;
-    }
-
-    public void setFloor(Image floor) {
-        this.floor = floor;
-    }
 }
