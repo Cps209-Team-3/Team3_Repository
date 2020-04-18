@@ -41,39 +41,36 @@ public class GameWindow {
 
     public void gameLoop() {
         World.instance().gameLoop();
-        pane.getChildren().clear();
         // get inputs somewhere around here
-        for (GameObject object : objects) {
-            // had idea to move images instead of re-creating every frame, currently
-            // unimplemented.
-            if (object instanceof Tank || object instanceof Bullet) {
-                ImageView img = new ImageView();
+        for (int i = 0; i < objects.size(); ++i) {
+            GameObject object = objects.get(i);
+            if (images.size() != objects.size()) {
+                images.clear();
+                for (GameObject obj : objects) {
+                    pane.getChildren().clear();
+                    ImageView img = new ImageView();
+                    img.setImage(new Image("/Images/map.png"));
+                    pane.getChildren().add(img);
+                    img = new ImageView();
+
+                    img.setX(obj.getPosition().getX());
+                    img.setY(obj.getPosition().getY());
+
+                    img.setFitHeight(obj.getHeight());
+                    img.setFitWidth(obj.getWidth());
+                    img.setRotate(obj.getDirection());
+
+                    img.setImage(obj.getImage());
+                    img.setVisible(true);
+                    pane.getChildren().add(img);
+                }
+            } else {
+                ImageView img = images.get(i);
 
                 img.setX(object.getPosition().getX());
                 img.setY(object.getPosition().getY());
 
-                img.setFitHeight(object.getHeight());
-                img.setFitWidth(object.getWidth());
                 img.setRotate(object.getDirection());
-
-                img.setImage(object.getImage());
-                img.setVisible(true);
-                pane.getChildren().add(img);
-            }
-        }
-        for (GameObject object : objects) {
-            if (object instanceof Wall) {
-                ImageView img = new ImageView();
-
-                img.setX(object.getPosition().getX());
-                img.setY(object.getPosition().getY());
-
-                img.setFitHeight(object.getHeight());
-                img.setFitWidth(object.getWidth());
-                img.setRotate(object.getDirection());
-
-                img.setImage(object.getImage());
-                img.setVisible(true);
                 pane.getChildren().add(img);
             }
         }
