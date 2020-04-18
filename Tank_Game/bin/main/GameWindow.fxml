@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:controller="GameWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="MainWindow.css"
-    spacing="10" prefHeight="400" prefWidth="250">
+    spacing="10" prefHeight="900" prefWidth="1400">
 
-    <Pane fx:id="pane" prefHeight="1400" prefWidth="900" <graphic><ImageView><image><Image url="@images/map.png" /></image></ImageView></graphic>/>
+    <Pane fx:id="pane" prefHeight="900" prefWidth="1400"/>
 
 </VBox>
