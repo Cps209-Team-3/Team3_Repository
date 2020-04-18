@@ -269,6 +269,7 @@ public class MainWindow {
             case HELP:
 
                 if (btnClicked.getText().equals("<- Back")) {
+                    screen = Screen.TITLE;
                     imgView.setImage(LOGO_IMG);
                     lbl.setText("Welcome!");
                     MidVbox.getChildren().addAll(btns);
@@ -285,6 +286,7 @@ public class MainWindow {
             case HIGHSCORES:
 
                 if (btnClicked.getText().equals("<- Back")) {
+                    screen = Screen.TITLE;
                     imgView.setImage(LOGO_IMG);
                     lbl.setText("Welcome!");
                     lbl.setStyle("-fx-font-size: 28pt;");
