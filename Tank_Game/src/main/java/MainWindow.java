@@ -44,11 +44,11 @@ public class MainWindow {
     Button rightBtn = new Button("->");
 
     // @FXML
-    // Image logo = new Image();
+    // Image LOGO = new Image();
     // @FXML
-    // Image PTank = new Image();
+    // Image PTANK = new Image();
     // @FXML
-    // Image ETank = new Image();
+    // Image ETANK = new Image();
     // @FXML
     // Image PUP = new Image();
 
@@ -65,7 +65,7 @@ public class MainWindow {
 
     World world = World.instance();
 
-    HighScores highScores = HighScores.scoreList();
+    HighScores scoreList = HighScores.scoreList();
 
     @FXML
     public void initialize() {
@@ -119,10 +119,11 @@ public class MainWindow {
                     btns.get(2).setText("Hard");
                     MidVbox.getChildren().removeAll(btns.get(3), btns.get(4));
                     BHbox.getChildren().add(backBtn);
-
                 }
 
                 if (btnClicked.getText().equals("Load Game")) {
+
+                    // world.load(); ASK DAVID!!! (Not due for Alpha)
 
                 }
 
@@ -134,6 +135,7 @@ public class MainWindow {
                     MidVbox.getChildren().add(slidePic);
                     LeftVbox.getChildren().add(leftBtn);
                     RightVbox.getChildren().add(rightBtn);
+                    BHbox.getChildren().add(backBtn);
 
                     // switch (slide) {
                     // case CONTROLS :
@@ -143,13 +145,20 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("About (Paid DLC: $500K or wait a week)")) {
                     screen = Screen.ABOUT;
+                    // SCREEN DUE FOR BETA!!!
                 }
 
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
-                    ArrayList<PlayerData> scores = highScores.getHighScores();
+                    BHbox.getChildren().add(backBtn);
+                    ArrayList<PlayerData> scores = scoreList.getHighScores();
+                    Label title = new Label("TANK ATTACK CHAMPIONS:");
+                    title.setStyle("-fx-font-size: 30pt;");
+                    MidVbox.getChildren().add(title);
                     for (PlayerData player : scores) {
-                        
+                        Label lbl = new Label(player.getName() + "   " + player.getHighScore());
+                        lbl.setStyle("-fx-font-size: 24pt;");
+                        MidVbox.getChildren().add(lbl);
                     }
                 }
 
