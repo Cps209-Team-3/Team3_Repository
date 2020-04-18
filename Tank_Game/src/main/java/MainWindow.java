@@ -27,7 +27,7 @@ public class MainWindow {
     HBox BHbox;
 
     @FXML
-    Label lbl = new Label("Welcome!");
+    Label lbl = new Label("TANK ATTACK ARENA");
 
     @FXML
     Button firstBtn = new Button("New Game");
@@ -198,6 +198,7 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
+                    lbl.setText("TANK ATTACK ARENA");
                     btns.get(0).setText("New Game");
                     btns.get(1).setText("Load Game");
                     btns.get(2).setText("Help");
@@ -223,7 +224,7 @@ public class MainWindow {
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
                     imgView.setImage(LOGO_IMG);
-                    lbl.setText("Welcome!");
+                    lbl.setText("TANK ATTACK ARENA");
                     MidVbox.getChildren().addAll(btns);
                     LeftVbox.getChildren().remove(leftBtn);
                     RightVbox.getChildren().remove(rightBtn);
@@ -255,6 +256,7 @@ public class MainWindow {
                     case POWERUPS:
                         if (btnClicked.getText().equals("<-")) {
                             slide = HelpSlide.ENEMIES;
+                            lbl.setText("");
                             imgView.setImage(ETANK_IMG);
                         }
                         if (btnClicked.getText().equals("->")) {
@@ -271,7 +273,7 @@ public class MainWindow {
                         }
                         if (btnClicked.getText().equals("->")) {
                             slide = HelpSlide.CONTROLS;
-                            imgView.setImage(SCORING_IMG);
+                            imgView.setImage(PTANK_IMG);
                         }
                         break;
                 }
@@ -286,7 +288,7 @@ public class MainWindow {
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
                     imgView.setImage(LOGO_IMG);
-                    lbl.setText("Welcome!");
+                    lbl.setText("TANK ATTACK ARENA");
                     lbl.setStyle("-fx-font-size: 28pt;");
                     MidVbox.getChildren().addAll(btns);
                     BHbox.getChildren().remove(backBtn);
