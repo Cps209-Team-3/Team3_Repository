@@ -4,7 +4,6 @@ import java.util.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -214,7 +213,7 @@ public class MainWindow {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     Stage gameWindow = new Stage();
-                    gameWindow.setScene(new Scene(loader.load()));
+                    gameWindow.setScene(new Scene(loader.load());
                     GameWindow window = loader.getController();
                     window.initialize();
 

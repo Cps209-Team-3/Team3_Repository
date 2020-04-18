@@ -16,5 +16,4 @@ public class GUIApplication extends Application{
         stage.setTitle("Tank Attack Arena"); // Title of main window
         stage.show();
     }
-
 }

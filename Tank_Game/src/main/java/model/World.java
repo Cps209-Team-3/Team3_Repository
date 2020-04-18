@@ -40,7 +40,7 @@ public class World {
         height = 900;
         width = 1400;
         score = -20;
-        currentWave = 0;
+        currentWave = 3;
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new ArrayList<>());
         listOfEntities.add(playerTank);
         
