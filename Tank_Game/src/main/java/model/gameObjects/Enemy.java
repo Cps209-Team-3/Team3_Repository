@@ -56,7 +56,7 @@ public class Enemy extends Tank {
             height = 50; // TODO: adjust size
             width = 20;
             health = 1;
-            speed = random.nextInt(10);
+            speed = random.nextInt(10) + 1;
             turretDirection = direction;
             state = EnemyState.PAUSE;
         }
@@ -72,12 +72,20 @@ public class Enemy extends Tank {
     // returns the center position of the players tank.
     public Point findPlayer() {
         Player player = World.instance().getPlayerTank();
-        return new Point((int)player.getPosition().getX() + player.getWidth()/2, (int)player.getPosition().getY() + player.getHeight()/2);
+        return new Point((int) player.getPosition().getX() + player.getWidth() / 2,
+                (int) player.getPosition().getY() + player.getHeight() / 2);
     }
 
     public void targetPlayer() {
         Point playerPosition = findPlayer();
+        double dx = playerPosition.getX() - position.getX();
+        double dy = playerPosition.getY() - position.getY();
+        double dist = Math.hypot(dx, dy);
 
+        dx = dx / dist;
+        dy = dy / dist;
+
+        position = new Point((int) position.getX() + ((int) dx * speed), (int) position.getY() + ((int) dy * speed));
     }
 
     // Changes state randomly to a different state than the current one.
@@ -97,38 +105,66 @@ public class Enemy extends Tank {
         }
     }
 
-    public void move() { 
+    public void move() {
+        Point playerPosition;
+        double dx;
+        double dy;
+        double dist;
+        int x;
+        int y;
         switch (state) {
             case CHARGE:
                 // move toward player
+                playerPosition = findPlayer();
+                dx = playerPosition.getX() - position.getX();
+                dy = playerPosition.getY() - position.getY();
+                dist = Math.hypot(dx, dy);
+
+                dx = dx / dist;
+                dy = dy / dist;
+
+                x = (int) position.getX() + (int) (dx * speed);
+                y = (int) position.getY() + (int) (dy * speed);
+                position = new Point(x, y);
                 break;
             case FLEE:
                 // move away from player
+                playerPosition = findPlayer();
+                dx = playerPosition.getX() - position.getX();
+                dy = playerPosition.getY() - position.getY();
+                dist = Math.hypot(dx, dy);
+
+                dx = dx / dist;
+                dy = dy / dist;
+
+                x = (int) position.getX() - (int) (dx * speed);
+                y = (int) position.getY() - (int) (dy * speed);
+                position = new Point(x, y);
                 break;
             case PAUSE:
-                fire();
+                World.instance().addObject(fire());
                 changeState();
                 break;
         }
-
     }
 
     @Override
     public Bullet fire() {
         return new Bullet(new Image("/Images/projectile.png"),
-        new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
-        10, 5, 1, BulletType.ENEMY);
+                new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
+                10, 5, 1, BulletType.ENEMY);
     }
 
     @Override
     public String serialize() {
         String serialization = "EnemyPlayer,";
-        Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width, health, speed, turretDirection, state};
+        Object[] list = new Object[] { image.getUrl().split("/")[17], position.getX(), position.getY(), direction,
+                height, width, health, speed, turretDirection, state };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
                 serialization += ",";
-            } 
+            }
         }
         return serialization;
     }
@@ -152,7 +188,7 @@ public class Enemy extends Tank {
                 state = EnemyState.FLEE;
                 break;
             case "PAUSE":
-                state = EnemyState.PAUSE;   
+                state = EnemyState.PAUSE;
                 break;
         }
         reloadTime = Integer.parseInt(list[11]);
