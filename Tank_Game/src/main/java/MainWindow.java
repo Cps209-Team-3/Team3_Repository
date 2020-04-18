@@ -1,11 +1,14 @@
+import java.io.IOException;
 import java.util.*;
 
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import model.*;
 
 public class MainWindow {
@@ -68,7 +71,15 @@ public class MainWindow {
     HighScores scoreList = HighScores.scoreList();
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
+        // FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+
+        // Stage gameWindow = new Stage();
+        // gameWindow.setScene(new Scene(loader.load()));
+        // GameWindow window = loader.getController();
+        // window.initialize();
+
+        // gameWindow.show();
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
         LeftVbox.setAlignment(Pos.CENTER);

@@ -115,7 +115,6 @@ public class Enemy extends Tank {
 
     @Override
     public Bullet fire() {
-        // TODO: fire
         return new Bullet(new Image("/Images/projectile.png"),
         new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
         10, 5, 1, BulletType.ENEMY);

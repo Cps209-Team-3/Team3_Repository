@@ -3,9 +3,9 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
 import model.*;
 import model.gameObjects.*;
 import java.util.ArrayList;
@@ -15,14 +15,21 @@ public class GameWindow {
     @FXML
     Pane pane;
 
-    private final KeyFrame keyFrame = new KeyFrame(Duration.seconds(1 / 60), e -> gameLoop());
+    private final KeyFrame keyFrame = new KeyFrame(Duration.millis(16.67), e -> gameLoop());
     private final Timeline clock = new Timeline(keyFrame);
 
     private ArrayList<GameObject> objects = World.instance().getListOfEntities();
     private ArrayList<ImageView> images = new ArrayList<>(); // store images so instead of re-creating every frame we
                                                              // adjust their positions.
 
+    void initialize() {
+        run();
+    }
+
     public void run() {
+        ImageView img = new ImageView();
+        img.setImage(new Image("/Images/map.png"));
+        pane.getChildren().add(img);
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();
     }
@@ -50,6 +57,7 @@ public class GameWindow {
                 img.setRotate(object.getDirection());
 
                 img.setImage(object.getImage());
+                img.setVisible(true);
                 pane.getChildren().add(img);
             }
         }
@@ -65,6 +73,7 @@ public class GameWindow {
                 img.setRotate(object.getDirection());
 
                 img.setImage(object.getImage());
+                img.setVisible(true);
                 pane.getChildren().add(img);
             }
         }
