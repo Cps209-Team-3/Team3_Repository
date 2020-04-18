@@ -74,7 +74,8 @@ public class MainWindow {
     HighScores scoreList = HighScores.scoreList();
 
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() throws Exception {
+        // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
@@ -102,7 +103,6 @@ public class MainWindow {
                 try {
                     onButtonClicked(e);
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             });
@@ -115,7 +115,6 @@ public class MainWindow {
             try {
                 onButtonClicked(e);
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
@@ -123,18 +122,13 @@ public class MainWindow {
             try {
                 onButtonClicked(e);
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
         rightBtn.setOnAction(e -> {
             try {
                 onButtonClicked(e);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
@@ -194,6 +188,7 @@ public class MainWindow {
                         lbl.setStyle("-fx-font-size: 24pt;");
                         MidVbox.getChildren().add(lbl);
                     }
+                    
                 }
 
                 break;
@@ -289,7 +284,6 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
-                    scoreList.load();
                     imgView.setImage(LOGO_IMG);
                     lbl.setText("Welcome!");
                     lbl.setStyle("-fx-font-size: 28pt;");
