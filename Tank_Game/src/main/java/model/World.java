@@ -19,6 +19,7 @@ public class World {
     Difficulty difficulty;
     Player playerTank;
     boolean cheatMode = false;
+    int cycleCount;
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
 
@@ -36,13 +37,13 @@ public class World {
     }
 
     public World() {
+        height = 900;
+        width = 1400;
+        score = -20;
+        currentWave = 0;
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new ArrayList<>());
-            listOfEntities.add(playerTank);
-        try {
-            String lol = "what";
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        listOfEntities.add(playerTank);
+        
     }
 
     /**
@@ -92,7 +93,7 @@ public class World {
 
     // Main game loop to run every frame
     public void gameLoop() {
-        System.out.println("hi");
+        cycleCount += 1;
         boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
@@ -102,20 +103,21 @@ public class World {
                     }
                     Enemy tank = (Enemy) object;
                     tank.move();
+                    if (cycleCount > 59) {
+                        tank.changeState();
+                    }
                 }
             } else if (object instanceof Bullet) {
                 Bullet bullet = (Bullet) object;
                 bullet.move();
             }
         }
+        if (cycleCount > 59) {
+            cycleCount = 0;
+        }
         if (waveComplete) {
             onWaveEnd();
         }
-    }
-
-    // Spawn a new wave
-    public void spawnWave() {
-        // TODO: possibly remove this?
     }
 
     /**
@@ -158,7 +160,6 @@ public class World {
         listOfEntities.clear();
         listOfEntities.add(playerTank);
         createWave();
-        spawnWave();
     }
 
     /**
