@@ -76,7 +76,7 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
-        scoreList.load();
+        // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
