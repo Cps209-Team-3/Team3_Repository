@@ -1,5 +1,6 @@
 package model;
 
+import java.io.*;
 import java.util.*;
 
 public class HighScores {
@@ -34,11 +35,17 @@ public class HighScores {
      * @throws Exception
      */
     public void save() throws Exception {
-        // String file = "highScores.txt";
-        // FileWriter writer = new FileWriter(file);
-        // for (PlayerData highScore : highScores) {
+        try {
+        String file = "highScores.txt";
+        FileWriter writer = new FileWriter(file);
+        PrintWriter printer = new PrintWriter(writer);
+            for (PlayerData highScore : highScores) {
 
-        // }
+
+            }
+        } catch (IOException e) {
+            
+        }
     }
 
     /**

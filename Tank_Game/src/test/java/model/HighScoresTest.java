@@ -22,4 +22,9 @@ public class HighScoresTest {
         assertEquals("Michael", list.get(0).getName());
         assertEquals(35000, list.get(0).getHighScore(), 0);
     }
+
+    @Test
+    public void testHighScores_Save_Success() {
+        
+    }
 }

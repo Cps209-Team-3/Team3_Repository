@@ -32,11 +32,15 @@ public class MainWindow {
     @FXML
     Button thirdBtn = new Button("Help");
     @FXML
-    Button fourthBtn = new Button("About (Paid DLC: $500K or wait a week)");
+    Button fourthBtn = new Button("About (Paid DLC: $500K or wait a week)"); // REMOVE () FOR BETA!!!
     @FXML
     Button fifthBtn = new Button("High Scores");
     @FXML
     Button backBtn = new Button("<- Back");
+    @FXML
+    Button leftBtn = new Button("<-");
+    @FXML
+    Button rightBtn = new Button("->");
 
     // @FXML
     // Image logo = new Image();
@@ -49,12 +53,14 @@ public class MainWindow {
 
     @FXML
     ImageView imgView = new ImageView();
+    @FXML
+    ImageView slidePic = new ImageView();
 
     ArrayList<Button> btns = new ArrayList<Button>();
 
     Screen screen = Screen.TITLE;
 
-    HelpSlide slide = HelpSlide.Controls;
+    HelpSlide slide = HelpSlide.CONTROLS;
 
     @FXML
     public void initialize() {
@@ -66,6 +72,7 @@ public class MainWindow {
         MidVbox.setPrefWidth(1200);
         MidVbox.setAlignment(Pos.CENTER);
         MidVbox.getChildren().add(imgView);
+        lbl.setStyle("-fx-font-size: 28pt;");
         MidVbox.getChildren().add(lbl);
 
         MainHbox.getChildren().add(RightVbox);
@@ -85,6 +92,11 @@ public class MainWindow {
             btn.setStyle("-fx-font-size: 20pt;");
             MidVbox.getChildren().add(btn);
         }
+        backBtn.setOnAction(e -> onButtonClicked(e));
+        leftBtn.setOnAction(e -> onButtonClicked(e));
+        rightBtn.setOnAction(e -> onButtonClicked(e));
+
+        fourthBtn.setStyle("-fx-font-size: 10pt;"); // REMOVE FOR BETA!!!
     }
 
     @FXML
@@ -101,6 +113,8 @@ public class MainWindow {
                     btns.get(1).setText("Medium");
                     btns.get(2).setText("Hard");
                     MidVbox.getChildren().removeAll(btns.get(3), btns.get(4));
+                    BHbox.getChildren().add(backBtn);
+
                 }
 
                 if (btnClicked.getText().equals("Load Game")) {
@@ -109,9 +123,17 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("Help")) {
                     screen = Screen.HELP;
-                    MidVbox.getChildren().removeAll();
+                    MidVbox.getChildren().remove(imgView);
+                    MidVbox.getChildren().remove(lbl);
+                    MidVbox.getChildren().removeAll(btns);
+                    MidVbox.getChildren().add(slidePic);
+                    LeftVbox.getChildren().add(leftBtn);
+                    RightVbox.getChildren().add(rightBtn);
 
+                    // switch (slide) {
+                    // case CONTROLS :
 
+                    // }
                 }
 
                 if (btnClicked.getText().equals("About (Paid DLC: $500K or wait a week)")) {
@@ -120,6 +142,7 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
+                    
                 }
 
                 // case DIFF :

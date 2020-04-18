@@ -3,6 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox fx:id="MainHbox" fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="MainWindow.css"
-    spacing="10" prefHeight="850" prefWidth="1550"/>
-<HBox fx:id="BHbox" prefHeight="100" prefWidth="1550" alignment="LEFT"/>
+<HBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="MainWindow.css"
+    spacing="10" prefHeight="910" prefWidth="1450">
+    <VBox>
+        <HBox fx:id="MainHbox" spacing="10" prefHeight="800"/>
+        <HBox fx:id="BHbox" spacing="10" prefHeight="100" alignment="BASELINE_LEFT"/>
+    </VBox>
+
+</HBox>
