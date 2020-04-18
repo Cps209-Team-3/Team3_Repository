@@ -95,6 +95,7 @@ public class World {
     public void gameLoop() {
         cycleCount += 1;
         boolean waveComplete = true;
+        ArrayList<Enemy> enemies = new ArrayList<>();
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
                 if (object instanceof Enemy) {
@@ -102,8 +103,8 @@ public class World {
                         waveComplete = false;
                     }
                     Enemy tank = (Enemy) object;
-                    tank.move();
-                    if (cycleCount > 59) {
+                    enemies.add(tank);
+                    if (cycleCount > 29) {
                         tank.changeState();
                     }
                 }
@@ -112,7 +113,10 @@ public class World {
                 bullet.move();
             }
         }
-        if (cycleCount > 59) {
+        for (Enemy enemy : enemies) {
+            enemy.move();
+        }
+        if (cycleCount > 29) {
             cycleCount = 0;
         }
         if (waveComplete) {
@@ -127,7 +131,7 @@ public class World {
      */
     public void handleInput(char inp) {
         if (inp == '%') {
-            playerTank.fire();
+            addObject(playerTank.fire());
         } else {
             playerTank.move(inp);
         }
