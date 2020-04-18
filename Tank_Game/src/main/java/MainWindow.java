@@ -172,52 +172,6 @@ public class MainWindow {
                     LeftVbox.getChildren().add(leftBtn);
                     RightVbox.getChildren().add(rightBtn);
                     BHbox.getChildren().add(backBtn);
-
-                    switch (slide) {
-                        case CONTROLS:
-                            if (btnClicked.getText().equals("<-")) {
-                                slide = HelpSlide.SCORING;
-                                imgView.setImage(SCORING_IMG);
-                            }
-                            if (btnClicked.getText().equals("->")) {
-                                slide = HelpSlide.ENEMIES;
-                                imgView.setImage(ETANK_IMG);
-                            }
-                            break;
-                        case ENEMIES:
-                            if (btnClicked.getText().equals("<-")) {
-                                slide = HelpSlide.CONTROLS;
-                                imgView.setImage(PTANK_IMG);
-                            }
-                            if (btnClicked.getText().equals("->")) {
-                                slide = HelpSlide.POWERUPS;
-                                lbl.setText("Not yet Available");
-                                imgView.setImage(PUP_IMG);
-                            }
-                            break;
-                        case POWERUPS:
-                            if (btnClicked.getText().equals("<-")) {
-                                slide = HelpSlide.ENEMIES;
-                                imgView.setImage(ETANK_IMG);
-                            }
-                            if (btnClicked.getText().equals("->")) {
-                                slide = HelpSlide.SCORING;
-                                lbl.setText("");
-                                imgView.setImage(SCORING_IMG);
-                            }
-                            break;
-                        case SCORING:
-                            if (btnClicked.getText().equals("<-")) {
-                                slide = HelpSlide.POWERUPS;
-                                lbl.setText("Not yet Available");
-                                imgView.setImage(PUP_IMG);
-                            }
-                            if (btnClicked.getText().equals("->")) {
-                                slide = HelpSlide.CONTROLS;
-                                imgView.setImage(SCORING_IMG);
-                            }
-                            break;
-                    }
                 }
 
                 if (btnClicked.getText().equals("About (Paid DLC: $500K or wait a week)")) {
@@ -276,6 +230,52 @@ public class MainWindow {
                     LeftVbox.getChildren().remove(leftBtn);
                     RightVbox.getChildren().remove(rightBtn);
                     BHbox.getChildren().remove(backBtn);
+                }
+
+                switch (slide) {
+                    case CONTROLS:
+                        if (btnClicked.getText().equals("<-")) {
+                            slide = HelpSlide.SCORING;
+                            imgView.setImage(SCORING_IMG);
+                        }
+                        if (btnClicked.getText().equals("->")) {
+                            slide = HelpSlide.ENEMIES;
+                            imgView.setImage(ETANK_IMG);
+                        }
+                        break;
+                    case ENEMIES:
+                        if (btnClicked.getText().equals("<-")) {
+                            slide = HelpSlide.CONTROLS;
+                            imgView.setImage(PTANK_IMG);
+                        }
+                        if (btnClicked.getText().equals("->")) {
+                            slide = HelpSlide.POWERUPS;
+                            lbl.setText("Not yet Available");
+                            imgView.setImage(PUP_IMG);
+                        }
+                        break;
+                    case POWERUPS:
+                        if (btnClicked.getText().equals("<-")) {
+                            slide = HelpSlide.ENEMIES;
+                            imgView.setImage(ETANK_IMG);
+                        }
+                        if (btnClicked.getText().equals("->")) {
+                            slide = HelpSlide.SCORING;
+                            lbl.setText("");
+                            imgView.setImage(SCORING_IMG);
+                        }
+                        break;
+                    case SCORING:
+                        if (btnClicked.getText().equals("<-")) {
+                            slide = HelpSlide.POWERUPS;
+                            lbl.setText("Not yet Available");
+                            imgView.setImage(PUP_IMG);
+                        }
+                        if (btnClicked.getText().equals("->")) {
+                            slide = HelpSlide.CONTROLS;
+                            imgView.setImage(SCORING_IMG);
+                        }
+                        break;
                 }
 
                 break;
