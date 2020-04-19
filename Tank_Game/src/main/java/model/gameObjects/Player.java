@@ -26,8 +26,8 @@ public class Player extends Tank {
         image = new Image(getClass().getResource("/Images/greentankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
-        this.height = height;
-        this.width = width;
+        this.height = (int) (image.getHeight() + 0.5);
+        this.width = (int) (image.getWidth() + 0.5);
         this.health = health;
         this.speed = speed;
         this.turretDirection = turretDirection;

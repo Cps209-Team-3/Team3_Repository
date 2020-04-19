@@ -29,8 +29,8 @@ public class Enemy extends Tank {
         image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
-        this.height = height;
-        this.width = width;
+        this.height = (int) (image.getHeight() + 0.5);
+        this.width = (int) (image.getWidth() + 0.5);
         this.health = health;
         this.speed = speed;
         this.turretDirection = turretDirection;
@@ -52,8 +52,8 @@ public class Enemy extends Tank {
             image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
             position = new Point(random.nextInt(1400), random.nextInt(900));
             direction = random.nextInt(360);
-            height = 50; // TODO: adjust size
-            width = 20;
+            height = (int) (image.getHeight() + 0.5);
+            width = (int) (image.getWidth() + 0.5);
             health = 1;
             speed = random.nextInt(10) + 1;
             turretDirection = direction;

@@ -192,6 +192,7 @@ public class MainWindow {
                 }
 
                 if (btnClicked.getText().equals("Easy")) {
+                    World.reset();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     Stage gameWindow = new Stage();
