@@ -20,7 +20,7 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
   * Collisions between tanks gives inconsistent results, resulting in tanks getting stuck on occasion
   * Cannon is not implemented.
 * Recording: 
-  * A link to your screen recording.
+  * [Alpha Build](https://www.youtube.com/watch?v=HLsGVoCF8H4&feature=youtu.be)
 * Expenses:    
 
 Name | Time Spent | Time Remaining | Link to Journal
