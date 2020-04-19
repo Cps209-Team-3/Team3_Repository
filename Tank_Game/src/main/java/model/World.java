@@ -94,14 +94,16 @@ public class World {
     // Main game loop to run every frame
     public void gameLoop() {
         cycleCount += 1;
-        boolean waveComplete = true;
         ArrayList<Enemy> enemies = new ArrayList<>();
+        //playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
+        boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
                 if (object instanceof Enemy) {
                     if (waveComplete) {
                         waveComplete = false;
                     }
+
                     Enemy tank = (Enemy) object;
                     enemies.add(tank);
                     if (cycleCount > 29) {
@@ -131,7 +133,7 @@ public class World {
      */
     public void handleInput(char inp) {
         if (inp == '%') {
-            addObject(playerTank.fire());
+            World.instance().addObject(playerTank.fire());
         } else {
             playerTank.move(inp);
         }

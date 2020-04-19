@@ -41,8 +41,8 @@ public class Bullet extends GameObject {
 
     // moves the bullet in the direction of 'direction', by the amount of 'speed'.
     public void move() {
-        double newY = speed * Math.sin(direction * Math.PI / 180);
-        double newX = speed * Math.cos(direction * Math.PI / 180);
+        double newX = speed * Math.sin(direction * Math.PI / 180);
+        double newY = -speed * Math.cos(direction * Math.PI / 180);
         position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
     }
 
