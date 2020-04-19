@@ -59,7 +59,7 @@ public class HighScores {
      * 
      * @throws Exception
      */
-    public void load() throws FileNotFoundException, Exception {
+    public void load() throws Exception {
         try (BufferedReader reader = new BufferedReader(new FileReader("highScores.txt"))) {
             String str;
             while ((str = reader.readLine()) != null) {
@@ -68,8 +68,6 @@ public class HighScores {
                 double score = Double.parseDouble(player.get(1));
                 highScores.add(new PlayerData(name, score));
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -46,22 +46,31 @@ public class Player extends Tank {
     // pastPositions
     public void move(char input) {
         switch (input) {
-            case 'W':
-                double newY = -speed * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
-                double newX = speed * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
-                position = new Point((int) (newX + 0.5), (int) (newY + 0.5));
+            case 'w':
+                double newX = speed * Math.sin(direction * Math.PI / 180);
+                double newY = -speed * Math.cos(direction * Math.PI / 180);
+                position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
                 break;
-            case 'A':
-                direction -= 2;
+            case 'a':
+                direction -= 4;
                 break;
-            case 'S':
-                double newY2 = speed * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
-                double newX2 = -speed * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
-                position = new Point((int) (newX2 + 0.5), (int) (newY2 + 0.5));
+            case 's':
+                double newX2 = -speed * Math.sin(direction * Math.PI / 180);
+                double newY2 = speed * Math.cos(direction * Math.PI / 180);
+                position = new Point((int) (newX2 + position.getX()), (int) (newY2 + position.getY()));
                 break;
-            case 'D':
-                direction -= 2;
+            case 'd':
+                direction += 4;
                 break;
+        }
+        if(position.getX() > 1330) {
+            position.setLocation(1330.0, position.getY());
+        } else if (position.getX() < 30) {
+            position.setLocation(30, position.getY());
+        } else if (position.getY() < -400) {
+            position.setLocation(position.getX(), -400);
+        } else if (position.getY() > 320) {
+            position.setLocation(position.getX(), 320);
         }
 
     }
