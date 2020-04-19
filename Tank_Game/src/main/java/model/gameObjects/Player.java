@@ -23,7 +23,7 @@ public class Player extends Tank {
      * @param pastPositions
      */
     public Player(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
-            int reloadTime, int reloadStatus, ArrayList<Point> pastPositions) {
+            int reloadTime, int reloadStatus, Point lastPosition) {
         image = new Image(getClass().getResource("/Images/greentankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
@@ -34,9 +34,8 @@ public class Player extends Tank {
         this.turretDirection = turretDirection;
         this.reloadTime = reloadTime;
         this.reloadStatus = reloadStatus;
-        this.pastPositions = pastPositions;
+        this.lastPosition = lastPosition;
     }
-
     // Initializes a new Player.
     public Player() {
         image = new Image("/Images/greentankv1wider.gif");

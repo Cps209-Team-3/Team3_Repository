@@ -1,7 +1,8 @@
 package model.gameObjects;
 
 import java.awt.Point;
-import java.util.ArrayList;
+
+import model.World;
 
 public abstract class Tank extends GameObject { 
     // TODO: WILL HEIGHT AND WIDTH BE THE SAME FOR ALL TANKS?
@@ -11,10 +12,10 @@ public abstract class Tank extends GameObject {
     int reloadTime;
     int reloadStatus;
 
-    ArrayList<Point> pastPositions = new ArrayList<>(); // track previous position for collision handling
+    Point lastPosition; // track previous position for collision handling
 
     public void onDeath() {
-        // TODO: on player death
+        World.instance().removeObject(this);
     }
 
     // Creates a new bullet travelling in the direction of turretDirection
@@ -28,13 +29,11 @@ public abstract class Tank extends GameObject {
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Tank) {
-            this.position = pastPositions.get(pastPositions.size() - 1);
-            pastPositions.remove(pastPositions.size() - 1);
+            this.position = lastPosition;
             // TODO: Use current position to calculate mid-point, so both tanks don't jump
             // back too far.
         } else if (object instanceof Wall) {
-            this.position = pastPositions.get(pastPositions.size() - 1);
-            pastPositions.remove(pastPositions.size() - 1);
+            this.position = lastPosition;
         }
     }
 
@@ -62,11 +61,11 @@ public abstract class Tank extends GameObject {
         this.turretDirection = turretDirection;
     }
 
-    public ArrayList<Point> getPastPositions() {
-        return pastPositions;
+    public Point getLastPosition() {
+        return lastPosition;
     }
 
-    public void setPastPositions(ArrayList<Point> pastPositions) {
-        this.pastPositions = pastPositions;
+    public void setLastPosition(Point lastPosition) {
+        this.lastPosition = lastPosition;
     }
 }

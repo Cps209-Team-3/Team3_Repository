@@ -40,10 +40,9 @@ public class World {
         height = 900;
         width = 1400;
         score = -20;
-        currentWave = 0;
-        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new ArrayList<>());
+        currentWave = 3;
+        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         listOfEntities.add(playerTank);
-        
     }
 
     /**
@@ -121,6 +120,7 @@ public class World {
         if (cycleCount > 29) {
             cycleCount = 0;
         }
+        detectAnyCollisions();
         if (waveComplete) {
             onWaveEnd();
         }
@@ -196,10 +196,12 @@ public class World {
     public void detectAnyCollisions() {
         ArrayList<GameObject> handledObjects = new ArrayList<>();
         for (GameObject object : listOfEntities) { // Run through all objects
-            handledObjects.add(object);
+            // handledObjects.add(object);
             for (GameObject object2 : listOfEntities) { // Test current object with all other objects
-                if (!handledObjects.contains(object)) {
+                if (object.equals(object2)) {
+                    System.out.println("testing..." + object2 + " " + object);
                     if (isCollision(object, object2)) {
+                        System.out.println("found collision!");
                         handleCollision(object, object2);
                     }
                 }

@@ -3,7 +3,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.World;
 
 
 
@@ -17,6 +16,4 @@ public class GUIApplication extends Application {
         stage.setTitle("Tank Attack Arena"); // Title of main window
         stage.show();
     }
-
-
 }

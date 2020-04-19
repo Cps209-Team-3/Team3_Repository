@@ -1,5 +1,6 @@
 package model.gameObjects;
 
+import model.World;
 import model.enums.BulletType;
 import javafx.scene.image.Image;
 import java.awt.Point;
@@ -87,9 +88,10 @@ public class Bullet extends GameObject {
             if (tank.health <= 0) {
                 tank.onDeath();
             }
+            World.instance().removeObject(this);
         } else if (object instanceof Wall || object instanceof Bullet) {
             // Run explosion animation
-            // Delete itself (this)
+            World.instance().removeObject(this);
         }
     }
 
