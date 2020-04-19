@@ -8,7 +8,7 @@ S: Move backward from the direction the tank is pointing
 A: Rotate left (counter-clockwise)   
 D: Rotate right (clockwise)  
 Mouse: Cannon aims towards where the cursor is positioned on the game screen   
-Right-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked  
+Left-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked  
 
 * Work Completed: 
   * Serialize/Deserialize methods written
@@ -16,14 +16,17 @@ Right-Click: Cannon fires a bullet towards the postition of the cursor at the ti
   * Movement of all game objects and collision of tanks
 * Known Issues: 
   * Bullets do not collide with anything.
+  * Bullets only fire in one direction.
+  * Collisions between tanks gives inconsistent results, resulting in tanks getting stuck on occasion
+  * Cannon is not implemented.
 * Recording: 
-  * A link to your screen recording.
+  * [Alpha Build](https://www.youtube.com/watch?v=HLsGVoCF8H4&feature=youtu.be)
 * Expenses:    
 
 Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
 Disler, David | 15.5 Hours | 44.5 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
 James, Andrew | 19.8 | 40.2 | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
-Pennington, Austin | | | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
-Swain, Brandon | 23 hours 42 minutes | 36 hours 18 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
+Pennington, Austin | 17H 21M | 43H 39M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
+Swain, Brandon | 24 hours 2 minutes | 35 hours 58 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
 
