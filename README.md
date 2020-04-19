@@ -11,7 +11,8 @@ Mouse: Cannon aims towards where the cursor is positioned on the game screen
 Right-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked  
 
 * Work Completed: 
-  * List work completed.
+  * Serialize/Deserialize methods written
+  * Load/Save methods written with unit tests
 * Known Issues: 
   * List any major issues.
 * Recording: 
@@ -21,7 +22,7 @@ Right-Click: Cannon fires a bullet towards the postition of the cursor at the ti
 Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
 Disler, David | 15.5 Hours | 44.5 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
-James, Andrew | | | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
+James, Andrew | 19.8 | 40.2 | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
 Pennington, Austin | | | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
 Swain, Brandon | 22 hours 42 minutes | 37 hours 18 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
 

@@ -26,7 +26,7 @@ public class Enemy extends Tank {
      * @param pastPositions
      */
     public Enemy(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
-            int reloadTime, int reloadStatus, ArrayList<Point> pastPositions, EnemyState state) {
+            int reloadTime, int reloadStatus, Point lastPosition, EnemyState state) {
         image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
@@ -37,7 +37,7 @@ public class Enemy extends Tank {
         this.turretDirection = turretDirection;
         this.reloadTime = reloadTime;
         this.reloadStatus = reloadStatus;
-        this.pastPositions = pastPositions;
+        this.lastPosition = lastPosition;
         this.state = state;
     }
 
@@ -59,6 +59,7 @@ public class Enemy extends Tank {
             speed = random.nextInt(10) + 1;
             turretDirection = direction;
             state = EnemyState.PAUSE;
+            lastPosition = position;
         }
     }
 
@@ -106,41 +107,47 @@ public class Enemy extends Tank {
     }
 
     public void move() {
-        Point playerPosition;
-        double dx;
-        double dy;
-        double dist;
+        Point playerPosition = findPlayer();
+        double dx = playerPosition.getX() - position.getX();
+        double dy = playerPosition.getY() - position.getY();
+        double dist = Math.hypot(dx, dy);
+        dx = dx / dist;
+        dy = dy / dist;
         int x;
         int y;
+        boolean noCollision = true;
         switch (state) {
             case CHARGE:
                 // move toward player
-                playerPosition = findPlayer();
-                dx = playerPosition.getX() - position.getX();
-                dy = playerPosition.getY() - position.getY();
-                
-                dist = Math.hypot(dx, dy);
-
-                dx = dx / dist;
-                dy = dy / dist;
-
                 x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
-                position = new Point(x, y);
+                for (GameObject object : World.instance().getListOfEntities()) {
+                    if (World.instance().isCollision(this, object) && this != object) {
+                        noCollision = false;
+                    }
+                }
+                if (noCollision) {
+                    lastPosition = position;
+                    position = new Point(x, y);
+                } else {
+                    position = lastPosition;
+                } 
                 break;
             case FLEE:
                 // move away from player
-                playerPosition = findPlayer();
-                dx = playerPosition.getX() - position.getX();
-                dy = playerPosition.getY() - position.getY();
-                dist = Math.hypot(dx, dy);
-
-                dx = dx / dist;
-                dy = dy / dist;
-
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
-                position = new Point(x, y);                
+                for (GameObject object : World.instance().getListOfEntities()) {
+                    if (World.instance().isCollision(this, object) && this != object) {
+                        noCollision = false;
+                    }
+                }
+                if (noCollision) {
+                    lastPosition = position;
+                    position = new Point(x, y);
+                } else {
+                    position = lastPosition;
+                }               
                 break;
             case PAUSE:
                 World.instance().addObject(fire());

@@ -20,6 +20,7 @@ public class GameWindow {
 
     @FXML
     Pane pane;
+    
     @FXML
     Pane background;
 
@@ -48,7 +49,7 @@ public class GameWindow {
          
     }*/
 
-    void initialize(Scene scene) {                
+    void initialize() {                
         pane.setFocusTraversable(true);
         pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -78,41 +79,35 @@ public class GameWindow {
         pane.getChildren().clear();
         clock.setCycleCount(Timeline.INDEFINITE);
         // get inputs somewhere around here
-        for (GameObject object : objects) {
-            // had idea to move images instead of re-creating every frame, currently
-            // unimplemented.
-            if (object instanceof Tank || object instanceof Bullet) {
-                ImageView image = new ImageView();
+        for (int i = 0; i < objects.size(); ++i) {
+            GameObject object = objects.get(i);
+            if (images.size() != objects.size()) {
+                images.clear();
+                pane.getChildren().clear();
+                // ImageView img = new ImageView();
+                //     img.setImage(new Image("/Images/map.png"));
+                //     pane.getChildren().add(img);
+                for (GameObject obj : objects) {
+                    ImageView img = new ImageView();
 
-                image.setX(object.getPosition().getX());
-                image.setY(object.getPosition().getY());
+                    img.setX(obj.getPosition().getX());
+                    img.setY(obj.getPosition().getY());
 
-                //img.setFitHeight(object.getHeight());
-                //img.setFitWidth(object.getWidth());
-                image.setPreserveRatio(true);
-                image.setRotate(object.getDirection());
+                    img.setPreserveRatio(true);
+                    img.setRotate(obj.getDirection());
 
-                image.setImage(object.getImage());
-                image.setVisible(true);
-                pane.getChildren().add(image);
-            }
-        }
-        for (GameObject object : objects) {
-            if (object instanceof Wall) {
-                ImageView image = new ImageView();
+                    img.setImage(obj.getImage());
+                    img.setVisible(true);
+                    pane.getChildren().add(img);
+                }
+            } else {
+                ImageView img = images.get(i);
 
-                image.setX(object.getPosition().getX());
-                image.setY(object.getPosition().getY());
+                img.setX(object.getPosition().getX());
+                img.setY(object.getPosition().getY());
 
-                //img.setFitHeight(object.getHeight());
-                //img.setFitWidth(object.getWidth());
-                image.setPreserveRatio(true);
-                image.setRotate(object.getDirection());
-                
-
-                image.setImage(object.getImage());
-                image.setVisible(true);
-                pane.getChildren().add(image);
+                img.setRotate(object.getDirection());
+                pane.getChildren().add(img);
             }
         }
     }

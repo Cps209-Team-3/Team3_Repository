@@ -27,7 +27,7 @@ public class GameObjectsTest {
     @Test
     public void testPlayer_move_onDeath_success() {
         World.instance().getListOfEntities().clear();
-        Player playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new ArrayList<>());
+        Player playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         assertEquals(10, playerTank.getSpeed());
         assertEquals(90, playerTank.getDirection());
         playerTank.move('W');
@@ -39,7 +39,7 @@ public class GameObjectsTest {
 
     @Test
     public void testEnemy_Fire_ChangeState_success() {
-        Enemy enemy = new Enemy(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new ArrayList<>(), EnemyState.PAUSE);
+        Enemy enemy = new Enemy(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60), EnemyState.PAUSE);
         Bullet bullet = enemy.fire();
         assertEquals(BulletType.ENEMY, bullet.getType());
         assertEquals(new Point(62, 94), bullet.getPosition());

@@ -2,6 +2,7 @@ package model.gameObjects;
 
 import java.awt.Point;
 import javafx.scene.image.Image;
+import model.World;
 import model.enums.BulletType;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Player extends Tank {
      * @param pastPositions
      */
     public Player(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
-            int reloadTime, int reloadStatus, ArrayList<Point> pastPositions) {
+            int reloadTime, int reloadStatus, Point lastPosition) {
         image = new Image(getClass().getResource("/Images/greentankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
@@ -34,7 +35,7 @@ public class Player extends Tank {
         this.turretDirection = turretDirection;
         this.reloadTime = reloadTime;
         this.reloadStatus = reloadStatus;
-        this.pastPositions = pastPositions;
+        this.lastPosition = lastPosition;
     }
 
     // Initializes a new Player.
@@ -45,11 +46,22 @@ public class Player extends Tank {
     // Moves tank in the direction of 'input' and saves last position to
     // pastPositions
     public void move(char input) {
+        boolean noCollision = true;
         switch (input) {
             case 'w':
                 double newX = speed * Math.sin(direction * Math.PI / 180);
                 double newY = -speed * Math.cos(direction * Math.PI / 180);
-                position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
+                for (GameObject object : World.instance().getListOfEntities()) {
+                    if (World.instance().isCollision(this, object) && this != object) {
+                        noCollision = false;
+                    }
+                }
+                if (noCollision) {
+                    lastPosition = position;
+                    position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
+                } else {
+                    position = lastPosition;
+                }
                 break;
             case 'a':
                 direction -= 4;
@@ -57,13 +69,23 @@ public class Player extends Tank {
             case 's':
                 double newX2 = -speed * Math.sin(direction * Math.PI / 180);
                 double newY2 = speed * Math.cos(direction * Math.PI / 180);
-                position = new Point((int) (newX2 + position.getX()), (int) (newY2 + position.getY()));
+                for (GameObject object : World.instance().getListOfEntities()) {
+                    if (World.instance().isCollision(this, object) && this != object) {
+                        noCollision = false;
+                    }
+                }
+                if (noCollision) {
+                    lastPosition = position;
+                    position = new Point((int) (newX2 + position.getX()), (int) (newY2 + position.getY()));
+                } else {
+                    position = lastPosition;
+                }
                 break;
             case 'd':
                 direction += 4;
                 break;
         }
-        if(position.getX() > 1330) {
+        if (position.getX() > 1330) {
             position.setLocation(1330.0, position.getY());
         } else if (position.getX() < 30) {
             position.setLocation(30, position.getY());

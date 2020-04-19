@@ -192,6 +192,21 @@ public class MainWindow {
                     
                 }
 
+                if (btnClicked.getText().equals("Easy")) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+
+                    Stage gameWindow = new Stage();
+                    try {
+                        gameWindow.setScene(new Scene(loader.load()));
+                    } catch (Exception f) {
+
+                    }
+                    GameWindow window = loader.getController();
+                    window.initialize();
+
+                    gameWindow.show();
+                }
+
                 break;
 
             case DIFF:
