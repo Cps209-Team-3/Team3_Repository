@@ -11,7 +11,8 @@ Mouse: Cannon aims towards where the cursor is positioned on the game screen
 Right-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked  
 
 * Work Completed: 
-  * List work completed.
+  * Serialize/Deserialize methods written
+  * Load/Save methods written with unit tests
 * Known Issues: 
   * List any major issues.
 * Recording: 
