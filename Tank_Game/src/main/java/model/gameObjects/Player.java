@@ -23,7 +23,7 @@ public class Player extends Tank {
      * @param pastPositions
      */
     public Player(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
-            int reloadTime, int reloadStatus, ArrayList<Point> pastPositions) {
+            int reloadTime, int reloadStatus, Point lastPosition) {
         image = new Image(getClass().getResource("/Images/greentankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
@@ -34,9 +34,8 @@ public class Player extends Tank {
         this.turretDirection = turretDirection;
         this.reloadTime = reloadTime;
         this.reloadStatus = reloadStatus;
-        this.pastPositions = pastPositions;
+        this.lastPosition = lastPosition;
     }
-
     // Initializes a new Player.
     public Player() {
         image = new Image("/Images/greentankv1wider.gif");
@@ -49,14 +48,16 @@ public class Player extends Tank {
             case 'W':
                 double newY = -speed * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
                 double newX = speed * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
+                lastPosition = position;
                 position = new Point((int) (newX + 0.5), (int) (newY + 0.5));
                 break;
             case 'A':
-                direction -= 2;
+                direction += 2;
                 break;
             case 'S':
                 double newY2 = speed * Math.sin(Math.toRadians(-(direction) + 90)) + position.getY();
                 double newX2 = -speed * Math.cos(Math.toRadians(-(direction) + 90)) + position.getX();
+                lastPosition = position;
                 position = new Point((int) (newX2 + 0.5), (int) (newY2 + 0.5));
                 break;
             case 'D':

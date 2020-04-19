@@ -26,7 +26,7 @@ public class Enemy extends Tank {
      * @param pastPositions
      */
     public Enemy(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
-            int reloadTime, int reloadStatus, ArrayList<Point> pastPositions, EnemyState state) {
+            int reloadTime, int reloadStatus, Point lastPosition, EnemyState state) {
         image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
         this.position = position;
         this.direction = direction;
@@ -37,7 +37,7 @@ public class Enemy extends Tank {
         this.turretDirection = turretDirection;
         this.reloadTime = reloadTime;
         this.reloadStatus = reloadStatus;
-        this.pastPositions = pastPositions;
+        this.lastPosition = lastPosition;
         this.state = state;
     }
 
@@ -102,7 +102,8 @@ public class Enemy extends Tank {
     }
 
     public void move() {
-        Point playerPosition = findPlayer();;
+        Point playerPosition = findPlayer();
+        System.out.println(playerPosition + " " + position);
         double dx = playerPosition.getX() - position.getX();
         double dy = playerPosition.getY() - position.getY();
         double dist = Math.hypot(dx, dy);

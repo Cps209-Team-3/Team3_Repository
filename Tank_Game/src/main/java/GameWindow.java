@@ -47,18 +47,17 @@ public class GameWindow {
             GameObject object = objects.get(i);
             if (images.size() != objects.size()) {
                 images.clear();
+                pane.getChildren().clear();
+                // ImageView img = new ImageView();
+                //     img.setImage(new Image("/Images/map.png"));
+                //     pane.getChildren().add(img);
                 for (GameObject obj : objects) {
-                    pane.getChildren().clear();
                     ImageView img = new ImageView();
-                    img.setImage(new Image("/Images/map.png"));
-                    pane.getChildren().add(img);
-                    img = new ImageView();
 
                     img.setX(obj.getPosition().getX());
                     img.setY(obj.getPosition().getY());
 
-                    img.setFitHeight(obj.getHeight());
-                    img.setFitWidth(obj.getWidth());
+                    img.setPreserveRatio(true);
                     img.setRotate(obj.getDirection());
 
                     img.setImage(obj.getImage());

@@ -45,7 +45,7 @@ public class WorldTest {
         world.setScore(4);
         world.setCurrentWave(5);
         Wall wall = new Wall(new Point(1,2), 3, 4, 5);
-        Player playerTank = new Player(new Point(1,2), 3,4,5,6,7,8,9,10,new ArrayList<Point>());
+        Player playerTank = new Player(new Point(1,2), 3,4,5,6,7,8,9,10, new Point(1, 2));
         Enemy enemyTank = new Enemy(true);
         Bullet bullet = new Bullet(new Image(getClass().getResource("/Images/projectile.png").toString()), new Point(1,2), 3,4,5,6,7,BulletType.ENEMY);
         world.addObject(wall);
