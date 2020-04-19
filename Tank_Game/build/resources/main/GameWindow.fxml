@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="GameWindow" xmlns:fx="http://javafx.com/fxml" prefHeight="900" prefWidth="1440">
+
+    <Pane fx:id="background" prefHeight="900" prefWidth="1440" />
+    <Pane fx:id="pane" prefHeight="900" prefWidth="1440" onMouseClicked="#onMouseClicked"
+        onMouseMoved="#onMouseMoved" />
+    
+
+</VBox>
