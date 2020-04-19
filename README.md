@@ -13,8 +13,9 @@ Right-Click: Cannon fires a bullet towards the postition of the cursor at the ti
 * Work Completed: 
   * Serialize/Deserialize methods written
   * Load/Save methods written with unit tests
+  * Movement of all game objects and collision of tanks
 * Known Issues: 
-  * List any major issues.
+  * Bullets do not collide with anything.
 * Recording: 
   * A link to your screen recording.
 * Expenses:    
