@@ -49,7 +49,7 @@ public class GameWindow {
          
     }*/
 
-    void initialize(Scene scene) {                
+    void initialize() {                
         pane.setFocusTraversable(true);
         pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
