@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 import java.awt.Point;
-import java.util.ArrayList;
 import javafx.scene.image.Image;
 
 import model.enums.BulletType;

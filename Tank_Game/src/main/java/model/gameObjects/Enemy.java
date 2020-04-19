@@ -6,7 +6,6 @@ import model.enums.EnemyState;
 
 import java.awt.Point;
 import javafx.scene.image.Image;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemy extends Tank {

@@ -5,8 +5,6 @@ import javafx.scene.image.Image;
 import model.World;
 import model.enums.BulletType;
 
-import java.util.ArrayList;
-
 public class Player extends Tank {
 
     /**

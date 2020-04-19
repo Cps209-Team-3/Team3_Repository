@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import model.enums.Difficulty;
 import model.gameObjects.*;
@@ -204,7 +206,7 @@ public class World {
         for (GameObject object : listOfEntities) { // Run through all objects
             // handledObjects.add(object);
             for (GameObject object2 : listOfEntities) { // Test current object with all other objects
-                if (object.equals(object2)) {
+                if (!object.equals(object2)) {
                     if (isCollision(object, object2)) {
                         ArrayList<GameObject> collided = new ArrayList<>();
                         collided.add(object);
@@ -227,11 +229,17 @@ public class World {
      * @return - true if object1 and object2 collide, false otherwise.
      */
     public boolean isCollision(GameObject object1, GameObject object2) {
-        if (object1.getPosition().getX() < object2.getPosition().getX() + object2.getWidth()
-                && object1.getPosition().getX() + object1.getWidth() > object2.getPosition().getX()
-                && object1.getPosition().getY() < object2.getPosition().getY() + object2.getHeight()
-                && object1.getPosition().getY() + object1.getHeight() > object2.getPosition().getY()) {
-            return true;
+
+        List<Double> positions = Arrays.asList(object1.getPosition().getX(),
+                object1.getPosition().getX() + object1.getWidth(), object1.getPosition().getY(),
+                object1.getPosition().getY() + object1.getHeight());
+
+        for (double dbl : positions) {
+            if (dbl >= object2.getPosition().getX() && dbl <= object2.getPosition().getX() + object2.getWidth()
+                    && dbl >= object2.getPosition().getY()
+                    && dbl <= object2.getPosition().getY() + object2.getHeight()) {
+                return true;
+            }
         }
         return false;
     }
