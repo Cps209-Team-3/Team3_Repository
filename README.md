@@ -8,7 +8,7 @@ S: Move backward from the direction the tank is pointing
 A: Rotate left (counter-clockwise)   
 D: Rotate right (clockwise)  
 Mouse: Cannon aims towards where the cursor is positioned on the game screen   
-Right-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked  
+Left-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked  
 
 * Work Completed: 
   * Serialize/Deserialize methods written
@@ -16,6 +16,9 @@ Right-Click: Cannon fires a bullet towards the postition of the cursor at the ti
   * Movement of all game objects and collision of tanks
 * Known Issues: 
   * Bullets do not collide with anything.
+  * Bullets only fire in one direction.
+  * Collisions between tanks gives inconsistent results, resulting in tanks getting stuck on occasion
+  * Cannon is not implemented.
 * Recording: 
   * A link to your screen recording.
 * Expenses:    
