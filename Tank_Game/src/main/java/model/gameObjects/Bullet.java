@@ -10,6 +10,7 @@ public class Bullet extends GameObject {
     int speed;
     int damageAmount;
     BulletType type;
+    int numMoves = 0;
 
     /**
      * Initializes a new Bullet using parameters.
@@ -42,9 +43,55 @@ public class Bullet extends GameObject {
 
     // moves the bullet in the direction of 'direction', by the amount of 'speed'.
     public void move() {
+        numMoves += 1;
         double newX = speed * Math.sin(direction * Math.PI / 180);
         double newY = -speed * Math.cos(direction * Math.PI / 180);
         position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
+        if (numMoves > 360) {
+            World.instance().removeObject(this);
+        }
+    }
+
+    @Override
+    public void onCollision(GameObject object) {
+        if (object instanceof Tank) {
+            if ((this.type == BulletType.PLAYER && object instanceof Player) || (this.type == BulletType.ENEMY && object instanceof Enemy)) {
+
+            } else {
+                Tank tank = (Tank) object;
+                tank.health -= damageAmount;
+                tank.onDeath();
+                World.instance().removeObject(this);
+            }
+
+        } else if (object instanceof Wall || object instanceof Bullet) {
+            // Run explosion animation
+            World.instance().removeObject(this);
+        }
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getDamageAmount() {
+        return damageAmount;
+    }
+
+    public void setDamageAmount(int damageAmount) {
+        this.damageAmount = damageAmount;
+    }
+
+    public BulletType getType() {
+        return type;
+    }
+
+    public void setType(BulletType type) {
+        this.type = type;
     }
 
     @Override
@@ -78,44 +125,5 @@ public class Bullet extends GameObject {
                 type = BulletType.ENEMY;
                 break;
         }
-    }
-
-    @Override
-    public void onCollision(GameObject object) {
-        if (object instanceof Tank) {
-            Tank tank = (Tank) object;
-            tank.health -= damageAmount;
-            if (tank.health <= 0) {
-                tank.onDeath();
-            }
-            World.instance().removeObject(this);
-        } else if (object instanceof Wall || object instanceof Bullet) {
-            // Run explosion animation
-            World.instance().removeObject(this);
-        }
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getDamageAmount() {
-        return damageAmount;
-    }
-
-    public void setDamageAmount(int damageAmount) {
-        this.damageAmount = damageAmount;
-    }
-
-    public BulletType getType() {
-        return type;
-    }
-
-    public void setType(BulletType type) {
-        this.type = type;
     }
 }

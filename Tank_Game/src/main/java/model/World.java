@@ -94,7 +94,8 @@ public class World {
     public void gameLoop() {
         cycleCount += 1;
         ArrayList<Enemy> enemies = new ArrayList<>();
-        //playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
+        ArrayList<Bullet> bullets = new ArrayList<>();
+        // playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
         boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
@@ -111,11 +112,14 @@ public class World {
                 }
             } else if (object instanceof Bullet) {
                 Bullet bullet = (Bullet) object;
-                bullet.move();
+                bullets.add(bullet);
             }
         }
         for (Enemy enemy : enemies) {
             enemy.move();
+        }
+        for (Bullet bullet : bullets) {
+            bullet.move();
         }
         if (cycleCount > 29) {
             cycleCount = 0;
@@ -176,36 +180,42 @@ public class World {
      * @param object2
      */
     public void handleCollision(GameObject object1, GameObject object2) {
-        if (object1 instanceof Bullet) {
-            object1.onCollision(object2);
-        } else if (object2 instanceof Bullet) {
-            object2.onCollision(object1);
-        } else if (object1 instanceof Tank) {
-            if (object2 instanceof Tank) {
-                // TODO: Remove random push-back priority
+        if (object1 != object2) {
+            if (object1 instanceof Bullet) {
+                object1.onCollision(object2);
+            } else if (object2 instanceof Bullet) {
+                object2.onCollision(object1);
+            } else if (object1 instanceof Tank) {
+                if (object2 instanceof Tank) {
+                    // TODO: Remove random push-back priority
+                }
+                object1.onCollision(object2);
+            } else if (object2 instanceof Tank) {
+                object2.onCollision(object1);
+            } else {
+                // Wall collided with Wall?
             }
-            object1.onCollision(object2);
-        } else if (object2 instanceof Tank) {
-            object2.onCollision(object1);
-        } else {
-            // Wall collided with Wall?
         }
     }
 
     // detects collision between any two objects within listOfEntities
     public void detectAnyCollisions() {
-        ArrayList<GameObject> handledObjects = new ArrayList<>();
+        ArrayList<ArrayList<GameObject>> objectsToHandle = new ArrayList<>();
         for (GameObject object : listOfEntities) { // Run through all objects
             // handledObjects.add(object);
             for (GameObject object2 : listOfEntities) { // Test current object with all other objects
                 if (object.equals(object2)) {
-                    System.out.println("testing..." + object2 + " " + object);
                     if (isCollision(object, object2)) {
-                        System.out.println("found collision!");
-                        handleCollision(object, object2);
+                        ArrayList<GameObject> collided = new ArrayList<>();
+                        collided.add(object);
+                        collided.add(object2);
+                        objectsToHandle.add(collided);
                     }
                 }
             }
+        }
+        for (ArrayList<GameObject> objects : objectsToHandle) {
+            handleCollision(objects.get(0), objects.get(1));
         }
     }
 

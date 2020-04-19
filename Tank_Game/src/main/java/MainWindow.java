@@ -47,17 +47,17 @@ public class MainWindow {
     Button rightBtn = new Button("->");
 
     @FXML
-    Image LOGO_IMG = new Image("/Images/BlankSlide.png");
+    Image LOGO_IMG = new Image("/Images/BlankSlide.png");  // Edit url for Beta
     @FXML
     Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
     @FXML
     Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
     @FXML
-    Image PUP_IMG = new Image("/Images/BlankSlide.png");
+    Image PUP_IMG = new Image("/Images/BlankSlide.png");  // Edit url for Beta
     @FXML
     Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
     @FXML
-    Image BLANK_IMG = new Image("/Images/BlankSlide.png");
+    Image BLANK_IMG = new Image("/Images/BlankSlide.png");  // Not sure we will need this
 
     @FXML
     ImageView imgView = new ImageView();

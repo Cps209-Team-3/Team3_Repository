@@ -59,6 +59,7 @@ public class Enemy extends Tank {
             speed = random.nextInt(10) + 1;
             turretDirection = direction;
             state = EnemyState.PAUSE;
+            lastPosition = position;
         }
     }
 
@@ -114,18 +115,39 @@ public class Enemy extends Tank {
         dy = dy / dist;
         int x;
         int y;
+        boolean noCollision = true;
         switch (state) {
             case CHARGE:
                 // move toward player
                 x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
-                position = new Point(x, y);
+                for (GameObject object : World.instance().getListOfEntities()) {
+                    if (World.instance().isCollision(this, object) && this != object) {
+                        noCollision = false;
+                    }
+                }
+                if (noCollision) {
+                    lastPosition = position;
+                    position = new Point(x, y);
+                } else {
+                    position = lastPosition;
+                } 
                 break;
             case FLEE:
                 // move away from player
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
-                position = new Point(x, y);                
+                for (GameObject object : World.instance().getListOfEntities()) {
+                    if (World.instance().isCollision(this, object) && this != object) {
+                        noCollision = false;
+                    }
+                }
+                if (noCollision) {
+                    lastPosition = position;
+                    position = new Point(x, y);
+                } else {
+                    position = lastPosition;
+                }               
                 break;
             case PAUSE:
                 World.instance().addObject(fire());
