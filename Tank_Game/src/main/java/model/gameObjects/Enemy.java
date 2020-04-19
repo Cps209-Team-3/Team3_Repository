@@ -76,12 +76,16 @@ public class Enemy extends Tank {
                 (int) player.getPosition().getY() + player.getHeight() / 2);
     }
 
-    public int targetPlayer() {
+    public void targetPlayer() {
         Point playerPosition = findPlayer();
-        double y2 = playerPosition.getY() - position.getY();
-        double x2 = playerPosition.getX() - position.getX();
-        direction = (int) Math.toDegrees(Math.atan2(y2, x2));
-        return direction;
+        double dx = playerPosition.getX() - position.getX();
+        double dy = playerPosition.getY() - position.getY();
+        double dist = Math.hypot(dx, dy);
+
+        dx = dx / dist;
+        dy = dy / dist;
+
+        position = new Point((int) position.getX() + ((int) dx * speed), (int) position.getY() + ((int) dy * speed));
     }
 
     // Changes state randomly to a different state than the current one.
@@ -103,7 +107,6 @@ public class Enemy extends Tank {
 
     public void move() {
         Point playerPosition = findPlayer();
-        System.out.println(playerPosition + " " + position);
         double dx = playerPosition.getX() - position.getX();
         double dy = playerPosition.getY() - position.getY();
         double dist = Math.hypot(dx, dy);
@@ -117,19 +120,26 @@ public class Enemy extends Tank {
                 x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
                 position = new Point(x, y);
-                turretDirection = targetPlayer();
                 break;
             case FLEE:
                 // move away from player
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
-                position = new Point(x, y);
-                turretDirection = targetPlayer();
+                position = new Point(x, y);                
                 break;
             case PAUSE:
                 World.instance().addObject(fire());
                 changeState();
                 break;
+        }
+        if(position.getX() > 1330) {
+            position.setLocation(1330.0, position.getY());
+        } else if (position.getX() < 30) {
+            position.setLocation(30, position.getY());
+        } else if (position.getY() < -400) {
+            position.setLocation(position.getX(), -400);
+        } else if (position.getY() > 320) {
+            position.setLocation(position.getX(), 320);
         }
     }
 

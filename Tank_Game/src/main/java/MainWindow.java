@@ -11,6 +11,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.*;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 public class MainWindow {
 
     @FXML
@@ -46,18 +49,14 @@ public class MainWindow {
     @FXML
     Button rightBtn = new Button("->");
 
-    @FXML
-    Image LOGO_IMG = new Image("/Images/BlankSlide.png");
-    @FXML
-    Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
-    @FXML
-    Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
-    @FXML
-    Image PUP_IMG = new Image("/Images/BlankSlide.png");
-    @FXML
-    Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
-    @FXML
-    Image BLANK_IMG = new Image("/Images/BlankSlide.png");
+    // @FXML
+    // Image LOGO = new Image();
+    // @FXML
+    // Image PTANK = new Image();
+    // @FXML
+    // Image ETANK = new Image();
+    // @FXML
+    // Image PUP = new Image();
 
     @FXML
     ImageView imgView = new ImageView();
@@ -75,9 +74,7 @@ public class MainWindow {
     HighScores scoreList = HighScores.scoreList();
 
     @FXML
-    public void initialize() throws Exception {
-        // scoreList.load();
-
+    public void initialize() throws IOException {
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
         LeftVbox.setAlignment(Pos.CENTER);
@@ -100,45 +97,21 @@ public class MainWindow {
         btns.add(fifthBtn);
 
         for (Button btn : btns) {
-            btn.setOnAction(e -> {
-                try {
-                    onButtonClicked(e);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            });
+            btn.setOnAction(e -> onButtonClicked(e));
             btn.setPrefWidth(250);
             btn.setPrefHeight(100);
             btn.setStyle("-fx-font-size: 20pt;");
             MidVbox.getChildren().add(btn);
         }
-        backBtn.setOnAction(e -> {
-            try {
-                onButtonClicked(e);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-        leftBtn.setOnAction(e -> {
-            try {
-                onButtonClicked(e);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-        rightBtn.setOnAction(e -> {
-            try {
-                onButtonClicked(e);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
+        backBtn.setOnAction(e -> onButtonClicked(e));
+        leftBtn.setOnAction(e -> onButtonClicked(e));
+        rightBtn.setOnAction(e -> onButtonClicked(e));
 
         fourthBtn.setStyle("-fx-font-size: 10pt;"); // REMOVE FOR BETA!!!
     }
 
     @FXML
-    public void onButtonClicked(ActionEvent e) throws Exception {
+    public void onButtonClicked(ActionEvent e) {
         Button btnClicked = (Button) e.getSource();
 
         switch (screen) {
@@ -162,13 +135,18 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("Help")) {
                     screen = Screen.HELP;
-                    imgView.setImage(PTANK_IMG);
-                    lbl.setText("");
+                    MidVbox.getChildren().remove(imgView);
+                    MidVbox.getChildren().remove(lbl);
                     MidVbox.getChildren().removeAll(btns);
                     MidVbox.getChildren().add(slidePic);
                     LeftVbox.getChildren().add(leftBtn);
                     RightVbox.getChildren().add(rightBtn);
                     BHbox.getChildren().add(backBtn);
+
+                    // switch (slide) {
+                    // case CONTROLS :
+
+                    // }
                 }
 
                 if (btnClicked.getText().equals("About (Paid DLC: $500K or wait a week)")) {
@@ -178,122 +156,38 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
-                    imgView.setImage(LOGO_IMG);
-                    MidVbox.getChildren().removeAll(btns);
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
-                    lbl.setText("TANK ATTACK CHAMPIONS:");
-                    lbl.setStyle("-fx-font-size: 32pt;");
+                    Label title = new Label("TANK ATTACK CHAMPIONS:");
+                    title.setStyle("-fx-font-size: 30pt;");
+                    MidVbox.getChildren().add(title);
                     for (PlayerData player : scores) {
                         Label lbl = new Label(player.getName() + "   " + player.getHighScore());
                         lbl.setStyle("-fx-font-size: 24pt;");
                         MidVbox.getChildren().add(lbl);
                     }
-                    
                 }
 
-                break;
-
-            case DIFF:
-
-                if (btnClicked.getText().equals("<- Back")) {
-                    screen = Screen.TITLE;
-                    btns.get(0).setText("New Game");
-                    btns.get(1).setText("Load Game");
-                    btns.get(2).setText("Help");
-                    MidVbox.getChildren().addAll(btns.get(3), btns.get(4));
-                    BHbox.getChildren().remove(backBtn);
-                }
-                if (btnClicked.getText().equals("Easy") || btnClicked.getText().equals("Medium")
-                        || btnClicked.getText().equals("Hard")) {
+                if (btnClicked.getText().equals("Easy")) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     Stage gameWindow = new Stage();
-                    gameWindow.setScene(new Scene(loader.load()));
+                    try {
+                        gameWindow.setScene(new Scene(loader.load()));
+                    } catch (Exception f) {
+
+                    }
                     GameWindow window = loader.getController();
-                    window.initialize();
+                    window.initialize(gameWindow.getScene());
 
                     gameWindow.show();
                 }
 
                 break;
 
-            case HELP:
+            // case DIFF :
 
-                if (btnClicked.getText().equals("<- Back")) {
-                    screen = Screen.TITLE;
-                    imgView.setImage(LOGO_IMG);
-                    lbl.setText("Welcome!");
-                    MidVbox.getChildren().addAll(btns);
-                    LeftVbox.getChildren().remove(leftBtn);
-                    RightVbox.getChildren().remove(rightBtn);
-                    BHbox.getChildren().remove(backBtn);
-                }
-
-                switch (slide) {
-                    case CONTROLS:
-                        if (btnClicked.getText().equals("<-")) {
-                            slide = HelpSlide.SCORING;
-                            imgView.setImage(SCORING_IMG);
-                        }
-                        if (btnClicked.getText().equals("->")) {
-                            slide = HelpSlide.ENEMIES;
-                            imgView.setImage(ETANK_IMG);
-                        }
-                        break;
-                    case ENEMIES:
-                        if (btnClicked.getText().equals("<-")) {
-                            slide = HelpSlide.CONTROLS;
-                            imgView.setImage(PTANK_IMG);
-                        }
-                        if (btnClicked.getText().equals("->")) {
-                            slide = HelpSlide.POWERUPS;
-                            lbl.setText("Not yet Available");
-                            imgView.setImage(PUP_IMG);
-                        }
-                        break;
-                    case POWERUPS:
-                        if (btnClicked.getText().equals("<-")) {
-                            slide = HelpSlide.ENEMIES;
-                            imgView.setImage(ETANK_IMG);
-                        }
-                        if (btnClicked.getText().equals("->")) {
-                            slide = HelpSlide.SCORING;
-                            lbl.setText("");
-                            imgView.setImage(SCORING_IMG);
-                        }
-                        break;
-                    case SCORING:
-                        if (btnClicked.getText().equals("<-")) {
-                            slide = HelpSlide.POWERUPS;
-                            lbl.setText("Not yet Available");
-                            imgView.setImage(PUP_IMG);
-                        }
-                        if (btnClicked.getText().equals("->")) {
-                            slide = HelpSlide.CONTROLS;
-                            imgView.setImage(SCORING_IMG);
-                        }
-                        break;
-                }
-
-                break;
-
-            // case ABOUT :
-            // if
-
-            case HIGHSCORES:
-
-                if (btnClicked.getText().equals("<- Back")) {
-                    screen = Screen.TITLE;
-                    imgView.setImage(LOGO_IMG);
-                    lbl.setText("Welcome!");
-                    lbl.setStyle("-fx-font-size: 28pt;");
-                    MidVbox.getChildren().addAll(btns);
-                    BHbox.getChildren().remove(backBtn);
-                }
-
-                break;
-
+            // if ()
         }
     }
 }

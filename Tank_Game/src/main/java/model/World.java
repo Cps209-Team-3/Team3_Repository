@@ -93,14 +93,16 @@ public class World {
     // Main game loop to run every frame
     public void gameLoop() {
         cycleCount += 1;
-        boolean waveComplete = true;
         ArrayList<Enemy> enemies = new ArrayList<>();
+        //playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
+        boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
             if (object instanceof Tank) {
                 if (object instanceof Enemy) {
                     if (waveComplete) {
                         waveComplete = false;
                     }
+
                     Enemy tank = (Enemy) object;
                     enemies.add(tank);
                     if (cycleCount > 29) {
@@ -131,7 +133,7 @@ public class World {
      */
     public void handleInput(char inp) {
         if (inp == '%') {
-            addObject(playerTank.fire());
+            World.instance().addObject(playerTank.fire());
         } else {
             playerTank.move(inp);
         }
@@ -197,7 +199,7 @@ public class World {
             // handledObjects.add(object);
             for (GameObject object2 : listOfEntities) { // Test current object with all other objects
                 if (object.equals(object2)) {
-                    System.out.println("testing...");
+                    System.out.println("testing..." + object2 + " " + object);
                     if (isCollision(object, object2)) {
                         System.out.println("found collision!");
                         handleCollision(object, object2);
