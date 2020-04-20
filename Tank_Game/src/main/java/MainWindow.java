@@ -291,7 +291,8 @@ public class MainWindow {
                 }
 
                 if (btnClicked.getText().equals("Easy")) {
-                    // FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+                    World.reset();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     // Stage gameWindow = new Stage();
                     // try {

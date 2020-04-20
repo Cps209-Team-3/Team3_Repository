@@ -55,12 +55,15 @@ public class Bullet extends GameObject {
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Tank) {
-            if ((this.type == BulletType.PLAYER && object instanceof Player) || (this.type == BulletType.ENEMY && object instanceof Enemy)) {
+            if ((this.type == BulletType.PLAYER && object instanceof Player)
+                    || (this.type == BulletType.ENEMY && object instanceof Enemy)) {
 
             } else {
                 Tank tank = (Tank) object;
                 tank.health -= damageAmount;
-                tank.onDeath();
+                if (tank.getHealth() <= 0) {
+                    tank.onDeath();
+                }
                 World.instance().removeObject(this);
             }
 
@@ -97,12 +100,13 @@ public class Bullet extends GameObject {
     @Override
     public String serialize() {
         String serialization = "Bullet,";
-        Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width, speed, speed, damageAmount, type};
+        Object[] list = new Object[] { image.getUrl().split("/")[17], position.getX(), position.getY(), direction,
+                height, width, speed, speed, damageAmount, type };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
                 serialization += ",";
-            } 
+            }
         }
         return serialization;
     }
