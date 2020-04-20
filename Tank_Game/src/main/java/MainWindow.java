@@ -1,15 +1,26 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
 
-import javafx.event.*;
-import javafx.fxml.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.*;
+import model.HighScores;
+import model.PlayerData;
+import model.World;
+import model.enums.Difficulty;
 
 public class MainWindow {
 
@@ -76,6 +87,7 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
+        World.instance().reset();
         // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
@@ -138,6 +150,95 @@ public class MainWindow {
     }
 
     @FXML
+    void savedGameButtonPressed(ActionEvent event, String gameName) {
+        Button gameSavedLabel = (Button) event.getSource();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+
+            Stage gameWindow = new Stage();
+            gameWindow.setScene(new Scene(loader.load()));
+            GameWindow window = loader.getController();
+            window.initialize(gameWindow);
+
+            gameWindow.show();
+
+        } catch (IOException e){
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    void deleteGameButtonPressed(ActionEvent event, String gameName) {
+        // Copies GameBackup into GameBackup1 without the information that we are deleting
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("GameBackup1.txt"))) {
+            BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"));
+            boolean flag = false;
+            String line = reader.readLine();
+            while (line != null) {
+                if (flag == true && line.contains("##")) {
+                    flag = false;
+                }
+                if (line.contains(gameName)) {
+                    flag = true;
+                }
+                if (!flag) {
+                    writer.write(line + "\n");
+                }
+                line = reader.readLine();
+            }
+                
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        // Copies GameBackup1 into GameBackup
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("GameBackup.txt"))) {
+            BufferedReader reader = new BufferedReader(new FileReader("GameBackup1.txt"));
+            String line = reader.readLine();
+
+            while (line != null) {
+                writer.write(line + "\n");
+                line = reader.readLine();
+            } 
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        World.instance().getListOfSavedGames().remove(World.instance().getListOfSavedGames().indexOf(gameName));
+        setupLoadPage();
+    }
+
+    void setupLoadPage() {
+        screen = Screen.LOAD;
+        MidVbox.getChildren().clear();
+        BHbox.getChildren().clear();
+        BHbox.getChildren().add(backBtn);
+
+        Label title = new Label("Saved Games");
+        title.setStyle("-fx-font-size: 28pt;");
+        MidVbox.getChildren().add(title);
+        ArrayList<String> list = world.instance().getListOfSavedGames();
+        if (list.size() > 0) {
+            for (String savedGame : list) {
+                HBox hbox = new HBox();
+                Button delete = new Button("Delete Saved Game");
+                Label label = new Label(savedGame);
+                Button load = new Button("Load Saved Game");
+                label.setStyle("-fx-font-size: 14pt;");
+                load.setStyle("-fx-font-size: 14pt;");
+                load.setOnAction(i -> savedGameButtonPressed(i, label.getText()));
+                delete.setStyle("-fx-font-size: 14pt");
+                delete.setOnAction(i -> deleteGameButtonPressed(i, label.getText()));
+                hbox.setStyle("-fx-alignment: center; -fx-spacing: 15");
+                hbox.getChildren().addAll(delete, load, label);
+                MidVbox.getChildren().add(hbox);
+            }
+        } else {
+            Label label = new Label("You have no saved games.");
+            label.setStyle("-fx-font-size: 16");
+            MidVbox.getChildren().add(label);
+        }
+    }
+
+    @FXML
     public void onButtonClicked(ActionEvent e) throws Exception {
         Button btnClicked = (Button) e.getSource();
 
@@ -155,9 +256,7 @@ public class MainWindow {
                 }
 
                 if (btnClicked.getText().equals("Load Game")) {
-
-                    // world.load(); ASK DAVID!!! (Not due for Alpha)
-
+                    setupLoadPage();
                 }
 
                 if (btnClicked.getText().equals("Help")) {
@@ -189,22 +288,21 @@ public class MainWindow {
                         lbl.setStyle("-fx-font-size: 24pt;");
                         MidVbox.getChildren().add(lbl);
                     }
-                    
                 }
 
                 if (btnClicked.getText().equals("Easy")) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+                    // FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
-                    Stage gameWindow = new Stage();
-                    try {
-                        gameWindow.setScene(new Scene(loader.load()));
-                    } catch (Exception f) {
+                    // Stage gameWindow = new Stage();
+                    // try {
+                    //     gameWindow.setScene(new Scene(loader.load()));
+                    // } catch (Exception f) {
 
-                    }
-                    GameWindow window = loader.getController();
-                    window.initialize();
+                    // }
+                    // GameWindow window = loader.getController();
+                    // window.initialize();
 
-                    gameWindow.show();
+                    // gameWindow.show();
                 }
 
                 break;
@@ -222,14 +320,24 @@ public class MainWindow {
                 }
                 if (btnClicked.getText().equals("Easy") || btnClicked.getText().equals("Medium")
                         || btnClicked.getText().equals("Hard")) {
+                    World.instance().setDifficulty(Difficulty.EASY);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     Stage gameWindow = new Stage();
                     gameWindow.setScene(new Scene(loader.load()));
                     GameWindow window = loader.getController();
-                    window.initialize();
+                    window.initialize(gameWindow);
 
                     gameWindow.show();
+                    
+                    screen = screen.TITLE;
+                    MidVbox.getChildren().clear();
+                    BHbox.getChildren().clear();
+                    lbl.setText("TANK ATTACK ARENA");
+                    btns.get(0).setText("New Game");
+                    btns.get(1).setText("Load Game");
+                    btns.get(2).setText("Help");
+                    MidVbox.getChildren().addAll(lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
                 }
 
                 break;
@@ -298,6 +406,8 @@ public class MainWindow {
             // case ABOUT :
             // if
 
+            
+
             case HIGHSCORES:
 
                 if (btnClicked.getText().equals("<- Back")) {
@@ -310,6 +420,14 @@ public class MainWindow {
                 }
 
                 break;
+
+            case LOAD:
+                screen = Screen.TITLE;
+                MidVbox.getChildren().clear();
+                BHbox.getChildren().clear();
+                MidVbox.getChildren().addAll(lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
+                
+
 
         }
     }

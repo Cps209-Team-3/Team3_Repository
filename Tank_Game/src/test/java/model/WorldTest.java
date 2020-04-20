@@ -1,14 +1,12 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -60,7 +58,7 @@ public class WorldTest {
             String filename = "GameSave.txt";
             World world = World.instance();
             fillWorld(world);
-            world.save(filename);
+            world.save(filename, "David's Game");
 
             try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
                 String line = reader.readLine();
@@ -103,7 +101,7 @@ public class WorldTest {
 
             fillFile(filename);
             World world = World.instance();
-            world.load(filename);
+            world.load(filename, "David's Game");
 
             assertEquals(Difficulty.EASY, world.getDifficulty());
             assertEquals(10, world.getHeight());

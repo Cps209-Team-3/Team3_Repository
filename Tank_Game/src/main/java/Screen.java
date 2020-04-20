@@ -1,2 +1,2 @@
 
-public enum Screen { TITLE, DIFF, HELP, ABOUT, HIGHSCORES }
+public enum Screen { TITLE, DIFF, HELP, ABOUT, HIGHSCORES, LOAD }

@@ -174,9 +174,9 @@ public class Enemy extends Tank {
 
     @Override
     public String serialize() {
-        String serialization = "EnemyPlayer,";
+        String serialization = "EnemyTank,";
         Object[] list = new Object[] { image.getUrl().split("/")[17], position.getX(), position.getY(), direction,
-                height, width, health, speed, turretDirection, state };
+                height, width, health, speed, turretDirection, state, reloadTime, reloadStatus };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
@@ -190,7 +190,7 @@ public class Enemy extends Tank {
     public void deserialize(String data) {
         String[] list = data.split(",");
         image = new Image(getClass().getResource("/Images/" + list[1]).toString());
-        position = new Point(Integer.parseInt(list[2]), Integer.parseInt(list[3]));
+        position = new Point((int)Double.parseDouble(list[2]), (int)Double.parseDouble(list[3]));
         direction = Integer.parseInt(list[4]);
         height = Integer.parseInt(list[5]);
         width = Integer.parseInt(list[6]);

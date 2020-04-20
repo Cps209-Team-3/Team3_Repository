@@ -8,7 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import model.enums.Difficulty;
-import model.gameObjects.*;
+import model.gameObjects.Bullet;
+import model.gameObjects.Enemy;
+import model.gameObjects.GameObject;
+import model.gameObjects.Player;
+import model.gameObjects.Tank;
+import model.gameObjects.Wall;
 
 public class World {
 
@@ -22,6 +27,7 @@ public class World {
     int cycleCount;
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
+    ArrayList<String> listOfSavedGames = new ArrayList<String>();
 
     // Singleton Implementation
     // Unsure if we want to finalize this or not
@@ -43,6 +49,21 @@ public class World {
         currentWave = 3;
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         listOfEntities.add(playerTank);
+        fillListOfSavedGames();
+    }
+
+    public void fillListOfSavedGames() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
+            String line = reader.readLine();
+            while (line != null) {
+                if (line.contains("##")) {
+                    listOfSavedGames.add(0, line.split(",")[1]);
+                }
+                line = reader.readLine();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -51,14 +72,24 @@ public class World {
      * 
      * @param filename - the name of a file
      */
-    public void load(String filename) throws IOException {
+    public void load(String filename, String gameName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
-
-        this.deserialize(reader.readLine());
-
+        String endOfFile = null;
+        int index = listOfEntities.indexOf(gameName);
+        if (listOfSavedGames.size() > index) {
+            endOfFile = listOfSavedGames.get(index + 1);
+        }
         String line = "";
+        // Goes through the file until it gets to the part that contains the correct Saved Game
+        while (!line.contains(gameName)) {
+            line = reader.readLine();
+        }
+        line = reader.readLine();
+        this.deserialize(line);
+        line = reader.readLine();
+
         GameObject gameObject = null;
-        while ((line = reader.readLine()) != null) {
+        while (line != null) {
             if (line.contains("Wall")) {
                 gameObject = new Wall();
             } else if (line.contains("PlayerTank")) {
@@ -70,6 +101,10 @@ public class World {
             }
             gameObject.deserialize(line);
             listOfEntities.add(gameObject);
+
+            if ((line = reader.readLine()).contains("##")) {
+                line = null;
+            }
         }
         reader.close();
     }
@@ -80,14 +115,16 @@ public class World {
      * 
      * @param filename - the name of a file
      */
-    public void save(String filename) throws IOException {
-        FileWriter writer = new FileWriter(filename);
+    public void save(String filename, String gameName) throws IOException {
+        FileWriter writer = new FileWriter(filename, true);
+        writer.append("##," + gameName + "\n");
         writer.append(this.serialize() + "\n");
         for (GameObject gameObject : listOfEntities) {
             writer.append(gameObject.serialize() + "\n");
         }
         writer.flush();
         writer.close();
+        listOfSavedGames.add(0, gameName);
     }
 
     // Main game loop to run every frame
@@ -257,7 +294,7 @@ public class World {
     // serializes the world
     public String serialize() {
         String serialization = "World,";
-        Object[] list = new Object[] { width, height, difficulty, score, currentWave };
+        Object[] list = new Object[] { width, height, difficulty, score, currentWave, cheatMode };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
@@ -285,9 +322,9 @@ public class World {
         }
         score = Integer.parseInt(list[4]);
         currentWave = Integer.parseInt(list[5]);
-        if (list[7].equals("true")) {
+        if (list[6].equals("true")) {
             cheatMode = true;
-        } else if (list[7].equals("false")) {
+        } else if (list[6].equals("false")) {
             cheatMode = false;
         }
     }
@@ -360,6 +397,14 @@ public class World {
 
     public void setPlayerTank(Player playerTank) {
         this.playerTank = playerTank;
+    }
+
+    public ArrayList<String> getListOfSavedGames() {
+        return listOfSavedGames;
+    }
+
+    public void setListOfSavedGames(ArrayList<String> listOfSavedGames) {
+        this.listOfSavedGames = listOfSavedGames;
     }
 
 }
