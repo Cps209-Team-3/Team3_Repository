@@ -88,7 +88,6 @@ public class MainWindow {
     @FXML
     public void initialize() throws Exception {
         World.instance().reset();
-        // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
@@ -427,9 +426,6 @@ public class MainWindow {
                 MidVbox.getChildren().clear();
                 BHbox.getChildren().clear();
                 MidVbox.getChildren().addAll(lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
-                
-
-
         }
     }
 }
