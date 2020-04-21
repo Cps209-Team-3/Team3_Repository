@@ -87,7 +87,7 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
-        World.instance().reset();
+        World.reset();
         // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
@@ -186,6 +186,7 @@ public class MainWindow {
                 }
                 line = reader.readLine();
             }
+            reader.close();
                 
         } catch (Exception e) {
             System.out.println(e);
@@ -198,7 +199,8 @@ public class MainWindow {
             while (line != null) {
                 writer.write(line + "\n");
                 line = reader.readLine();
-            } 
+            }
+            reader.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -215,7 +217,7 @@ public class MainWindow {
         Label title = new Label("Saved Games");
         title.setStyle("-fx-font-size: 28pt;");
         MidVbox.getChildren().add(title);
-        ArrayList<String> list = world.instance().getListOfSavedGames();
+        ArrayList<String> list = World.instance().getListOfSavedGames();
         if (list.size() > 0) {
             for (String savedGame : list) {
                 HBox hbox = new HBox();
@@ -331,7 +333,7 @@ public class MainWindow {
 
                     gameWindow.show();
                     
-                    screen = screen.TITLE;
+                    screen = Screen.TITLE;
                     MidVbox.getChildren().clear();
                     BHbox.getChildren().clear();
                     lbl.setText("TANK ATTACK ARENA");

@@ -5,7 +5,6 @@ import java.awt.Point;
 import model.World;
 
 public abstract class Tank extends GameObject { 
-    // TODO: WILL HEIGHT AND WIDTH BE THE SAME FOR ALL TANKS?
     int health;
     int speed;
     int turretDirection; // 0-360
