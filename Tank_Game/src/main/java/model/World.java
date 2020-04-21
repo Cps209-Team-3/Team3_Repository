@@ -207,6 +207,7 @@ public class World {
         score += 20;
         currentWave += 1;
         listOfEntities.clear();
+        playerTank.setHealth(5); // REFRESH PLAYER HEALTH
         listOfEntities.add(playerTank);
         createWave();
     }

@@ -1,6 +1,8 @@
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -38,11 +40,10 @@ public class GameWindow {
     private final Timeline clock = new Timeline(keyFrame);
     private Point mouse = new Point();
     private ArrayList<GameObject> objects = World.instance().getListOfEntities();
-    private ArrayList<ImageView> images = new ArrayList<>(); // store images so instead of re-creating every frame we
-                                                             // adjust their positions.
+    private Map<GameObject, ImageView> images = new HashMap<>();
     private Stage gameWindow;
     private Button saveAndExit = new Button("Save and Exit");
-    private ImageView img;
+    private ImageView image;
 
     // Player Tank Fires (TBF)
     @FXML
@@ -94,10 +95,10 @@ public class GameWindow {
     }
 
     public void run() {
-        img = new ImageView();
-        img.setImage(new Image("/Images/map.png"));
-        img.setPreserveRatio(true);
-        background.getChildren().add(img);
+        image = new ImageView();
+        image.setImage(new Image("/Images/map.png"));
+        image.setPreserveRatio(true);
+        background.getChildren().add(image);
         buttonPane.getChildren().add(saveAndExit);
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();
@@ -111,57 +112,49 @@ public class GameWindow {
     public void gameLoop() {
 
         World.instance().gameLoop();
-        pane.getChildren().clear();
-        clock.setCycleCount(Timeline.INDEFINITE);
-        // get inputs somewhere around here
-        for (int i = 0; i < objects.size(); ++i) {
-            GameObject object = objects.get(i);
-            if (images.size() != objects.size()) {
-                images.clear();
-                pane.getChildren().clear();
-                // ImageView img = new ImageView();
-                // img.setImage(new Image("/Images/map.png"));
-                // pane.getChildren().add(img);
-                for (GameObject obj : objects) {
-                    img = new ImageView();
+        ArrayList<GameObject> handledObjects = new ArrayList<>();
 
-                    img.setX(obj.getPosition().getX());
-                    img.setY(obj.getPosition().getY());
+        for (GameObject object : objects) {
+            handledObjects.add(object);
+            if (images.containsKey(object)) { // Previously handled
+                image = images.get(object);
+                image.setX(object.getPosition().getX());
+                image.setY(object.getPosition().getY());
 
-                    img.setPreserveRatio(true);
-                    img.setRotate(obj.getDirection());
+                image.setRotate(object.getDirection());
+            } else { // Not handled
+                image = new ImageView();
+                image.setX(object.getPosition().getX());
+                image.setY(object.getPosition().getY());
 
-                    img.setImage(obj.getImage());
-                    pane.getChildren().add(img);
-                    // if (obj instanceof Tank) {
-                    //     Tank tank = (Tank) obj;
-                    //     insertTurret(tank);
-                    // }
-                }
-            } else {
-                img = images.get(i);
-
-                img.setX(object.getPosition().getX());
-                img.setY(object.getPosition().getY());
-
-                img.setRotate(object.getDirection());
-                pane.getChildren().add(img);
-                // if (object instanceof Tank) {
-                //     Tank tank = (Tank) object;
-                //     insertTurret(tank);
-                // }
+                image.setRotate(object.getDirection());
+                image.setImage(object.getImage());
+                image.setPreserveRatio(true);
+                
+                images.put(object, image);
+                pane.getChildren().add(image);
             }
+        }
+        for (Map.Entry<GameObject, ImageView> entry : images.entrySet()) {
+            if (!handledObjects.contains(entry.getKey())) {
+                pane.getChildren().remove(entry.getValue());
+            } else {
+                handledObjects.remove(entry.getKey());
+            }
+        }
+        for (GameObject object : handledObjects) {
+            images.remove(object);
         }
     }
 
     public void insertTurret(Tank tank) {
         // causes severe lag and an OutOfMemoryError
-        img = new ImageView();
-        img.setX(tank.getPosition().getX() + tank.getWidth() / 2);
-        img.setY(tank.getPosition().getY() + tank.getHeight() / 2);
-        img.setImage(new Image("/Images/cannonfiresprites.gif"));
-        img.setPreserveRatio(true);
-        img.setRotate(tank.getTurretDirection());
-        pane.getChildren().add(img);
+        image = new ImageView();
+        image.setX(tank.getPosition().getX() + tank.getWidth() / 2);
+        image.setY(tank.getPosition().getY() + tank.getHeight() / 2);
+        image.setImage(new Image("/Images/cannonfiresprites.gif"));
+        image.setPreserveRatio(true);
+        image.setRotate(tank.getTurretDirection());
+        pane.getChildren().add(image);
     }
 }
