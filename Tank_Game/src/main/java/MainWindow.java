@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import model.HighScores;
 import model.PlayerData;
@@ -69,6 +70,8 @@ public class MainWindow {
     Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
     @FXML
     Image BLANK_IMG = new Image("/Images/BlankSlide.png");  // Not sure we will need this
+
+    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/SFX&Music/beep-7.wav").toString());
 
     @FXML
     ImageView imgView = new ImageView();
@@ -243,6 +246,7 @@ public class MainWindow {
     @FXML
     public void onButtonClicked(ActionEvent e) throws Exception {
         Button btnClicked = (Button) e.getSource();
+        AUDIO_BEEP.play();
 
         switch (screen) {
             case TITLE:
@@ -429,9 +433,6 @@ public class MainWindow {
                 MidVbox.getChildren().clear();
                 BHbox.getChildren().clear();
                 MidVbox.getChildren().addAll(lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
-                
-
-
         }
     }
 }
