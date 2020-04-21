@@ -71,7 +71,7 @@ public class MainWindow {
     @FXML
     Image BLANK_IMG = new Image("/Images/BlankSlide.png");  // Not sure we will need this
 
-    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/SFX&Music/beep-7.wav").toString());
+    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/beep-7.wav").toString());
 
     @FXML
     ImageView imgView = new ImageView();
