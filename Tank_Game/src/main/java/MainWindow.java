@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import model.HighScores;
 import model.PlayerData;
@@ -70,6 +71,8 @@ public class MainWindow {
     @FXML
     Image BLANK_IMG = new Image("/Images/BlankSlide.png");  // Not sure we will need this
 
+    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/beep-7.wav").toString());
+
     @FXML
     ImageView imgView = new ImageView();
     @FXML
@@ -87,7 +90,7 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
-        World.instance().reset();
+        World.reset();
         // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
@@ -186,6 +189,7 @@ public class MainWindow {
                 }
                 line = reader.readLine();
             }
+            reader.close();
                 
         } catch (Exception e) {
             System.out.println(e);
@@ -198,7 +202,8 @@ public class MainWindow {
             while (line != null) {
                 writer.write(line + "\n");
                 line = reader.readLine();
-            } 
+            }
+            reader.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -215,7 +220,7 @@ public class MainWindow {
         Label title = new Label("Saved Games");
         title.setStyle("-fx-font-size: 28pt;");
         MidVbox.getChildren().add(title);
-        ArrayList<String> list = world.instance().getListOfSavedGames();
+        ArrayList<String> list = World.instance().getListOfSavedGames();
         if (list.size() > 0) {
             for (String savedGame : list) {
                 HBox hbox = new HBox();
@@ -241,6 +246,7 @@ public class MainWindow {
     @FXML
     public void onButtonClicked(ActionEvent e) throws Exception {
         Button btnClicked = (Button) e.getSource();
+        AUDIO_BEEP.play();
 
         switch (screen) {
             case TITLE:
@@ -331,7 +337,7 @@ public class MainWindow {
 
                     gameWindow.show();
                     
-                    screen = screen.TITLE;
+                    screen = Screen.TITLE;
                     MidVbox.getChildren().clear();
                     BHbox.getChildren().clear();
                     lbl.setText("TANK ATTACK ARENA");
@@ -427,9 +433,6 @@ public class MainWindow {
                 MidVbox.getChildren().clear();
                 BHbox.getChildren().clear();
                 MidVbox.getChildren().addAll(lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
-                
-
-
         }
     }
 }

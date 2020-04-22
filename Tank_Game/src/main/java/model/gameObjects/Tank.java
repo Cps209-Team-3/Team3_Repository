@@ -2,10 +2,7 @@ package model.gameObjects;
 
 import java.awt.Point;
 
-import model.World;
-
 public abstract class Tank extends GameObject { 
-    // TODO: WILL HEIGHT AND WIDTH BE THE SAME FOR ALL TANKS?
     int health;
     int speed;
     int turretDirection; // 0-360
@@ -14,9 +11,7 @@ public abstract class Tank extends GameObject {
 
     Point lastPosition; // track previous position for collision handling
 
-    public void onDeath() {
-        World.instance().removeObject(this);
-    }
+    public abstract void onDeath();
 
     // Creates a new bullet travelling in the direction of turretDirection
     public abstract Bullet fire();

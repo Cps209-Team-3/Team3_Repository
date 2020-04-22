@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import model.enums.Difficulty;
 import model.gameObjects.Bullet;
@@ -32,7 +30,6 @@ public class World {
     ArrayList<String> listOfSavedGames = new ArrayList<String>();
 
     // Singleton Implementation
-    // Unsure if we want to finalize this or not
 
     private static World instance = new World();
 
@@ -46,7 +43,7 @@ public class World {
 
     public World() {
         height = 900;
-        width = 1400;
+        width = 1440;
         score = -20;
         currentWave = 3;
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
@@ -82,7 +79,8 @@ public class World {
             endOfFile = listOfSavedGames.get(index + 1);
         }
         String line = "";
-        // Goes through the file until it gets to the part that contains the correct Saved Game
+        // Goes through the file until it gets to the part that contains the correct
+        // Saved Game
         while (!line.contains(gameName)) {
             line = reader.readLine();
         }
@@ -207,6 +205,7 @@ public class World {
         score += 20;
         currentWave += 1;
         listOfEntities.clear();
+        playerTank.setHealth(5); // REFRESH PLAYER HEALTH
         listOfEntities.add(playerTank);
         createWave();
     }
@@ -242,20 +241,28 @@ public class World {
         ArrayList<ArrayList<GameObject>> objectsToHandle = new ArrayList<>();
         for (GameObject object : listOfEntities) { // Run through all objects
             // handledObjects.add(object);
-            for (GameObject object2 : listOfEntities) { // Test current object with all other objects
-                if (!object.equals(object2)) {
-                    if (isCollision(object, object2)) {
-                        ArrayList<GameObject> collided = new ArrayList<>();
-                        collided.add(object);
-                        collided.add(object2);
-                        objectsToHandle.add(collided);
-                    }
-                }
+            GameObject collided = findCollision(object);
+            if (collided != null) {
+                ArrayList<GameObject> objects = new ArrayList<>();
+                objects.add(collided);
+                objects.add(object);
+                objectsToHandle.add(objects);
             }
         }
         for (ArrayList<GameObject> objects : objectsToHandle) {
             handleCollision(objects.get(0), objects.get(1));
         }
+    }
+
+    public GameObject findCollision(GameObject object) {
+        for (GameObject object2 : listOfEntities) { // Test current object with all other objects
+            if (!object.equals(object2)) {
+                if (isCollision(object, object2)) {
+                    return object2;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -267,16 +274,11 @@ public class World {
      */
     public boolean isCollision(GameObject object1, GameObject object2) {
 
-        List<Double> positions = Arrays.asList(object1.getPosition().getX(),
-                object1.getPosition().getX() + object1.getWidth(), object1.getPosition().getY(),
-                object1.getPosition().getY() + object1.getHeight());
-
-        for (double dbl : positions) {
-            if (dbl >= object2.getPosition().getX() && dbl <= object2.getPosition().getX() + object2.getWidth()
-                    && dbl >= object2.getPosition().getY()
-                    && dbl <= object2.getPosition().getY() + object2.getHeight()) {
-                return true;
-            }
+        if (object1.getPosition().getX() < object2.getPosition().getX() + object2.getWidth()
+                && object1.getPosition().getX() + object1.getWidth() > object2.getPosition().getX()
+                && object1.getPosition().getY() < object2.getPosition().getY() + object2.getHeight()
+                && object1.getPosition().getY() + object1.getHeight() > object2.getPosition().getY()) {
+            return true;
         }
         return false;
     }
