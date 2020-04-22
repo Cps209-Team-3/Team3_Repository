@@ -44,17 +44,11 @@ public class Player extends Tank {
     // Moves tank in the direction of 'input' and saves last position to
     // pastPositions
     public void move(char input) {
-        boolean noCollision = true;
         switch (input) {
             case 'w':
-                double newX = speed * Math.sin(direction * Math.PI / 180);
-                double newY = -speed * Math.cos(direction * Math.PI / 180);
-                for (GameObject object : World.instance().getListOfEntities()) {
-                    if (World.instance().isCollision(this, object) && this != object) {
-                        noCollision = false;
-                    }
-                }
-                if (noCollision) {
+                if (World.instance().findCollision(this) == null) {
+                    double newX = speed * Math.sin(direction * Math.PI / 180);
+                    double newY = -speed * Math.cos(direction * Math.PI / 180);
                     lastPosition = position;
                     position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
                 } else {
@@ -65,14 +59,9 @@ public class Player extends Tank {
                 direction -= 4;
                 break;
             case 's':
-                double newX2 = -speed * Math.sin(direction * Math.PI / 180);
-                double newY2 = speed * Math.cos(direction * Math.PI / 180);
-                for (GameObject object : World.instance().getListOfEntities()) {
-                    if (World.instance().isCollision(this, object) && this != object) {
-                        noCollision = false;
-                    }
-                }
-                if (noCollision) {
+                if (World.instance().findCollision(this) == null) {
+                    double newX2 = -speed * Math.sin(direction * Math.PI / 180);
+                    double newY2 = speed * Math.cos(direction * Math.PI / 180);
                     lastPosition = position;
                     position = new Point((int) (newX2 + position.getX()), (int) (newY2 + position.getY()));
                 } else {
@@ -103,6 +92,11 @@ public class Player extends Tank {
     }
 
     @Override
+    public void onDeath() {
+        World.instance().removeObject(this);
+    }
+
+    @Override
     public String serialize() {
         String serialization = "PlayerTank,";
         Object[] list = new Object[] { image.getUrl().split("/")[17], position.getX(), position.getY(), direction,
@@ -120,7 +114,7 @@ public class Player extends Tank {
     public void deserialize(String data) {
         String[] list = data.split(",");
         image = new Image(getClass().getResource("/Images/" + list[1]).toString());
-        position = new Point( (int)Double.parseDouble(list[2]), (int)Double.parseDouble(list[3]));
+        position = new Point((int) Double.parseDouble(list[2]), (int) Double.parseDouble(list[3]));
         direction = Integer.parseInt(list[4]);
         height = Integer.parseInt(list[5]);
         width = Integer.parseInt(list[6]);

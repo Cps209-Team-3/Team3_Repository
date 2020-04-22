@@ -114,18 +114,13 @@ public class Enemy extends Tank {
         dy = dy / dist;
         int x;
         int y;
-        boolean noCollision = true;
+
         switch (state) {
             case CHARGE:
                 // move toward player
                 x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
-                for (GameObject object : World.instance().getListOfEntities()) {
-                    if (World.instance().isCollision(this, object) && this != object) {
-                        noCollision = false;
-                    }
-                }
-                if (noCollision) {
+                if (World.instance().findCollision(this) != null) {
                     lastPosition = position;
                     position = new Point(x, y);
                 } else {
@@ -136,12 +131,7 @@ public class Enemy extends Tank {
                 // move away from player
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
-                for (GameObject object : World.instance().getListOfEntities()) {
-                    if (World.instance().isCollision(this, object) && this != object) {
-                        noCollision = false;
-                    }
-                }
-                if (noCollision) {
+                if (World.instance().findCollision(this) != null) {
                     lastPosition = position;
                     position = new Point(x, y);
                 } else {
@@ -169,6 +159,12 @@ public class Enemy extends Tank {
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
                 10, 5, 1, BulletType.ENEMY);
+    }
+
+    @Override
+    public void onDeath() {
+        World.instance().removeObject(this);
+        World.instance().setScore(World.instance().getScore() + 1);
     }
 
     @Override

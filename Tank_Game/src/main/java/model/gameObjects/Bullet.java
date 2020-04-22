@@ -55,12 +55,10 @@ public class Bullet extends GameObject {
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Tank) {
-            if ((this.type == BulletType.PLAYER && object instanceof Player)
-                    || (this.type == BulletType.ENEMY && object instanceof Enemy)) {
-
-            } else {
+            if ((this.type == BulletType.PLAYER && !(object instanceof Player))
+                    || (this.type == BulletType.ENEMY && !(object instanceof Enemy))) {
                 Tank tank = (Tank) object;
-                tank.health -= damageAmount;
+                tank.setHealth(tank.getHealth() - damageAmount);
                 if (tank.getHealth() <= 0) {
                     tank.onDeath();
                 }
@@ -115,7 +113,7 @@ public class Bullet extends GameObject {
     public void deserialize(String data) {
         String[] list = data.split(",");
         image = new Image(getClass().getResource("/Images/" + list[1]).toString());
-        position = new Point((int)Double.parseDouble(list[2]), (int)Double.parseDouble(list[3]));
+        position = new Point((int) Double.parseDouble(list[2]), (int) Double.parseDouble(list[3]));
         direction = Integer.parseInt(list[4]);
         height = Integer.parseInt(list[5]);
         width = Integer.parseInt(list[6]);
