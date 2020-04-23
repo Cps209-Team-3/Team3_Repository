@@ -161,7 +161,7 @@ public class MainWindow {
             Stage gameWindow = new Stage();
             gameWindow.setScene(new Scene(loader.load()));
             GameWindow window = loader.getController();
-            window.initialize(gameWindow);
+            window.initialize(gameWindow, this);
 
             gameWindow.show();
 
@@ -172,6 +172,10 @@ public class MainWindow {
 
     @FXML
     void deleteGameButtonPressed(ActionEvent event, String gameName) {
+        deleteSavedGame(gameName);
+    }
+
+    public void deleteSavedGame(String gameName) {
         // Copies GameBackup into GameBackup1 without the information that we are deleting
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("GameBackup1.txt"))) {
             BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"));
@@ -192,7 +196,7 @@ public class MainWindow {
             reader.close();
                 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         // Copies GameBackup1 into GameBackup
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("GameBackup.txt"))) {
@@ -205,7 +209,7 @@ public class MainWindow {
             }
             reader.close();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         World.instance().getListOfSavedGames().remove(World.instance().getListOfSavedGames().indexOf(gameName));
         setupLoadPage();
@@ -220,6 +224,7 @@ public class MainWindow {
         Label title = new Label("Saved Games");
         title.setStyle("-fx-font-size: 28pt;");
         MidVbox.getChildren().add(title);
+        
         ArrayList<String> list = World.instance().getListOfSavedGames();
         if (list.size() > 0) {
             for (String savedGame : list) {
@@ -242,6 +247,7 @@ public class MainWindow {
             MidVbox.getChildren().add(label);
         }
     }
+
 
     @FXML
     public void onButtonClicked(ActionEvent e) throws Exception {
@@ -333,7 +339,7 @@ public class MainWindow {
                     Stage gameWindow = new Stage();
                     gameWindow.setScene(new Scene(loader.load()));
                     GameWindow window = loader.getController();
-                    window.initialize(gameWindow);
+                    window.initialize(gameWindow, this);
 
                     gameWindow.show();
                     

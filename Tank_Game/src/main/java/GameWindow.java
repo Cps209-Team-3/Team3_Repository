@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.ImageCursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import model.World;
 import model.gameObjects.GameObject;
 import model.gameObjects.Tank;
@@ -46,10 +46,10 @@ public class GameWindow {
     private Map<GameObject, ImageView> images = new HashMap<>();
 
     private Stage gameWindow;
-    private Button saveAndExit = new Button("Save and Exit");
     private ImageView image;
     private Text score = new Text("Score: 0");
     private Text waveNum = new Text("Wave: ");
+    private MainWindow mainWindow = null;
 
     // Player Tank Fires (TBF)
     @FXML
@@ -61,6 +61,9 @@ public class GameWindow {
     void onMouseMoved(MouseEvent value) {
         // Hand Mouse Coordinates to player tank's head TBF
         mouse.setLocation(value.getX(), value.getY());
+        // The image is a temporary replacement until Austin makes one.
+        var newCursor = new ImageCursor(new Image("/Images/ControlsSlide.png"));
+        pane.setCursor(newCursor);
     }
 
     /*
@@ -70,35 +73,19 @@ public class GameWindow {
      * }
      */
 
-    void initialize(Stage gameWindow) {
-        saveAndExit.setStyle("-fx-font-size: 14");
-        saveAndExit.setLayoutX(660);
-        saveAndExit.setOnAction(e -> onClickedSaveAndExit(e));
+    void initialize(Stage gameWindow, MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
         this.gameWindow = gameWindow;
         pane.setFocusTraversable(true);
         pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                World.instance().handleInput(event.getText().charAt(0));
+                handleInput(event);
             }
         });
         run();
     }
 
-    @FXML
-    void onClickedSaveAndExit(ActionEvent event) {
-        String gameName = JOptionPane.showInputDialog(new JFrame(), "Please enter the name of your game.");
-        while (World.instance().getListOfSavedGames().indexOf(gameName) != -1) {
-            gameName = JOptionPane.showInputDialog(new JFrame(),
-                    "That name is taken ... Please enter the name of your game.");
-        }
-        try {
-            World.instance().save("GameBackup.txt", gameName);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        gameWindow.close();
-    }
 
     public void run() {
         image = new ImageView();
@@ -107,7 +94,6 @@ public class GameWindow {
         image.setFitHeight(pane.getHeight());
         background.getChildren().add(image);
 
-        buttonPane.getChildren().add(saveAndExit);
 
         score.setX(0);
         score.setY(0);
@@ -118,11 +104,6 @@ public class GameWindow {
 
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();
-    }
-
-    // Pauses the game loop & pops up pause screen
-    public void pause() {
-        clock.pause();
     }
 
     public void gameLoop() {
@@ -173,5 +154,76 @@ public class GameWindow {
         image.setPreserveRatio(true);
         image.setRotate(tank.getTurretDirection());
         pane.getChildren().add(image);
+    }
+
+    // Pause Window
+    // It can resume gameplay, exit the gamewindow,
+    // or save and exit the gamewindow
+    void pauseGame() {
+    // Pauses the game loop & pops up pause screen
+        clock.pause();
+        
+
+        
+        
+        gameWindow.setAlwaysOnTop(false);
+        Object[] buttonTexts = {"Resume",
+                            "Exit",
+                            "Save and Exit"};
+
+        JOptionPane optionPane = new JOptionPane();
+        int choice = JOptionPane.showOptionDialog(null,
+            "You have paused the game.",
+            "Paused",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            buttonTexts,
+            buttonTexts[0]
+            );
+
+        switch (choice) {
+            case 0:
+                clock.play();
+                break;
+            case 2:
+                String gameName = null;
+                while (true) {
+                    JOptionPane nameGame = new JOptionPane();
+                    gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
+                    if (World.instance().getListOfSavedGames().indexOf(gameName) != -1 && gameName != null) {
+                        JOptionPane nameTaken = new JOptionPane();
+                        int answer = JOptionPane.showConfirmDialog(nameTaken, "That name is taken ... would you like to override it?");
+                        if (answer == 0) {
+                            mainWindow.deleteSavedGame(gameName);
+                            break;
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+                try {
+                    if (gameName != null) {
+                        World.instance().save("GameBackup.txt", gameName);
+                    }
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+                
+
+            case 1: 
+                gameWindow.close();
+                break;
+        }
+        gameWindow.setAlwaysOnTop(true);
+    }
+
+    void handleInput(KeyEvent key) {
+        if (key.getCode() == KeyCode.ESCAPE) {
+            pauseGame();
+        } else {
+            World.instance().handleInput(key.getText().charAt(0));
+        }
     }
 }

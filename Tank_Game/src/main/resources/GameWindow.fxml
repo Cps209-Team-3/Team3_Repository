@@ -9,7 +9,7 @@
     <Pane fx:id="background" prefHeight="900" prefWidth="1440" />
     <Pane fx:id="pane" prefHeight="900" prefWidth="1440" onMouseClicked="#onMouseClicked"
         onMouseMoved="#onMouseMoved" />
-    <Pane fx:id="buttonPane" prefHeight="900" prefWidth="1440" />
+    <Pane fx:id="buttonPane" prefHeight="500" prefWidth="1440" />
     
     
 
