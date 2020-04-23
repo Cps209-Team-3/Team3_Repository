@@ -93,7 +93,9 @@ public class Player extends Tank {
 
     @Override
     public void onDeath() {
-        World.instance().removeObject(this);
+        if (!World.instance().isCheatMode()) {
+            World.instance().removeObject(this);
+        }
     }
 
     @Override

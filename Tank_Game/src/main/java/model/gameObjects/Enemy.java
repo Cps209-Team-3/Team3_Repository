@@ -76,31 +76,34 @@ public class Enemy extends Tank {
                 (int) player.getPosition().getY() + player.getHeight() / 2);
     }
 
-    public void targetPlayer() {
+    public int targetPlayer() {
         Point playerPosition = findPlayer();
-        double dx = playerPosition.getX() - position.getX();
-        double dy = playerPosition.getY() - position.getY();
-        double dist = Math.hypot(dx, dy);
-
-        dx = dx / dist;
-        dy = dy / dist;
-
-        position = new Point((int) position.getX() + ((int) dx * speed), (int) position.getY() + ((int) dy * speed));
+        double y2 = playerPosition.getY() - position.getY();
+        double x2 = playerPosition.getX() - position.getX();
+        return (int) Math.toDegrees(Math.atan2(y2, x2));
     }
 
     // Changes state randomly to a different state than the current one.
     public void changeState() {
         Random random = new Random();
-        int num = random.nextInt(2);
+        int num = random.nextInt(7);
         switch (state) {
             case CHARGE:
-                state = num == 0 ? EnemyState.FLEE : EnemyState.PAUSE;
+                if (num <= 3) {
+                    state = EnemyState.PAUSE;
+                } else if (num > 3) {
+                    state = EnemyState.FLEE;
+                }
                 break;
             case FLEE:
-                state = num == 0 ? EnemyState.CHARGE : EnemyState.PAUSE;
+                if (num <= 3) {
+                    state = EnemyState.PAUSE;
+                } else if (num > 3) {
+                    state = EnemyState.CHARGE;
+                }
                 break;
             case PAUSE:
-                state = num == 0 ? EnemyState.CHARGE : EnemyState.FLEE;
+                state = num > 2 ? EnemyState.CHARGE : EnemyState.FLEE;
                 break;
         }
     }
@@ -118,14 +121,15 @@ public class Enemy extends Tank {
         switch (state) {
             case CHARGE:
                 // move toward player
-                x = (int) position.getX() + (int) (dx * speed);
+                x = (int) position.getX() + (int) (dx * speed); 
                 y = (int) position.getY() + (int) (dy * speed);
                 if (World.instance().findCollision(this) != null) {
                     lastPosition = position;
                     position = new Point(x, y);
+                    turretDirection = targetPlayer();
                 } else {
                     position = lastPosition;
-                } 
+                }
                 break;
             case FLEE:
                 // move away from player
@@ -134,16 +138,17 @@ public class Enemy extends Tank {
                 if (World.instance().findCollision(this) != null) {
                     lastPosition = position;
                     position = new Point(x, y);
+                    turretDirection = targetPlayer();
                 } else {
                     position = lastPosition;
-                }               
+                }
                 break;
             case PAUSE:
                 World.instance().addObject(fire());
                 changeState();
                 break;
         }
-        if(position.getX() > 1330) {
+        if (position.getX() > 1330) {
             position.setLocation(1330.0, position.getY());
         } else if (position.getX() < 30) {
             position.setLocation(30, position.getY());
@@ -185,7 +190,7 @@ public class Enemy extends Tank {
     public void deserialize(String data) {
         String[] list = data.split(",");
         image = new Image(getClass().getResource("/Images/" + list[1]).toString());
-        position = new Point((int)Double.parseDouble(list[2]), (int)Double.parseDouble(list[3]));
+        position = new Point((int) Double.parseDouble(list[2]), (int) Double.parseDouble(list[3]));
         direction = Integer.parseInt(list[4]);
         height = Integer.parseInt(list[5]);
         width = Integer.parseInt(list[6]);

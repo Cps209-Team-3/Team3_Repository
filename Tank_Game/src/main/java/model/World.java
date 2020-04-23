@@ -51,7 +51,7 @@ public class World {
         width = 1440;
         score = -20;
         currentWave = 3;
-        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
+        playerTank = new Player(new Point(37, 64), 0, 50, 60, 500, 10, 90, 5, 5, new Point(30, 60));
         listOfEntities.add(playerTank);
         fillListOfSavedGames();
     }
@@ -207,10 +207,13 @@ public class World {
      * @param inp - input of the user
      */
     public void handleInput(char inp) {
-        if (inp == '%') {
-            World.instance().addObject(playerTank.fire());
-        } else {
-            playerTank.move(inp);
+        // Check for game end, may want to adjust this so GameWindow knows.
+        if (listOfEntities.contains(playerTank)) {
+            if (inp == '%') {
+                World.instance().addObject(playerTank.fire());
+            } else {
+                playerTank.move(inp);
+            }
         }
     }
 
@@ -455,4 +458,7 @@ public class World {
         this.listOfSavedGames = listOfSavedGames;
     }
 
+    public boolean isCheatMode() {
+        return cheatMode;
+    }
 }

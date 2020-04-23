@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.World;
+import model.gameObjects.Bullet;
 import model.gameObjects.GameObject;
 import model.gameObjects.Tank;
 
@@ -120,13 +121,20 @@ public class GameWindow {
                 image.setX(object.getPosition().getX());
                 image.setY(object.getPosition().getY());
 
-                image.setRotate(object.getDirection());
+                if (object instanceof Bullet) {
+                    image.setRotate(object.getDirection() + 90);
+                } else {
+                    image.setRotate(object.getDirection());
+                }
             } else { // Not handled
                 image = new ImageView();
                 image.setX(object.getPosition().getX());
                 image.setY(object.getPosition().getY());
-
-                image.setRotate(object.getDirection());
+                if (object instanceof Bullet) {
+                    image.setRotate(object.getDirection() + 90);
+                } else {
+                    image.setRotate(object.getDirection());
+                }
                 image.setImage(object.getImage());
                 image.setPreserveRatio(true);
                 
