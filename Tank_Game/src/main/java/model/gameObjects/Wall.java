@@ -25,6 +25,7 @@ public class Wall extends GameObject {
     public Wall() {
     }
 
+    @Override
     public String serialize() {
         String serialization = "Wall,";
         Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width};

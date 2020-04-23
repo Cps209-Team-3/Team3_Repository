@@ -90,7 +90,7 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
-        World.reset();
+        world.reset();
         // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
@@ -153,20 +153,16 @@ public class MainWindow {
     }
 
     @FXML
-    void savedGameButtonPressed(ActionEvent event, String gameName) {
-        Button gameSavedLabel = (Button) event.getSource();
+    void loadGameButtonPressed(ActionEvent event, String gameName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
-
             Stage gameWindow = new Stage();
             gameWindow.setScene(new Scene(loader.load()));
             GameWindow window = loader.getController();
             window.initialize(gameWindow, this);
-
             gameWindow.show();
-
         } catch (IOException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -234,7 +230,7 @@ public class MainWindow {
                 Button load = new Button("Load Saved Game");
                 label.setStyle("-fx-font-size: 14pt;");
                 load.setStyle("-fx-font-size: 14pt;");
-                load.setOnAction(i -> savedGameButtonPressed(i, label.getText()));
+                load.setOnAction(i -> loadGameButtonPressed(i, label.getText()));
                 delete.setStyle("-fx-font-size: 14pt");
                 delete.setOnAction(i -> deleteGameButtonPressed(i, label.getText()));
                 hbox.setStyle("-fx-alignment: center; -fx-spacing: 15");
@@ -303,7 +299,7 @@ public class MainWindow {
                 }
 
                 if (btnClicked.getText().equals("Easy")) {
-                    World.reset();
+                    //world.reset();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     // Stage gameWindow = new Stage();
@@ -333,7 +329,7 @@ public class MainWindow {
                 }
                 if (btnClicked.getText().equals("Easy") || btnClicked.getText().equals("Medium")
                         || btnClicked.getText().equals("Hard")) {
-                    World.instance().setDifficulty(Difficulty.EASY);
+                   World.instance().setDifficulty(Difficulty.EASY);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     Stage gameWindow = new Stage();

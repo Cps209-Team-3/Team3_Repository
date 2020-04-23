@@ -6,12 +6,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import model.enums.Difficulty;
 import model.gameObjects.Bullet;
 import model.gameObjects.Enemy;
+import model.gameObjects.FastFirePowerup;
 import model.gameObjects.GameObject;
+import model.gameObjects.HealthPowerup;
 import model.gameObjects.Player;
+import model.gameObjects.Powerup;
+import model.gameObjects.SpeedyPowerup;
 import model.gameObjects.Tank;
 import model.gameObjects.Wall;
 
@@ -49,8 +54,12 @@ public class World {
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         listOfEntities.add(playerTank);
         fillListOfSavedGames();
+        generatePowerups();
     }
 
+    /**
+    * Fills up the listOfSavedGames with all the saved games from the file "GameBackup.txt"
+    */
     public void fillListOfSavedGames() {
         try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
             String line = reader.readLine();
@@ -61,7 +70,31 @@ public class World {
                 line = reader.readLine();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+    * Puts a random amount of random powerups randomly around the world
+    */
+    public void generatePowerups() {
+        Random random = new Random();
+        int powerupCount = random.nextInt(2) + 1;
+        Powerup powerup = null;
+        for (int i = 0; i < powerupCount; i++) {
+            switch (random.nextInt(2)) {
+                case 0:
+                    powerup = new HealthPowerup();
+                    break;
+                case 1:
+                    powerup = new SpeedyPowerup();
+                    break;
+                case 2:
+                    powerup = new FastFirePowerup();
+                    break;
+            }
+            powerup.setPosition(new Point(random.nextInt(width), random.nextInt(height)));
+            listOfEntities.add(powerup);
         }
     }
 
@@ -75,6 +108,7 @@ public class World {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String endOfFile = null;
         int index = listOfEntities.indexOf(gameName);
+        System.out.println("index " + index);
         if (listOfSavedGames.size() > index) {
             endOfFile = listOfSavedGames.get(index + 1);
         }

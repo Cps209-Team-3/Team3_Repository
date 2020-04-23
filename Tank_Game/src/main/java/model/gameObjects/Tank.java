@@ -63,4 +63,20 @@ public abstract class Tank extends GameObject {
     public void setLastPosition(Point lastPosition) {
         this.lastPosition = lastPosition;
     }
+
+    public int getReloadTime() {
+        return reloadTime;
+    }
+
+    public void setReloadTime(int reloadTime) {
+        this.reloadTime = reloadTime;
+    }
+
+    public int getReloadStatus() {
+        return reloadStatus;
+    }
+
+    public void setReloadStatus(int reloadStatus) {
+        this.reloadStatus = reloadStatus;
+    }
 }
