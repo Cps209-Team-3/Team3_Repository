@@ -54,7 +54,6 @@ public class World {
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         listOfEntities.add(playerTank);
         fillListOfSavedGames();
-        generatePowerups();
     }
 
     /**
@@ -82,7 +81,8 @@ public class World {
         int powerupCount = random.nextInt(2) + 1;
         Powerup powerup = null;
         for (int i = 0; i < powerupCount; i++) {
-            switch (random.nextInt(2)) {
+            int powerupID = random.nextInt(3);
+            switch (powerupID) {
                 case 0:
                     powerup = new HealthPowerup();
                     break;
@@ -108,7 +108,6 @@ public class World {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String endOfFile = null;
         int index = listOfEntities.indexOf(gameName);
-        System.out.println("index " + index);
         if (listOfSavedGames.size() > index) {
             endOfFile = listOfSavedGames.get(index + 1);
         }
@@ -169,6 +168,7 @@ public class World {
         // playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
         boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
+            
             if (object instanceof Tank) {
                 if (object instanceof Enemy) {
                     if (waveComplete) {
@@ -232,6 +232,7 @@ public class World {
             }
             listOfEntities.add(tank);
         }
+        generatePowerups();
     }
 
     // Handles wave ending
@@ -266,6 +267,9 @@ public class World {
                 object2.onCollision(object1);
             } else {
                 // Wall collided with Wall?
+            }
+            if (object2 instanceof Powerup) {
+                object2.onCollision(object1); 
             }
         }
     }

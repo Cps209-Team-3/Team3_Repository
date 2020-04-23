@@ -299,7 +299,7 @@ public class MainWindow {
                 }
 
                 if (btnClicked.getText().equals("Easy")) {
-                    //world.reset();
+                    world.reset();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     // Stage gameWindow = new Stage();
@@ -329,14 +329,13 @@ public class MainWindow {
                 }
                 if (btnClicked.getText().equals("Easy") || btnClicked.getText().equals("Medium")
                         || btnClicked.getText().equals("Hard")) {
-                   World.instance().setDifficulty(Difficulty.EASY);
+                    World.instance().setDifficulty(Difficulty.EASY);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     Stage gameWindow = new Stage();
                     gameWindow.setScene(new Scene(loader.load()));
                     GameWindow window = loader.getController();
                     window.initialize(gameWindow, this);
-
                     gameWindow.show();
                     
                     screen = Screen.TITLE;

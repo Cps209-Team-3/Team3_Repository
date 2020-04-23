@@ -1,13 +1,24 @@
 package model.gameObjects;
 
 import java.awt.Point;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 import model.enums.PowerupType;
 
-public class Powerup extends GameObject {
+public abstract class Powerup extends GameObject {
 
     PowerupType type;
+    Tank tank = null;
+    int frameCount = 0;
+    KeyFrame keyFrame = new KeyFrame(Duration.millis(1000), e -> powerupPower());
+    Timeline timeline = new Timeline(keyFrame);
 
+
+
+    public abstract void powerupPower();
 
     @Override
     public void deserialize(String data) {
@@ -30,7 +41,7 @@ public class Powerup extends GameObject {
 
     @Override
     public String serialize() {
-        String serialization = "HealthPowerup,";
+        String serialization = "Powerup,";
         Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width, type};
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();

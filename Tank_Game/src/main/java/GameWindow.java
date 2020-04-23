@@ -112,6 +112,7 @@ public class GameWindow {
         ArrayList<GameObject> handledObjects = new ArrayList<>();
         score.setText("Score:" + World.instance().getScore());
         waveNum.setText("Wave: " + World.instance().getCurrentWave());
+
         for (GameObject object : objects) {
             handledObjects.add(object);
             if (images.containsKey(object)) { // Previously handled

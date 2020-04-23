@@ -1,8 +1,5 @@
 package model.gameObjects;
 
-import java.awt.Point;
-import java.util.Random;
-
 import javafx.scene.image.Image;
 import model.World;
 import model.enums.PowerupType;
@@ -14,7 +11,6 @@ public class FastFirePowerup extends Powerup {
      * Initializes a new Powerup with random parameters.
      */
     public FastFirePowerup() {
-        Random random = new Random();
         //Temporary holding image
         image = new Image(getClass().getResource("/Images/wall.png").toString());
         position = null;
@@ -26,10 +22,20 @@ public class FastFirePowerup extends Powerup {
 
     @Override
     public void onCollision(GameObject object) {
-        World.instance().removeObject(this);
         if (object instanceof Player) {
-            Tank tank = (Tank) object;
+            World.instance().removeObject(this);
+            tank = (Tank) object;
             tank.setReloadTime(2);
+            timeline.setCycleCount(10);
+            timeline.play();
+        }
+    }
+
+    @Override
+    public void powerupPower() {
+        frameCount++;
+        if (frameCount >= 10) {
+            tank.setReloadTime(5);
         }
     }
 }
