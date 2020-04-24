@@ -108,7 +108,7 @@ public class GameWindow {
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
         score.setText("Score:" + World.instance().getScore());
-        waveNum.setText("Wave: " + (World.instance().getCurrentWave() - 3));
+        waveNum.setText("Wave: " + (World.instance().getCurrentWave()));
 
         for (GameObject object : objects) {
             handledObjects.add(object);
@@ -119,6 +119,14 @@ public class GameWindow {
                 image.setY(object.getPosition().getY());
                 images.add(image);
                 if (object instanceof Bullet) {
+                    if (!object.getImage().equals(image.getImage())) {
+                        image.setImage(object.getImage());
+                        image.setX(object.getPosition().getX() - 50);
+                        image.setY(object.getPosition().getY() - 50);
+                    } else if (object.getImage().getUrl().endsWith("explosion.gif")) {
+                        image.setX(object.getPosition().getX() - 50);
+                        image.setY(object.getPosition().getY() - 50);
+                    }
                     image.setRotate(object.getDirection() + 90);
                 } else if (object instanceof Tank) {
                     Tank tank = (Tank) object;
@@ -147,8 +155,8 @@ public class GameWindow {
 
                     Bounds bound = image.getBoundsInLocal();
                     image = new ImageView();
-                    image.setX(bound.getCenterX()- 20);
-                    image.setY(bound.getCenterY()- 50);
+                    image.setX(bound.getCenterX() - 20);
+                    image.setY(bound.getCenterY() - 105);
                     image.setImage(new Image("/Images/cannonfiresprites.gif"));
                     image.setPreserveRatio(true);
                     image.setRotate(tank.getTurretDirection() + 90);
@@ -174,10 +182,10 @@ public class GameWindow {
             tiedImages.remove(object);
         }
         // When the player dies
-        if (World.instance().getPlayerTank().getHealth() < 0) {
+        if (!World.instance().getListOfEntities().contains(World.instance().getPlayerTank())) {
             gameWindow.close();
             clock.stop();
-            World.instance().reset();
+            World.reset();
         }
     }
 
@@ -236,7 +244,9 @@ public class GameWindow {
         if (key.getCode() == KeyCode.ESCAPE) {
             pauseGame();
         } else {
-            World.instance().handleInput(key.getText().charAt(0));
+            if (!key.getText().isEmpty()) {
+                World.instance().handleInput(key.getText().charAt(0));
+            }
         }
     }
 }

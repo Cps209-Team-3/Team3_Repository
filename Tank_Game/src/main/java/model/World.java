@@ -20,7 +20,7 @@ public class World {
     int currentWave;
     Difficulty difficulty;
     Player playerTank;
-    boolean cheatMode = false;
+    boolean cheatMode = true;
     int cycleCount;
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
@@ -42,15 +42,16 @@ public class World {
         height = 900;
         width = 1440;
         score = -20;
-        currentWave = 3;
-        playerTank = new Player(new Point(37, 64), 0, 50, 60, 500, 10, 90, 5, 5, new Point(30, 60));
+        currentWave = 0;
+        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         listOfEntities.add(playerTank);
         fillListOfSavedGames();
     }
 
     /**
-    * Fills up the listOfSavedGames with all the saved games from the file "GameBackup.txt"
-    */
+     * Fills up the listOfSavedGames with all the saved games from the file
+     * "GameBackup.txt"
+     */
     public void fillListOfSavedGames() {
         try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
             String line = reader.readLine();
@@ -66,8 +67,8 @@ public class World {
     }
 
     /**
-    * Puts a random amount of random powerups randomly around the world
-    */
+     * Puts a random amount of random powerups randomly around the world
+     */
     public void generatePowerups() {
         Random random = new Random();
         int powerupCount = random.nextInt(2) + 1;
@@ -160,7 +161,7 @@ public class World {
         // playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
         boolean waveComplete = true;
         for (GameObject object : listOfEntities) {
-            
+
             if (object instanceof Tank) {
                 if (object instanceof Enemy) {
                     if (waveComplete) {
@@ -169,7 +170,7 @@ public class World {
 
                     Enemy tank = (Enemy) object;
                     enemies.add(tank);
-                    if (cycleCount > 29) {
+                    if (cycleCount%30 == 0) {
                         tank.changeState();
                     }
                 }
@@ -184,12 +185,12 @@ public class World {
         for (Bullet bullet : bullets) {
             bullet.move();
         }
-        if (cycleCount > 29) {
+        if (cycleCount > 180) {
             cycleCount = 0;
         }
         detectAnyCollisions();
         if (waveComplete) {
-            onWaveEnd();
+            onWaveEnd(cycleCount);
         }
     }
 
@@ -231,16 +232,18 @@ public class World {
     }
 
     // Handles wave ending
-    public void onWaveEnd() {
-        if (listOfEntities.contains(playerTank)) {
-            score += 20;
-            currentWave += 1;
-            listOfEntities.clear();
-            playerTank.setHealth(5); // REFRESH PLAYER HEALTH
-            listOfEntities.add(playerTank);
-            createWave();
-        } else {
-            // TODO: END THE GAME
+    public void onWaveEnd(int readyNum) {
+        if (readyNum > 179) {
+            if (listOfEntities.contains(playerTank)) {
+                score += 20;
+                currentWave += 1;
+                listOfEntities.clear();
+                playerTank.setHealth(5); // REFRESH PLAYER HEALTH
+                listOfEntities.add(playerTank);
+                createWave();
+            } else {
+                // TODO: END THE GAME
+            }
         }
     }
 
@@ -268,7 +271,7 @@ public class World {
                 // Wall collided with Wall?
             }
             if (object2 instanceof Powerup) {
-                object2.onCollision(object1); 
+                object2.onCollision(object1);
             }
         }
     }

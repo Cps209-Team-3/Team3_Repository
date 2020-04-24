@@ -2,7 +2,12 @@ package model.gameObjects;
 
 import model.World;
 import model.enums.BulletType;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
+
 import java.awt.Point;
 
 public class Bullet extends GameObject {
@@ -11,6 +16,7 @@ public class Bullet extends GameObject {
     int damageAmount;
     BulletType type;
     int numMoves = 0;
+    boolean exploding = false;
 
     /**
      * Initializes a new Bullet using parameters.
@@ -43,31 +49,49 @@ public class Bullet extends GameObject {
 
     // moves the bullet in the direction of 'direction', by the amount of 'speed'.
     public void move() {
-        numMoves += 1;
-        double newX = speed * Math.cos(direction * Math.PI / 180);
-        double newY = speed * Math.sin(direction * Math.PI / 180);
-        position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
-        if (numMoves > 360) {
-            World.instance().removeObject(this);
+        if (!exploding) {
+            numMoves += 1;
+            double newX = speed * Math.cos(direction * Math.PI / 180);
+            double newY = speed * Math.sin(direction * Math.PI / 180);
+            position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
+            if (numMoves > 360) {
+                World.instance().removeObject(this);
+            }
+        } else {
+            if (numMoves > 29) {
+                World.instance().removeObject(this);
+            } else {
+                numMoves += 1;
+            }
         }
     }
 
     @Override
     public void onCollision(GameObject object) {
-        if (object instanceof Tank) {
-            if ((this.type == BulletType.PLAYER && !(object instanceof Player))
-                    || (this.type == BulletType.ENEMY && !(object instanceof Enemy))) {
-                Tank tank = (Tank) object;
-                tank.setHealth(tank.getHealth() - damageAmount);
-                if (tank.getHealth() <= 0) {
-                    tank.onDeath();
+        if (!exploding) {
+            if (object instanceof Tank) {
+                if ((this.type == BulletType.PLAYER && !(object instanceof Player))
+                        || (this.type == BulletType.ENEMY && !(object instanceof Enemy))) {
+                    exploding = true;
+                    image = new Image("/Images/explosion.gif");
+                    Tank tank = (Tank) object;
+                    tank.setHealth(tank.getHealth() - damageAmount);
+                    if (tank.getHealth() <= 0) {
+                        tank.onDeath();
+                    }
+                    numMoves = 0;
                 }
-                World.instance().removeObject(this);
+            } else if (object instanceof Wall || object instanceof Bullet) {
+                // Run explosion animation
+                exploding = true;
+                image = new Image("/Images/explosion.gif");
+                numMoves = 0;
             }
-        } else if (object instanceof Wall || object instanceof Bullet) {
-            // Run explosion animation
-            World.instance().removeObject(this);
         }
+    }
+
+    public void explode() {
+        World.instance().removeObject(this);
     }
 
     public int getSpeed() {
