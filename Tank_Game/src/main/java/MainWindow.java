@@ -48,7 +48,7 @@ public class MainWindow {
     @FXML
     Button thirdBtn = new Button("Help");
     @FXML
-    Button fourthBtn = new Button("About (Paid DLC: $500K or wait a week)"); // REMOVE () FOR BETA!!!
+    Button fourthBtn = new Button("About"); // REMOVE () FOR BETA!!!
     @FXML
     Button fifthBtn = new Button("High Scores");
     @FXML
@@ -148,8 +148,6 @@ public class MainWindow {
                 e1.printStackTrace();
             }
         });
-
-        fourthBtn.setStyle("-fx-font-size: 10pt;"); // REMOVE FOR BETA!!!
     }
 
     @FXML
