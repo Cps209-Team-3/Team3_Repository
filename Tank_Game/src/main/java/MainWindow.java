@@ -90,8 +90,8 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
-        World.reset();
-        // scoreList.load();
+        world.reset();
+        scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
@@ -297,7 +297,7 @@ public class MainWindow {
                 }
 
                 if (btnClicked.getText().equals("Easy")) {
-                    World.reset();
+                    world.reset();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     // Stage gameWindow = new Stage();
