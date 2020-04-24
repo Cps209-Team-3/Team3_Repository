@@ -13,7 +13,7 @@ public class FastFirePowerup extends Powerup {
      */
     public FastFirePowerup() {
         //Temporary holding image
-        image = new Image(getClass().getResource("/Images/wall.png").toString());
+        image = new Image(getClass().getResource("/Images/powercrate.png").toString());
         position = null;
         direction = 0;
         height = 10;

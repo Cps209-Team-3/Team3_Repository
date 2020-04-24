@@ -13,7 +13,7 @@ public class HealthPowerup extends Powerup {
      */
     public HealthPowerup() {
         //Temporary holding image
-        image = new Image(getClass().getResource("/Images/wall.png").toString());
+        image = new Image(getClass().getResource("/Images/healthcrate.png").toString());
         position = null;
         direction = 0;
         height = 10;

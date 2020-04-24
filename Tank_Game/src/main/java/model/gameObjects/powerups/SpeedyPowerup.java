@@ -13,7 +13,7 @@ public class SpeedyPowerup extends Powerup {
      */
     public SpeedyPowerup() {
         //Temporary holding image
-        image = new Image(getClass().getResource("/Images/wall.png").toString());
+        image = new Image(getClass().getResource("/Images/speedcrate.png").toString());
         position = null;
         direction = 0;
         height = 10;
