@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.Icon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.ImageCursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import model.World;
 import model.gameObjects.Bullet;
 import model.gameObjects.GameObject;
@@ -44,7 +44,8 @@ public class GameWindow {
     private Point mouse = new Point();
 
     private ArrayList<GameObject> objects = World.instance().getListOfEntities();
-    private Map<GameObject, ImageView> images = new HashMap<>();
+    private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>();
+    private ArrayList<ImageView> images;
 
     private Stage gameWindow;
     private ImageView image;
@@ -65,6 +66,10 @@ public class GameWindow {
         // The image is a temporary replacement until Austin makes one.
         var newCursor = new ImageCursor(new Image("/Images/ControlsSlide.png"));
         pane.setCursor(newCursor);
+        Point playerPosition = World.instance().getPlayerTank().getPosition();
+        double y2 = value.getY() - playerPosition.getY();
+        double x2 = value.getX() - playerPosition.getX();
+        World.instance().getPlayerTank().setTurretDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
     }
 
     /*
@@ -87,14 +92,12 @@ public class GameWindow {
         run();
     }
 
-
     public void run() {
         image = new ImageView();
         image.setImage(new Image("/Images/map.png"));
         image.setFitWidth(pane.getWidth());
         image.setFitHeight(pane.getHeight());
         background.getChildren().add(image);
-
 
         score.setX(0);
         score.setY(0);
@@ -116,13 +119,22 @@ public class GameWindow {
 
         for (GameObject object : objects) {
             handledObjects.add(object);
-            if (images.containsKey(object)) { // Previously handled
-                image = images.get(object);
+            images = new ArrayList<>();
+            if (tiedImages.containsKey(object)) { // Previously handled
+                image = tiedImages.get(object).get(0);
                 image.setX(object.getPosition().getX());
                 image.setY(object.getPosition().getY());
-
+                images.add(image);
                 if (object instanceof Bullet) {
                     image.setRotate(object.getDirection() + 90);
+                } else if (object instanceof Tank) {
+                    Tank tank = (Tank) object;
+                    image.setRotate(object.getDirection());
+                    Bounds bound = image.getBoundsInLocal();
+                    image = tiedImages.get(object).get(1);
+                    image.setY(bound.getCenterY() - 50);
+                    image.setX(bound.getCenterX() - 20);
+                    image.setRotate(tank.getTurretDirection() + 90);
                 } else {
                     image.setRotate(object.getDirection());
                 }
@@ -130,66 +142,60 @@ public class GameWindow {
                 image = new ImageView();
                 image.setX(object.getPosition().getX());
                 image.setY(object.getPosition().getY());
+                image.setImage(object.getImage());
+                image.setPreserveRatio(true);
+                images.add(image);
+                pane.getChildren().add(image);
                 if (object instanceof Bullet) {
                     image.setRotate(object.getDirection() + 90);
+                } else if (object instanceof Tank) {
+                    Tank tank = (Tank) object;
+                    image.setRotate(object.getDirection());
+
+                    Bounds bound = image.getBoundsInLocal();
+                    image = new ImageView();
+                    image.setX(bound.getCenterX() - 20);
+                    image.setY(bound.getCenterY() - 50);
+                    image.setImage(new Image("/Images/cannonfiresprites.gif"));
+                    image.setPreserveRatio(true);
+                    image.setRotate(tank.getTurretDirection() + 90);
+                    images.add(image);
+                    pane.getChildren().add(image);
                 } else {
                     image.setRotate(object.getDirection());
                 }
-                image.setImage(object.getImage());
-                image.setPreserveRatio(true);
-                
-                images.put(object, image);
-                pane.getChildren().add(image);
+
+                tiedImages.put(object, images);
             }
         }
-        for (Map.Entry<GameObject, ImageView> entry : images.entrySet()) {
+        for (Map.Entry<GameObject, ArrayList<ImageView>> entry : tiedImages.entrySet()) {
             if (!handledObjects.contains(entry.getKey())) {
-                pane.getChildren().remove(entry.getValue());
+                pane.getChildren().remove(entry.getValue().get(0));
+                if (entry.getValue().size() > 1) {
+                    pane.getChildren().remove(entry.getValue().get(1));
+                }
             } else {
                 handledObjects.remove(entry.getKey());
             }
         }
         for (GameObject object : handledObjects) {
-            images.remove(object);
+            tiedImages.remove(object);
         }
-    }
-
-    public void insertTurret(Tank tank) {
-        // causes severe lag and an OutOfMemoryError
-        image = new ImageView();
-        image.setX(tank.getPosition().getX() + tank.getWidth() / 2);
-        image.setY(tank.getPosition().getY() + tank.getHeight() / 2);
-        image.setImage(new Image("/Images/cannonfiresprites.gif"));
-        image.setPreserveRatio(true);
-        image.setRotate(tank.getTurretDirection());
-        pane.getChildren().add(image);
     }
 
     // Pause Window
     // It can resume gameplay, exit the gamewindow,
     // or save and exit the gamewindow
     void pauseGame() {
-    // Pauses the game loop & pops up pause screen
+        // Pauses the game loop & pops up pause screen
         clock.pause();
-        
 
-        
-        
         gameWindow.setAlwaysOnTop(false);
-        Object[] buttonTexts = {"Resume",
-                            "Exit",
-                            "Save and Exit"};
+        Object[] buttonTexts = { "Resume", "Exit", "Save and Exit" };
 
         JOptionPane optionPane = new JOptionPane();
-        int choice = JOptionPane.showOptionDialog(null,
-            "You have paused the game.",
-            "Paused",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            buttonTexts,
-            buttonTexts[0]
-            );
+        int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
 
         switch (choice) {
             case 0:
@@ -202,7 +208,8 @@ public class GameWindow {
                     gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
                     if (World.instance().getListOfSavedGames().indexOf(gameName) != -1 && gameName != null) {
                         JOptionPane nameTaken = new JOptionPane();
-                        int answer = JOptionPane.showConfirmDialog(nameTaken, "That name is taken ... would you like to override it?");
+                        int answer = JOptionPane.showConfirmDialog(nameTaken,
+                                "That name is taken ... would you like to override it?");
                         if (answer == 0) {
                             mainWindow.deleteSavedGame(gameName);
                             break;
@@ -219,9 +226,8 @@ public class GameWindow {
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
-                
 
-            case 1: 
+            case 1:
                 gameWindow.close();
                 break;
         }

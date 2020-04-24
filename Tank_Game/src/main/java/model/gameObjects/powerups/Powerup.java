@@ -1,4 +1,4 @@
-package model.gameObjects;
+package model.gameObjects.powerups;
 
 import java.awt.Point;
 
@@ -7,6 +7,8 @@ import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import model.enums.PowerupType;
+import model.gameObjects.GameObject;
+import model.gameObjects.Tank;
 
 public abstract class Powerup extends GameObject {
 

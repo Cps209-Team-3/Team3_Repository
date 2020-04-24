@@ -9,16 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.enums.Difficulty;
-import model.gameObjects.Bullet;
-import model.gameObjects.Enemy;
-import model.gameObjects.FastFirePowerup;
-import model.gameObjects.GameObject;
-import model.gameObjects.HealthPowerup;
-import model.gameObjects.Player;
-import model.gameObjects.Powerup;
-import model.gameObjects.SpeedyPowerup;
-import model.gameObjects.Tank;
-import model.gameObjects.Wall;
+import model.gameObjects.*;
+import model.gameObjects.powerups.*;
 
 public class World {
 
@@ -207,7 +199,7 @@ public class World {
      * @param inp - input of the user
      */
     public void handleInput(char inp) {
-        // Check for game end, may want to adjust this so GameWindow knows.
+        // Check for game end, may want to adjust this so GameWindow knows.a
         if (listOfEntities.contains(playerTank)) {
             if (inp == '%') {
                 World.instance().addObject(playerTank.fire());
@@ -240,12 +232,16 @@ public class World {
 
     // Handles wave ending
     public void onWaveEnd() {
-        score += 20;
-        currentWave += 1;
-        listOfEntities.clear();
-        playerTank.setHealth(5); // REFRESH PLAYER HEALTH
-        listOfEntities.add(playerTank);
-        createWave();
+        if (listOfEntities.contains(playerTank)) {
+            score += 20;
+            currentWave += 1;
+            listOfEntities.clear();
+            playerTank.setHealth(5); // REFRESH PLAYER HEALTH
+            listOfEntities.add(playerTank);
+            createWave();
+        } else {
+            // TODO: END THE GAME
+        }
     }
 
     /**

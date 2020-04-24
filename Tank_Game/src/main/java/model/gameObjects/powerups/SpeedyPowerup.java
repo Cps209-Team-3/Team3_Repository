@@ -1,23 +1,24 @@
-package model.gameObjects;
+package model.gameObjects.powerups;
 
 import javafx.scene.image.Image;
 import model.World;
 import model.enums.PowerupType;
+import model.gameObjects.*;
 
 
-public class FastFirePowerup extends Powerup {
+public class SpeedyPowerup extends Powerup {
 
     /**
      * Initializes a new Powerup with random parameters.
      */
-    public FastFirePowerup() {
+    public SpeedyPowerup() {
         //Temporary holding image
         image = new Image(getClass().getResource("/Images/wall.png").toString());
         position = null;
         direction = 0;
         height = 10;
         width = 10;
-        type = PowerupType.FAST_FIRE;
+        type = PowerupType.SPEEDY;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class FastFirePowerup extends Powerup {
         if (object instanceof Player) {
             World.instance().removeObject(this);
             tank = (Tank) object;
-            tank.setReloadTime(2);
+            tank.setSpeed(20);
             timeline.setCycleCount(10);
             timeline.play();
         }
@@ -35,7 +36,7 @@ public class FastFirePowerup extends Powerup {
     public void powerupPower() {
         frameCount++;
         if (frameCount >= 10) {
-            tank.setReloadTime(5);
+            tank.setSpeed(10);
         }
     }
 }

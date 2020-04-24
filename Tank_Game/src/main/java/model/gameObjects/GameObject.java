@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 
 public abstract class GameObject {
 
-    Image image;
-    Point position;
-    int direction;
-    int height;
-    int width;
+    protected Image image;
+    protected Point position;
+    protected int direction;
+    protected int height;
+    protected int width;
 
     /**
      * Serialize all basic variables of a GameObject.

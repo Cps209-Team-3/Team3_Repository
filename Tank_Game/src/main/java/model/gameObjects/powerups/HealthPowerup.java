@@ -1,42 +1,37 @@
-package model.gameObjects;
+package model.gameObjects.powerups;
 
-import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import model.World;
 import model.enums.PowerupType;
+import model.gameObjects.*;
 
 
-public class SpeedyPowerup extends Powerup {
+public class HealthPowerup extends Powerup {
 
     /**
      * Initializes a new Powerup with random parameters.
      */
-    public SpeedyPowerup() {
+    public HealthPowerup() {
         //Temporary holding image
         image = new Image(getClass().getResource("/Images/wall.png").toString());
         position = null;
         direction = 0;
         height = 10;
         width = 10;
-        type = PowerupType.SPEEDY;
+        type = PowerupType.HEALTH;
     }
 
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Player) {
             World.instance().removeObject(this);
-            tank = (Tank) object;
-            tank.setSpeed(20);
+            Tank tank = (Tank) object;
+            tank.setHealth(tank.getHealth() + 3);
             timeline.setCycleCount(10);
             timeline.play();
         }
     }
 
     @Override
-    public void powerupPower() {
-        frameCount++;
-        if (frameCount >= 10) {
-            tank.setSpeed(10);
-        }
-    }
+    public void powerupPower() {}
 }

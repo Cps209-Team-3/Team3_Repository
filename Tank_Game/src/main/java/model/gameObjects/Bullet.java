@@ -64,7 +64,6 @@ public class Bullet extends GameObject {
                 }
                 World.instance().removeObject(this);
             }
-
         } else if (object instanceof Wall || object instanceof Bullet) {
             // Run explosion animation
             World.instance().removeObject(this);

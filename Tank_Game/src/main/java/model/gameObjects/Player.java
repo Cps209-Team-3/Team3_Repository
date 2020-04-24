@@ -95,6 +95,7 @@ public class Player extends Tank {
     public void onDeath() {
         if (!World.instance().isCheatMode()) {
             World.instance().removeObject(this);
+            // TODO World.instance().onWaveEnd();
         }
     }
 

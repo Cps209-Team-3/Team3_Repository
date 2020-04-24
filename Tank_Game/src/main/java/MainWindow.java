@@ -90,7 +90,7 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
-        world.reset();
+        World.reset();
         // scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
@@ -299,7 +299,7 @@ public class MainWindow {
                 }
 
                 if (btnClicked.getText().equals("Easy")) {
-                    world.reset();
+                    World.reset();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     // Stage gameWindow = new Stage();
