@@ -62,8 +62,7 @@ public class GameWindow {
     void onMouseMoved(MouseEvent value) {
         // Hand Mouse Coordinates to player tank's head TBF
         mouse.setLocation(value.getX(), value.getY());
-        // The image is a temporary replacement until Austin makes one.
-        var newCursor = new ImageCursor(new Image("/Images/ControlsSlide.png"));
+        var newCursor = new ImageCursor(new Image("/Images/cursor2.png"));
         pane.setCursor(newCursor);
     }
 

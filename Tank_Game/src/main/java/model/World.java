@@ -93,7 +93,7 @@ public class World {
                     powerup = new FastFirePowerup();
                     break;
             }
-            powerup.setPosition(new Point(random.nextInt(width), random.nextInt(height)));
+            powerup.setPosition(new Point(random.nextInt(width - 100), random.nextInt(760) - 360));
             listOfEntities.add(powerup);
         }
     }
