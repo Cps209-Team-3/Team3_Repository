@@ -39,7 +39,7 @@ public class HighScores {
     }
 
     /**
-     * Saves the high scores in the highScores list to comma delimited text file
+     * Saves the high scores in the highScores list to comma delimited text file named "highScores.txt"
      * 
      * @throws Exception
      */
@@ -55,7 +55,7 @@ public class HighScores {
     }
 
     /**
-     * Loads the high scores in the highScores list from a comma delimited text file
+     * Loads the high scores in the highScores list from a comma delimited text file named "highScores.txt"
      * 
      * @throws Exception
      */
