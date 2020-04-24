@@ -65,7 +65,7 @@ public class MainWindow {
     @FXML
     Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
     @FXML
-    Image PUP_IMG = new Image("/Images/BlankSlide.png");  // Edit url for Beta
+    Image PUP_IMG = new Image("/Images/PowerupsSlide.png");  // Edit url for Beta
     @FXML
     Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
     // @FXML
@@ -362,26 +362,22 @@ public class MainWindow {
                         }
                         if (btnClicked.getText().equals("->")) {
                             slide = HelpSlide.POWERUPS;
-                            lbl.setText("Not yet Available");
                             imgView.setImage(PUP_IMG);
                         }
                         break;
                     case POWERUPS:
                         if (btnClicked.getText().equals("<-")) {
                             slide = HelpSlide.ENEMIES;
-                            lbl.setText("");
                             imgView.setImage(ETANK_IMG);
                         }
                         if (btnClicked.getText().equals("->")) {
                             slide = HelpSlide.SCORING;
-                            lbl.setText("");
                             imgView.setImage(SCORING_IMG);
                         }
                         break;
                     case SCORING:
                         if (btnClicked.getText().equals("<-")) {
                             slide = HelpSlide.POWERUPS;
-                            lbl.setText("Not yet Available");
                             imgView.setImage(PUP_IMG);
                         }
                         if (btnClicked.getText().equals("->")) {
