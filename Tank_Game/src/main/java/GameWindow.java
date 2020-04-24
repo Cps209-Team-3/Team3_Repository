@@ -71,13 +71,6 @@ public class GameWindow {
         World.instance().getPlayerTank().setTurretDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
     }
 
-    /*
-     * @FXML void onInputKeyPressed(KeyEvent.KEY_PRESSED event) {
-     * World.instance().handleInput(event.getCharacter());
-     * 
-     * }
-     */
-
     void initialize(Stage gameWindow, MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.gameWindow = gameWindow;
@@ -114,7 +107,7 @@ public class GameWindow {
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
         score.setText("Score:" + World.instance().getScore());
-        waveNum.setText("Wave: " + World.instance().getCurrentWave());
+        waveNum.setText("Wave: " + (World.instance().getCurrentWave() - 3));
 
         for (GameObject object : objects) {
             handledObjects.add(object);
@@ -131,7 +124,7 @@ public class GameWindow {
                     image.setRotate(object.getDirection());
                     Bounds bound = image.getBoundsInLocal();
                     image = tiedImages.get(object).get(1);
-                    image.setY(bound.getCenterY() - 50);
+                    image.setY(bound.getCenterY() - 105);
                     image.setX(bound.getCenterX() - 20);
                     image.setRotate(tank.getTurretDirection() + 90);
                 } else {
@@ -153,8 +146,8 @@ public class GameWindow {
 
                     Bounds bound = image.getBoundsInLocal();
                     image = new ImageView();
-                    image.setX(bound.getCenterX() - 20);
-                    image.setY(bound.getCenterY() - 50);
+                    image.setX(bound.getCenterX()- 20);
+                    image.setY(bound.getCenterY()- 50);
                     image.setImage(new Image("/Images/cannonfiresprites.gif"));
                     image.setPreserveRatio(true);
                     image.setRotate(tank.getTurretDirection() + 90);
