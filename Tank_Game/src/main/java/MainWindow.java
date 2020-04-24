@@ -48,7 +48,7 @@ public class MainWindow {
     @FXML
     Button thirdBtn = new Button("Help");
     @FXML
-    Button fourthBtn = new Button("About"); // REMOVE () FOR BETA!!!
+    Button fourthBtn = new Button("About");
     @FXML
     Button fifthBtn = new Button("High Scores");
     @FXML
@@ -59,7 +59,7 @@ public class MainWindow {
     Button rightBtn = new Button("->");
 
     @FXML
-    Image LOGO_IMG = new Image("/Images/BlankSlide.png");  // Edit url for Beta
+    Image LOGO_IMG = new Image("/Images/Logo.png");
     @FXML
     Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
     @FXML
@@ -68,8 +68,8 @@ public class MainWindow {
     Image PUP_IMG = new Image("/Images/BlankSlide.png");  // Edit url for Beta
     @FXML
     Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
-    @FXML
-    Image BLANK_IMG = new Image("/Images/BlankSlide.png");  // Not sure we will need this
+    // @FXML
+    // Image BLANK_IMG = new Image("/Images/BlankSlide.png");  // Not sure we will need this
 
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/beep-7.wav").toString());
 
@@ -90,8 +90,7 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws Exception {
-        world.reset();
-        scoreList.load();
+        World.reset();
 
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
@@ -276,13 +275,14 @@ public class MainWindow {
                     BHbox.getChildren().add(backBtn);
                 }
 
-                if (btnClicked.getText().equals("About (Paid DLC: $500K or wait a week)")) {
+                if (btnClicked.getText().equals("About")) {
                     screen = Screen.ABOUT;
                     // SCREEN DUE FOR BETA!!!
                 }
 
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
+                    scoreList.load();
                     imgView.setImage(LOGO_IMG);
                     MidVbox.getChildren().removeAll(btns);
                     BHbox.getChildren().add(backBtn);
@@ -294,22 +294,6 @@ public class MainWindow {
                         lbl.setStyle("-fx-font-size: 24pt;");
                         MidVbox.getChildren().add(lbl);
                     }
-                }
-
-                if (btnClicked.getText().equals("Easy")) {
-                    world.reset();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
-
-                    // Stage gameWindow = new Stage();
-                    // try {
-                    //     gameWindow.setScene(new Scene(loader.load()));
-                    // } catch (Exception f) {
-
-                    // }
-                    // GameWindow window = loader.getController();
-                    // window.initialize();
-
-                    // gameWindow.show();
                 }
 
                 break;

@@ -63,7 +63,7 @@ public class GameWindow {
     void onMouseMoved(MouseEvent value) {
         // Hand Mouse Coordinates to player tank's head TBF
         mouse.setLocation(value.getX(), value.getY());
-        var newCursor = new ImageCursor(new Image("/Images/cursor2.png"));      
+        var newCursor = new ImageCursor(new Image("/Images/cursor2.png"));
         pane.setCursor(newCursor);
 
         Point playerPosition = World.instance().getPlayerTank().getPosition();
@@ -174,10 +174,10 @@ public class GameWindow {
             tiedImages.remove(object);
         }
         // When the player dies
-        if (World.instance().getPlayerTank().getHealth() < 0) {
+        if (!World.instance().getListOfEntities().contains(World.instance().getPlayerTank())) {
             gameWindow.close();
             clock.stop();
-            World.instance().reset();
+            World.reset();
         }
     }
 

@@ -61,6 +61,7 @@ public class Bullet extends GameObject {
                 tank.setHealth(tank.getHealth() - damageAmount);
                 if (tank.getHealth() <= 0) {
                     tank.onDeath();
+                    // add scoring to this spot!!!!
                 }
                 World.instance().removeObject(this);
             }
