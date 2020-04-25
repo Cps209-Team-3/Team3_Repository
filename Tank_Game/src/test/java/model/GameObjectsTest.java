@@ -25,7 +25,7 @@ public class GameObjectsTest {
 
     @Test
     public void testPlayer_move_onDeath_success() {
-        World.instance().getListOfEntities().clear();
+        World.instance().getEntities().clear();
         Player playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         assertEquals(10, playerTank.getSpeed());
         assertEquals(90, playerTank.getDirection());
@@ -33,7 +33,7 @@ public class GameObjectsTest {
         assertEquals(new Point(42, 64), playerTank.getPosition());
         World.instance().addObject(playerTank);
         playerTank.onDeath();
-        assertEquals(0, World.instance().getListOfEntities().size());
+        assertEquals(0, World.instance().getEntities().size());
     }
 
     @Test

@@ -23,8 +23,8 @@ public class World {
     boolean cheatMode = false;
     int cycleCount;
 
-    ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
-    ArrayList<String> listOfSavedGames = new ArrayList<String>();
+    ArrayList<GameObject> entities = new ArrayList<GameObject>();
+    ArrayList<String> savedGames = new ArrayList<String>();
 
     // Singleton Implementation
 
@@ -45,21 +45,21 @@ public class World {
         currentWave = 0;
         difficulty = Difficulty.EASY; // TODO: get difficulty from somewhere
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
-        listOfEntities.add(playerTank);
-        fillListOfSavedGames();
+        entities.add(playerTank);
+        fillSavedGames();
         generateWalls();
     }
 
     /**
-     * Fills up the listOfSavedGames with all the saved games from the file
+     * Fills up the savedGames with all the saved games from the file
      * "GameBackup.txt"
      */
-    public void fillListOfSavedGames() {
+    public void fillSavedGames() {
         try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
             String line = reader.readLine();
             while (line != null) {
                 if (line.contains("##")) {
-                    listOfSavedGames.add(0, line.split(",")[1]);
+                    savedGames.add(0, line.split(",")[1]);
                 }
                 line = reader.readLine();
             }
@@ -77,13 +77,13 @@ public class World {
             case MEDIUM:
                 for (int i = 0; i < 7; ++i) {
                     Wall wall = new Wall(new Point(i * 80 + 400, 100), 0, 80, 80);
-                    listOfEntities.add(wall);
+                    entities.add(wall);
                 }
                 break;
             case EASY:
                 for (int i = 0; i < 13; ++i) {
                     Wall wall = new Wall(new Point(i * 80 + 200, 100), 0, 80, 80);
-                    listOfEntities.add(wall);
+                    entities.add(wall);
                 }
                 break;
         }
@@ -113,7 +113,7 @@ public class World {
             while (!checkSpawn(powerup)) {
                 powerup.setPosition(new Point(random.nextInt(width - 100), random.nextInt(760) - 360));
             }
-            listOfEntities.add(powerup);
+            entities.add(powerup);
         }
     }
 
@@ -126,9 +126,9 @@ public class World {
     public void load(String filename, String gameName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String endOfFile = null;
-        int index = listOfEntities.indexOf(gameName);
-        if (listOfSavedGames.size() > index) {
-            endOfFile = listOfSavedGames.get(index + 1);
+        int index = entities.indexOf(gameName);
+        if (savedGames.size() > index) {
+            endOfFile = savedGames.get(index + 1);
         }
         String line = "";
         // Goes through the file until it gets to the part that contains the correct
@@ -152,7 +152,7 @@ public class World {
                 gameObject = new Bullet();
             }
             gameObject.deserialize(line);
-            listOfEntities.add(gameObject);
+            entities.add(gameObject);
 
             if ((line = reader.readLine()).contains("##")) {
                 line = null;
@@ -171,12 +171,12 @@ public class World {
         FileWriter writer = new FileWriter(filename, true);
         writer.append("##," + gameName + "\n");
         writer.append(this.serialize() + "\n");
-        for (GameObject gameObject : listOfEntities) {
+        for (GameObject gameObject : entities) {
             writer.append(gameObject.serialize() + "\n");
         }
         writer.flush();
         writer.close();
-        listOfSavedGames.add(0, gameName);
+        savedGames.add(0, gameName);
     }
 
     // Main game loop to run every frame
@@ -186,7 +186,7 @@ public class World {
         ArrayList<Bullet> bullets = new ArrayList<>();
         // playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
         boolean waveComplete = true;
-        for (GameObject object : listOfEntities) {
+        for (GameObject object : entities) {
 
             if (object instanceof Tank) {
                 if (object instanceof Enemy) {
@@ -227,7 +227,7 @@ public class World {
      */
     public void handleInput(char inp) {
         // Check for game end, may want to adjust this so GameWindow knows.a
-        if (listOfEntities.contains(playerTank)) {
+        if (entities.contains(playerTank)) {
             if (inp == '%') {
                 World.instance().addObject(playerTank.fire());
             } else {
@@ -252,7 +252,7 @@ public class World {
             while (!checkSpawn(tank)) {
                 tank = new Enemy(true); // TODO: infinite loop when no space left.
             }
-            listOfEntities.add(tank);
+            entities.add(tank);
         }
         generatePowerups();
     }
@@ -260,29 +260,29 @@ public class World {
     // Handles wave ending
     public void onWaveEnd(int readyNum) {
         ArrayList<GameObject> toRemove = new ArrayList<>();
-        for (GameObject object : listOfEntities) {
+        for (GameObject object : entities) {
             if (object instanceof Bullet) {
                 toRemove.add(object);
             }
         }
         for (GameObject object : toRemove) {
-            listOfEntities.remove(object);
+            entities.remove(object);
         }
         if (readyNum > 179) {
-            if (listOfEntities.contains(playerTank)) {
+            if (entities.contains(playerTank)) {
                 score += 20;
                 currentWave += 1;
                 toRemove = new ArrayList<>();
-                for (GameObject object : listOfEntities) {
+                for (GameObject object : entities) {
                     if (!(object instanceof Wall)) {
                         toRemove.add(object);
                     }
                 }
                 for (GameObject object : toRemove) {
-                    listOfEntities.remove(object);
+                    entities.remove(object);
                 }
                 playerTank.setHealth(5); // REFRESH PLAYER HEALTH
-                listOfEntities.add(playerTank);
+                entities.add(playerTank);
                 createWave();
             } else {
                 // TODO: END THE GAME
@@ -304,10 +304,10 @@ public class World {
         }
     }
 
-    // detects collision between any two objects within listOfEntities
+    // detects collision between any two objects within entities
     public void detectAnyCollisions() {
         ArrayList<ArrayList<GameObject>> objectsToHandle = new ArrayList<>();
-        for (GameObject object : listOfEntities) { // Run through all objects
+        for (GameObject object : entities) { // Run through all objects
             // handledObjects.add(object);
             GameObject collided = findCollision(object);
             if (collided != null) {
@@ -323,7 +323,7 @@ public class World {
     }
 
     public GameObject findCollision(GameObject object) {
-        for (GameObject object2 : listOfEntities) { // Test current object with all other objects
+        for (GameObject object2 : entities) { // Test current object with all other objects
             if (!object.equals(object2)) {
                 if (isCollision(object, object2)) {
                     return object2;
@@ -356,17 +356,15 @@ public class World {
      * 
      * @param tank - the tank that contains the area to be tested
      */
-    public boolean checkSpawn(GameObject gameObject) {
-        boolean valid = true;
-        for (GameObject object : listOfEntities) {
-            if (gameObject != object) {
-                if (isCollision(gameObject, object)) {
-                    valid = false;
-                    break;
+    public boolean checkSpawn(GameObject object) {
+        for (GameObject object2 : entities) {
+            if (object != object2) {
+                if (isCollision(object, object2)) {
+                    return false;
                 }
             }
         }
-        return valid;
+        return true;
     }
 
     // serializes the world
@@ -407,8 +405,8 @@ public class World {
         }
     }
 
-    public ArrayList<GameObject> getListOfEntities() {
-        return listOfEntities;
+    public ArrayList<GameObject> getEntities() {
+        return entities;
     }
 
     /**
@@ -417,7 +415,7 @@ public class World {
      * @param gameObject - the object to be added
      */
     public void addObject(GameObject gameObject) {
-        listOfEntities.add(gameObject);
+        entities.add(gameObject);
     }
 
     /**
@@ -426,7 +424,7 @@ public class World {
      * @param gameObject
      */
     public void removeObject(GameObject gameObject) {
-        listOfEntities.remove(gameObject);
+        entities.remove(gameObject);
     }
 
     public int getWidth() {
@@ -477,12 +475,12 @@ public class World {
         this.playerTank = playerTank;
     }
 
-    public ArrayList<String> getListOfSavedGames() {
-        return listOfSavedGames;
+    public ArrayList<String> getSavedGames() {
+        return savedGames;
     }
 
-    public void setListOfSavedGames(ArrayList<String> listOfSavedGames) {
-        this.listOfSavedGames = listOfSavedGames;
+    public void setSavedGames(ArrayList<String> savedGames) {
+        this.savedGames = savedGames;
     }
 
     public boolean isCheatMode() {

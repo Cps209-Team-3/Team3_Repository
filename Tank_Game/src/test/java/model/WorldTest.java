@@ -106,20 +106,20 @@ public class WorldTest {
             assertEquals(Difficulty.EASY, world.getDifficulty());
             assertEquals(10, world.getHeight());
 
-            Wall wall = (Wall) world.getListOfEntities().get(0);
+            Wall wall = (Wall) world.getEntities().get(0);
             assertEquals(180, wall.getDirection());
             assertEquals(10, wall.getHeight());
             assertEquals(10, world.getWidth());
 
-            Player player = (Player) world.getListOfEntities().get(1);
+            Player player = (Player) world.getEntities().get(1);
             assertEquals(180, player.getDirection());
             assertEquals(10, player.getHeight());
 
-            Enemy enemy = (Enemy) world.getListOfEntities().get(1);
+            Enemy enemy = (Enemy) world.getEntities().get(1);
             assertEquals(180, enemy.getDirection());
             assertEquals(10, enemy.getHeight());
 
-            Bullet bullet = (Bullet) world.getListOfEntities().get(1);
+            Bullet bullet = (Bullet) world.getEntities().get(1);
             assertEquals(180, bullet.getDirection());
             assertEquals(10, bullet.getHeight());
             assertEquals(10, bullet.getWidth());

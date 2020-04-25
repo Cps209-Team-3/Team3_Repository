@@ -44,7 +44,7 @@ public class GameWindow {
 
     private Point mouse = new Point();
 
-    private ArrayList<GameObject> objects = World.instance().getListOfEntities();
+    private ArrayList<GameObject> objects = World.instance().getEntities();
     private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>();
     private ArrayList<ImageView> images;
 
@@ -138,7 +138,7 @@ public class GameWindow {
                     image.setRotate(object.getDirection());
                     Bounds bound = image.getBoundsInLocal();
                     image = tiedImages.get(object).get(1);
-                    image.setY(bound.getCenterY() - 105);
+                    image.setY(bound.getCenterY() - 100);
                     image.setX(bound.getCenterX() - 20);
                     image.setRotate(tank.getTurretDirection() + 90);
                 } else {
@@ -187,7 +187,7 @@ public class GameWindow {
             tiedImages.remove(object);
         }
         // When the player dies
-        if (!World.instance().getListOfEntities().contains(World.instance().getPlayerTank())) {
+        if (!World.instance().getEntities().contains(World.instance().getPlayerTank())) {
             gameWindow.close();
             clock.stop();
             World.reset();
@@ -220,7 +220,7 @@ public class GameWindow {
                 while (true) {
                     JOptionPane nameGame = new JOptionPane();
                     gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
-                    if (World.instance().getListOfSavedGames().indexOf(gameName) != -1 && gameName != null) {
+                    if (World.instance().getSavedGames().indexOf(gameName) != -1 && gameName != null) {
                         JOptionPane nameTaken = new JOptionPane();
                         int answer = JOptionPane.showConfirmDialog(nameTaken,
                                 "That name is taken ... would you like to override it?");

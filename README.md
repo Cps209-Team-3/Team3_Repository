@@ -13,6 +13,9 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
 * Work Completed: 
   * Serialize/Deserialize methods written
   * Load/Save methods written with unit tests
+  * Powerups added
+  * Custom Cursor added
+  * Pause Menu Added
   * Movement of all game objects and collision of tanks
 * Known Issues: 
   * Bullets do not collide with anything.
@@ -25,7 +28,7 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
 
 Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
-Disler, David | 15.5 Hours | 44.5 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
+Disler, David | 33 Hours | 27 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
 James, Andrew | 19.8 | 40.2 | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
 Pennington, Austin | 18H 21M | 42H 9M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
 Swain, Brandon | 24 hours 2 minutes | 35 hours 58 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
