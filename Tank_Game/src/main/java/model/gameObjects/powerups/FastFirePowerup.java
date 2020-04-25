@@ -36,7 +36,7 @@ public class FastFirePowerup extends Powerup {
     public void powerupPower() {
         frameCount++;
         if (frameCount >= 10) {
-            tank.setReloadTime(5);
+            tank.setReloadTime(2);
         }
     }
 }

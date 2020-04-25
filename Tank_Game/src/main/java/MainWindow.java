@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -22,6 +24,7 @@ import model.HighScores;
 import model.PlayerData;
 import model.World;
 import model.enums.Difficulty;
+
 
 public class MainWindow {
 
@@ -58,8 +61,8 @@ public class MainWindow {
     @FXML
     Button rightBtn = new Button("->");
 
-    @FXML
-    Image LOGO_IMG = new Image("/Images/BlankSlide.png"); // TODO: change back to logo
+    //@FXML
+    //Image LOGO_IMG = new Image("/Images/Logo.png");
     @FXML
     Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
     @FXML
@@ -178,7 +181,7 @@ public class MainWindow {
                 if (flag == true && line.contains("##")) {
                     flag = false;
                 }
-                if (line.contains(gameName)) {
+                if (line.contains(gameName) && line.contains("##")) {
                     flag = true;
                 }
                 if (!flag) {
@@ -220,25 +223,31 @@ public class MainWindow {
         
         ArrayList<String> list = World.instance().getListOfSavedGames();
         if (list.size() > 0) {
-            for (String savedGame : list) {
-                HBox hbox = new HBox();
-                Button delete = new Button("Delete Saved Game");
-                Label label = new Label(savedGame);
-                Button load = new Button("Load Saved Game");
-                label.setStyle("-fx-font-size: 14pt;");
-                load.setStyle("-fx-font-size: 14pt;");
-                load.setOnAction(i -> loadGameButtonPressed(i, label.getText()));
-                delete.setStyle("-fx-font-size: 14pt");
-                delete.setOnAction(i -> deleteGameButtonPressed(i, label.getText()));
-                hbox.setStyle("-fx-alignment: center; -fx-spacing: 15");
-                hbox.getChildren().addAll(delete, load, label);
-                MidVbox.getChildren().add(hbox);
+            if (list.size() <= 10) {
+                for (String savedGame : list) {
+                    HBox hbox = new HBox();
+                    Button delete = new Button("Delete Saved Game");
+                    Label label = new Label(savedGame);
+                    Button load = new Button("Load Saved Game");
+                    label.setStyle("-fx-font-size: 14pt;");
+                    load.setStyle("-fx-font-size: 14pt;");
+                    load.setOnAction(i -> loadGameButtonPressed(i, label.getText()));
+                    delete.setStyle("-fx-font-size: 14pt");
+                    delete.setOnAction(i -> deleteGameButtonPressed(i, label.getText()));
+                    hbox.setStyle("-fx-alignment: center; -fx-spacing: 15");
+                    hbox.getChildren().addAll(delete, load, label);
+                    MidVbox.getChildren().add(hbox);
+                }
+            } else {
+                deleteSavedGame(list.get(list.size() - 1));
             }
+            
         } else {
             Label label = new Label("You have no saved games.");
             label.setStyle("-fx-font-size: 16");
             MidVbox.getChildren().add(label);
         }
+        
     }
 
 
@@ -283,7 +292,7 @@ public class MainWindow {
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
                     scoreList.load();
-                    imgView.setImage(LOGO_IMG);
+                    //imgView.setImage(LOGO_IMG);
                     MidVbox.getChildren().removeAll(btns);
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
@@ -311,6 +320,7 @@ public class MainWindow {
                 }
                 if (btnClicked.getText().equals("Easy") || btnClicked.getText().equals("Medium")
                         || btnClicked.getText().equals("Hard")) {
+                    World.reset();
                     World.instance().setDifficulty(Difficulty.EASY);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
@@ -336,7 +346,7 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
-                    imgView.setImage(LOGO_IMG);
+                    //imgView.setImage(LOGO_IMG);
                     lbl.setText("TANK ATTACK ARENA");
                     MidVbox.getChildren().addAll(btns);
                     LeftVbox.getChildren().remove(leftBtn);
@@ -398,7 +408,7 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
-                    imgView.setImage(LOGO_IMG);
+                    //imgView.setImage(LOGO_IMG);
                     lbl.setText("TANK ATTACK ARENA");
                     lbl.setStyle("-fx-font-size: 28pt;");
                     MidVbox.getChildren().addAll(btns);
