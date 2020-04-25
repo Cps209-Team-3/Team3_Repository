@@ -20,7 +20,7 @@ public class World {
     int currentWave;
     Difficulty difficulty;
     Player playerTank;
-    boolean cheatMode = true;
+    boolean cheatMode = false;
     int cycleCount;
 
     ArrayList<GameObject> listOfEntities = new ArrayList<GameObject>();
@@ -110,6 +110,9 @@ public class World {
                     break;
             }
             powerup.setPosition(new Point(random.nextInt(width - 100), random.nextInt(760) - 360));
+            while (!checkSpawn(powerup)) {
+                powerup.setPosition(new Point(random.nextInt(width - 100), random.nextInt(760) - 360));
+            }
             listOfEntities.add(powerup);
         }
     }
@@ -353,11 +356,11 @@ public class World {
      * 
      * @param tank - the tank that contains the area to be tested
      */
-    public boolean checkSpawn(Tank tank) {
+    public boolean checkSpawn(GameObject gameObject) {
         boolean valid = true;
         for (GameObject object : listOfEntities) {
-            if (tank != object) {
-                if (isCollision(tank, object)) {
+            if (gameObject != object) {
+                if (isCollision(gameObject, object)) {
                     valid = false;
                     break;
                 }
@@ -484,5 +487,9 @@ public class World {
 
     public boolean isCheatMode() {
         return cheatMode;
+    }
+
+    public void setCheatMode(boolean cheatMode) {
+        this.cheatMode = cheatMode;
     }
 }

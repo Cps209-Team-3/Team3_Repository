@@ -202,9 +202,8 @@ public class GameWindow {
         clock.pause();
 
         gameWindow.setAlwaysOnTop(false);
-        Object[] buttonTexts = { "Resume", "Exit", "Save and Exit" };
+        Object[] buttonTexts = { "Resume", "Cheat", "Exit", "Save and Exit" };
 
-        JOptionPane optionPane = new JOptionPane();
         int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
 
@@ -212,7 +211,11 @@ public class GameWindow {
             case 0:
                 clock.play();
                 break;
-            case 2:
+            case 1:
+                World.instance().setCheatMode(true);
+                clock.play();
+                break;
+            case 3:
                 String gameName = null;
                 while (true) {
                     JOptionPane nameGame = new JOptionPane();
@@ -238,7 +241,7 @@ public class GameWindow {
                     System.out.println(e.getMessage());
                 }
 
-            case 1:
+            case 2:
                 gameWindow.close();
                 break;
         }
