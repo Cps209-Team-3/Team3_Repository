@@ -226,12 +226,13 @@ public class World {
      * @param inp - input of the user
      */
     public void handleInput(char inp) {
-        // Check for game end, may want to adjust this so GameWindow knows.a
+        // Check for game end, may want to adjust this so GameWindow knows.
         if (entities.contains(playerTank)) {
             if (inp == '%') {
                 World.instance().addObject(playerTank.fire());
             } else {
-                playerTank.move(inp);
+                var thread = new Thread(() -> playerTank.move(inp));
+                thread.start();
             }
         }
     }
@@ -463,7 +464,7 @@ public class World {
         return difficulty;
     }
 
-    public void setDifficulty(Difficulty difficulty) {
+    public void     iculty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 
