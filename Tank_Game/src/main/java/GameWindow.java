@@ -93,14 +93,16 @@ public class GameWindow {
         image.setFitHeight(pane.getHeight());
         background.getChildren().add(image);
 
-        score.setX(0);
-        score.setY(0);
-        score.setFill(Color.PINK);
+        score.setX(30);
+        score.setY(-400);
+        score.setFill(Color.WHITE);
         score.setScaleX(2);
         score.setScaleY(2);
-        waveNum.setX(50);
-        waveNum.setY(0);
-        waveNum.setFill(Color.PINK);
+        waveNum.setX(130);
+        waveNum.setY(-400);
+        waveNum.setFill(Color.WHITESMOKE);
+        waveNum.setScaleX(2);
+        waveNum.setScaleY(2);
         pane.getChildren().add(score);
         pane.getChildren().add(waveNum);
 

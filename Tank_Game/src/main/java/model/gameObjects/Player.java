@@ -75,8 +75,18 @@ public class Player extends Tank {
         }
         if (position.getX() > 1330) {
             position.setLocation(1330.0, position.getY());
+            if (position.getY() < -400) {
+                position.setLocation(position.getX(), -400);
+            } else if (position.getY() > 320) {
+                position.setLocation(position.getX(), 320);
+            }
         } else if (position.getX() < 30) {
             position.setLocation(30, position.getY());
+            if (position.getY() > 320) {
+                position.setLocation(position.getX(), 320);
+            } else if (position.getY() < -400) {
+                position.setLocation(position.getX(), -400);
+            }
         } else if (position.getY() < -400) {
             position.setLocation(position.getX(), -400);
         } else if (position.getY() > 320) {

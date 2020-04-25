@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +12,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,7 +22,6 @@ import model.HighScores;
 import model.PlayerData;
 import model.World;
 import model.enums.Difficulty;
-
 
 public class MainWindow {
 
@@ -61,18 +58,19 @@ public class MainWindow {
     @FXML
     Button rightBtn = new Button("->");
 
-    //@FXML
-    //Image LOGO_IMG = new Image("/Images/Logo.png");
+    // @FXML
+    // Image LOGO_IMG = new Image("/Images/Logo.png");
     @FXML
     Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
     @FXML
     Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
     @FXML
-    Image PUP_IMG = new Image("/Images/PowerupsSlide.png");  // Edit url for Beta
+    Image PUP_IMG = new Image("/Images/PowerupsSlide.png"); // Edit url for Beta
     @FXML
     Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
     // @FXML
-    // Image BLANK_IMG = new Image("/Images/BlankSlide.png");  // Not sure we will need this
+    // Image BLANK_IMG = new Image("/Images/BlankSlide.png"); // Not sure we will
+    // need this
 
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/beep-7.wav").toString());
 
@@ -161,7 +159,7 @@ public class MainWindow {
             GameWindow window = loader.getController();
             window.initialize(gameWindow, this);
             gameWindow.show();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -172,7 +170,8 @@ public class MainWindow {
     }
 
     public void deleteSavedGame(String gameName) {
-        // Copies GameBackup into GameBackup1 without the information that we are deleting
+        // Copies GameBackup into GameBackup1 without the information that we are
+        // deleting
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("GameBackup1.txt"))) {
             BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"));
             boolean flag = false;
@@ -190,7 +189,7 @@ public class MainWindow {
                 line = reader.readLine();
             }
             reader.close();
-                
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -220,7 +219,7 @@ public class MainWindow {
         Label title = new Label("Saved Games");
         title.setStyle("-fx-font-size: 28pt;");
         MidVbox.getChildren().add(title);
-        
+
         ArrayList<String> list = World.instance().getSavedGames();
         if (list.size() > 0) {
             if (list.size() <= 10) {
@@ -241,15 +240,14 @@ public class MainWindow {
             } else {
                 deleteSavedGame(list.get(list.size() - 1));
             }
-            
+
         } else {
             Label label = new Label("You have no saved games.");
             label.setStyle("-fx-font-size: 16");
             MidVbox.getChildren().add(label);
         }
-        
-    }
 
+    }
 
     @FXML
     public void onButtonClicked(ActionEvent e) throws Exception {
@@ -292,7 +290,7 @@ public class MainWindow {
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
                     scoreList.load();
-                    //imgView.setImage(LOGO_IMG);
+                    // imgView.setImage(LOGO_IMG);
                     MidVbox.getChildren().removeAll(btns);
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
@@ -317,11 +315,15 @@ public class MainWindow {
                     btns.get(2).setText("Help");
                     MidVbox.getChildren().addAll(btns.get(3), btns.get(4));
                     BHbox.getChildren().remove(backBtn);
-                }
-                if (btnClicked.getText().equals("Easy") || btnClicked.getText().equals("Medium")
-                        || btnClicked.getText().equals("Hard")) {
+                } else {
                     World.reset();
-                    World.instance().setDifficulty(Difficulty.EASY);
+                    if (btnClicked.getText().equals("Easy")) {
+                        World.instance().setDifficulty(Difficulty.EASY);
+                    } else if (btnClicked.getText().equals("Medium")) {
+                        World.instance().setDifficulty(Difficulty.MEDIUM);
+                    } else if (btnClicked.getText().equals("Hard")) {
+                        World.instance().setDifficulty(Difficulty.HARD);
+                    }
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
                     Stage gameWindow = new Stage();
@@ -329,7 +331,7 @@ public class MainWindow {
                     GameWindow window = loader.getController();
                     window.initialize(gameWindow, this);
                     gameWindow.show();
-                    
+
                     screen = Screen.TITLE;
                     MidVbox.getChildren().clear();
                     BHbox.getChildren().clear();
@@ -346,7 +348,7 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
-                    //imgView.setImage(LOGO_IMG);
+                    // imgView.setImage(LOGO_IMG);
                     lbl.setText("TANK ATTACK ARENA");
                     MidVbox.getChildren().addAll(btns);
                     LeftVbox.getChildren().remove(leftBtn);
@@ -402,13 +404,11 @@ public class MainWindow {
             // case ABOUT :
             // if
 
-            
-
             case HIGHSCORES:
 
                 if (btnClicked.getText().equals("<- Back")) {
                     screen = Screen.TITLE;
-                    //imgView.setImage(LOGO_IMG);
+                    // imgView.setImage(LOGO_IMG);
                     lbl.setText("TANK ATTACK ARENA");
                     lbl.setStyle("-fx-font-size: 28pt;");
                     MidVbox.getChildren().addAll(btns);

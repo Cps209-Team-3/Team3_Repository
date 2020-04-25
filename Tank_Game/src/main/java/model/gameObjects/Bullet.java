@@ -3,10 +3,7 @@ package model.gameObjects;
 import model.World;
 import model.enums.BulletType;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.image.Image;
-import javafx.util.Duration;
 
 import java.awt.Point;
 

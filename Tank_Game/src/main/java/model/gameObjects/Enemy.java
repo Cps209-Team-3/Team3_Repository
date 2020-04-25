@@ -50,7 +50,7 @@ public class Enemy extends Tank {
         if (useRandom) {
             Random random = new Random();
             image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
-            position = new Point(random.nextInt(1400), random.nextInt(900));
+            position = new Point(random.nextInt(1400) + 320, random.nextInt(900 - 400));
             direction = random.nextInt(360);
             height = (int) (image.getHeight() + 0.5);
             width = (int) (image.getWidth() + 0.5);
