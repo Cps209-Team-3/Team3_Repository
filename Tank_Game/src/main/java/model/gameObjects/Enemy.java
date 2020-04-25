@@ -118,12 +118,13 @@ public class Enemy extends Tank {
         int x;
         int y;
 
+        GameObject object = World.instance().findCollision(this);
         switch (state) {
             case CHARGE:
                 // move toward player
                 x = (int) position.getX() + (int) (dx * speed); 
                 y = (int) position.getY() + (int) (dy * speed);
-                if (World.instance().findCollision(this) != null) {
+                if (object == null || object instanceof Bullet) {
                     lastPosition = position;
                     position = new Point(x, y);
                     turretDirection = targetPlayer();
@@ -135,7 +136,7 @@ public class Enemy extends Tank {
                 // move away from player
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
-                if (World.instance().findCollision(this) != null) {
+                if (object == null || object instanceof Bullet) {
                     lastPosition = position;
                     position = new Point(x, y);
                     turretDirection = targetPlayer();
@@ -169,7 +170,7 @@ public class Enemy extends Tank {
     @Override
     public void onDeath() {
         World.instance().removeObject(this);
-        World.instance().setScore(World.instance().getScore() + 1);
+        World.instance().setScore(World.instance().getScore() + 1); // SCORING!
     }
 
     @Override

@@ -78,7 +78,7 @@ public class Bullet extends GameObject {
                     tank.setHealth(tank.getHealth() - damageAmount);
                     if (tank.getHealth() <= 0) {
                         tank.onDeath();
-                        // add scoring to this location!
+                        // DO NOT add scoring to this location! check enemy.onDeath()
                     }
                     numMoves = 0;
                 }

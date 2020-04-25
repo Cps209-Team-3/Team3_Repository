@@ -43,9 +43,11 @@ public class World {
         width = 1440;
         score = -20;
         currentWave = 0;
+        difficulty = Difficulty.EASY; // TODO: get difficulty from somewhere
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         listOfEntities.add(playerTank);
         fillListOfSavedGames();
+        generateWalls();
     }
 
     /**
@@ -63,6 +65,27 @@ public class World {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    // Generates Walls to put into the arena.
+    public void generateWalls() {
+        switch (difficulty) {
+            case HARD:
+                // NO WALLS!
+                break;
+            case MEDIUM:
+                for (int i = 0; i < 7; ++i) {
+                    Wall wall = new Wall(new Point(i * 80 + 400, 100), 0, 80, 80);
+                    listOfEntities.add(wall);
+                }
+                break;
+            case EASY:
+                for (int i = 0; i < 13; ++i) {
+                    Wall wall = new Wall(new Point(i * 80 + 200, 100), 0, 80, 80);
+                    listOfEntities.add(wall);
+                }
+                break;
         }
     }
 
@@ -170,7 +193,7 @@ public class World {
 
                     Enemy tank = (Enemy) object;
                     enemies.add(tank);
-                    if (cycleCount%30 == 0) {
+                    if (cycleCount % 30 == 0) {
                         tank.changeState();
                     }
                 }
@@ -233,11 +256,28 @@ public class World {
 
     // Handles wave ending
     public void onWaveEnd(int readyNum) {
+        ArrayList<GameObject> toRemove = new ArrayList<>();
+        for (GameObject object : listOfEntities) {
+            if (object instanceof Bullet) {
+                toRemove.add(object);
+            }
+        }
+        for (GameObject object : toRemove) {
+            listOfEntities.remove(object);
+        }
         if (readyNum > 179) {
             if (listOfEntities.contains(playerTank)) {
                 score += 20;
                 currentWave += 1;
-                listOfEntities.clear();
+                toRemove = new ArrayList<>();
+                for (GameObject object : listOfEntities) {
+                    if (!(object instanceof Wall)) {
+                        toRemove.add(object);
+                    }
+                }
+                for (GameObject object : toRemove) {
+                    listOfEntities.remove(object);
+                }
                 playerTank.setHealth(5); // REFRESH PLAYER HEALTH
                 listOfEntities.add(playerTank);
                 createWave();
@@ -256,23 +296,8 @@ public class World {
      */
     public void handleCollision(GameObject object1, GameObject object2) {
         if (object1 != object2) {
-            if (object1 instanceof Bullet) {
-                object1.onCollision(object2);
-            } else if (object2 instanceof Bullet) {
-                object2.onCollision(object1);
-            } else if (object1 instanceof Tank) {
-                if (object2 instanceof Tank) {
-                    // TODO: Remove random push-back priority
-                }
-                object1.onCollision(object2);
-            } else if (object2 instanceof Tank) {
-                object2.onCollision(object1);
-            } else {
-                // Wall collided with Wall?
-            }
-            if (object2 instanceof Powerup) {
-                object2.onCollision(object1);
-            }
+            object1.onCollision(object2);
+            object2.onCollision(object1);
         }
     }
 

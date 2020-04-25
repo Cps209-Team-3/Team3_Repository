@@ -18,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -94,8 +95,12 @@ public class GameWindow {
 
         score.setX(0);
         score.setY(0);
+        score.setFill(Color.PINK);
+        score.setScaleX(2);
+        score.setScaleY(2);
         waveNum.setX(50);
         waveNum.setY(0);
+        waveNum.setFill(Color.PINK);
         pane.getChildren().add(score);
         pane.getChildren().add(waveNum);
 
@@ -107,7 +112,7 @@ public class GameWindow {
 
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
-        score.setText("Score:" + World.instance().getScore());
+        score.setText("Score: " + World.instance().getScore());
         waveNum.setText("Wave: " + (World.instance().getCurrentWave()));
 
         for (GameObject object : objects) {

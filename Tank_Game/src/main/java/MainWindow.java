@@ -59,7 +59,7 @@ public class MainWindow {
     Button rightBtn = new Button("->");
 
     @FXML
-    Image LOGO_IMG = new Image("/Images/Logo.png");
+    Image LOGO_IMG = new Image("/Images/BlankSlide.png"); // TODO: change back to logo
     @FXML
     Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
     @FXML

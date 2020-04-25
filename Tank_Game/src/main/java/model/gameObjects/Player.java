@@ -44,9 +44,10 @@ public class Player extends Tank {
     // Moves tank in the direction of 'input' and saves last position to
     // pastPositions
     public void move(char input) {
+        GameObject object = World.instance().findCollision(this);
         switch (input) {
             case 'w':
-                if (World.instance().findCollision(this) == null) {
+                if (object == null || object instanceof Bullet) {
                     double newX = speed * Math.sin(direction * Math.PI / 180);
                     double newY = -speed * Math.cos(direction * Math.PI / 180);
                     lastPosition = position;
@@ -59,7 +60,7 @@ public class Player extends Tank {
                 direction -= 4;
                 break;
             case 's':
-                if (World.instance().findCollision(this) == null) {
+                if (object == null || object instanceof Bullet) {
                     double newX2 = -speed * Math.sin(direction * Math.PI / 180);
                     double newY2 = speed * Math.cos(direction * Math.PI / 180);
                     lastPosition = position;
