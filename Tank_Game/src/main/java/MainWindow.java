@@ -207,7 +207,7 @@ public class MainWindow {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        World.instance().getListOfSavedGames().remove(World.instance().getListOfSavedGames().indexOf(gameName));
+        World.instance().getSavedGames().remove(World.instance().getSavedGames().indexOf(gameName));
         setupLoadPage();
     }
 
@@ -221,7 +221,7 @@ public class MainWindow {
         title.setStyle("-fx-font-size: 28pt;");
         MidVbox.getChildren().add(title);
         
-        ArrayList<String> list = World.instance().getListOfSavedGames();
+        ArrayList<String> list = World.instance().getSavedGames();
         if (list.size() > 0) {
             if (list.size() <= 10) {
                 for (String savedGame : list) {
