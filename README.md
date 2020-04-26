@@ -20,6 +20,9 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
   * Movement of all game objects and collision of tanks
   * Wall added
   * All Menus functional
+  * Allowed for Multiple Inputs from User
+  * Pause Menu
+  * Cheat Mode added
 * Known Issues: 
   * Bullets do not fire exactly from barrel
   * Collisions between tanks gives inconsistent results, resulting in tanks getting stuck on occasion
@@ -32,6 +35,6 @@ Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
 Disler, David | 35 Hours | 25 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
 James, Andrew | 19.8 | 40.2 | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
-Pennington, Austin | 18H 21M | 42H 9M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
+Pennington, Austin | 26H 57M | 23H 3M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
 Swain, Brandon | 30 hours 54 minutes | 29 hours 6 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
 
