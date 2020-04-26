@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -348,32 +347,29 @@ public class MainWindow {
 
                 break;
 
-                case DIFF:
+            case DIFF:
 
                 if (btnClicked.getText().equals("<- Back")) {
                     resetTitle();
                 }
+                World.reset();
                 if (btnClicked.getText().equals("Easy")) {
-                    World.reset();
-                    if (btnClicked.getText().equals("Easy")) {
-                        World.instance().setDifficulty(Difficulty.EASY);
-                    } else if (btnClicked.getText().equals("Medium")) {
-                        World.instance().setDifficulty(Difficulty.MEDIUM);
-                    } else if (btnClicked.getText().equals("Hard")) {
-                        World.instance().setDifficulty(Difficulty.HARD);
-                    } else if (btnClicked.getText().equals("Cheat Mode")) { 
-                        // Add Cheat Code!!!
-                    }
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
-
-                    Stage gameWindow = new Stage();
-                    gameWindow.setScene(new Scene(loader.load()));
-                    GameWindow window = loader.getController();
-                    window.initialize(gameWindow, this);
-                    gameWindow.show();
-
-                    resetTitle();
+                    World.instance().setDifficulty(Difficulty.EASY);
+                } else if (btnClicked.getText().equals("Medium")) {
+                    World.instance().setDifficulty(Difficulty.MEDIUM);
+                } else if (btnClicked.getText().equals("Hard")) {
+                    World.instance().setDifficulty(Difficulty.HARD);
                 }
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+
+                Stage gameWindow = new Stage();
+                gameWindow.setScene(new Scene(loader.load()));
+                GameWindow window = loader.getController();
+                window.initialize(gameWindow, this);
+                gameWindow.show();
+
+                resetTitle();
 
                 break;
             
