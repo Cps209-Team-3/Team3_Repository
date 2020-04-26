@@ -22,6 +22,7 @@ public class World {
     Player playerTank;
     boolean cheatMode = false;
     int cycleCount;
+    boolean difficultySet = false;
 
     ArrayList<GameObject> entities = new ArrayList<GameObject>();
     ArrayList<String> savedGames = new ArrayList<String>();
@@ -38,16 +39,15 @@ public class World {
         instance = new World();
     }
 
-    public World() {
+    private World() {
         height = 900;
         width = 1440;
         score = -20;
         currentWave = 0;
-        difficulty = Difficulty.EASY; // TODO: get difficulty from somewhere
+        difficulty = Difficulty.EASY; 
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         entities.add(playerTank);
         fillSavedGames();
-        generateWalls();
     }
 
     /**
@@ -69,22 +69,25 @@ public class World {
     }
 
     // Generates Walls to put into the arena.
-    public void generateWalls() {
+    public void generateDifficulty() {
         switch (difficulty) {
             case HARD:
                 // NO WALLS!
+                playerTank.setHealth(5);
                 break;
             case MEDIUM:
                 for (int i = 0; i < 7; ++i) {
                     Wall wall = new Wall(new Point(i * 80 + 400, 100), 0, 80, 80);
                     entities.add(wall);
                 }
+                playerTank.setHealth(7);
                 break;
             case EASY:
                 for (int i = 0; i < 13; ++i) {
                     Wall wall = new Wall(new Point(i * 80 + 200, 100), 0, 80, 80);
                     entities.add(wall);
                 }
+                playerTank.setHealth(10);
                 break;
         }
     }
@@ -181,6 +184,10 @@ public class World {
 
     // Main game loop to run every frame
     public void gameLoop() {
+        if (!difficultySet) {
+            generateDifficulty();
+            difficultySet = true;
+        }
         cycleCount += 1;
         ArrayList<Enemy> enemies = new ArrayList<>();
         ArrayList<Bullet> bullets = new ArrayList<>();
@@ -196,7 +203,7 @@ public class World {
 
                     Enemy tank = (Enemy) object;
                     enemies.add(tank);
-                    if (cycleCount % 30 == 0) {
+                    if (cycleCount % 60 == 0) {
                         tank.changeState();
                     }
                 }
@@ -226,13 +233,12 @@ public class World {
      * @param inp - input of the user
      */
     public void handleInput(char inp) {
-        // Check for game end, may want to adjust this so GameWindow knows.
+        // Check for game end, may want to adjust this so GameWindow knows.a
         if (entities.contains(playerTank)) {
             if (inp == '%') {
                 World.instance().addObject(playerTank.fire());
             } else {
-                var thread = new Thread(() -> playerTank.move(inp));
-                thread.start();
+                playerTank.move(inp);
             }
         }
     }
@@ -464,7 +470,7 @@ public class World {
         return difficulty;
     }
 
-    public void     iculty(Difficulty difficulty) {
+    public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 
