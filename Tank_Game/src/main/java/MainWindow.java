@@ -326,7 +326,8 @@ public class MainWindow {
                     Label lbl6 = new Label("Link: https://incompetech.filmmusic.io/song/3765-floating-cities");
                     lbl6.getStyleClass().add("about");
                     Label lbl7 = new Label ("License: http://creativecommons.org/licenses/by/4.0/");
-                    MidVbox.getChildren().addAll(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6);
+                    lbl7.getStyleClass().add("about");
+                    MidVbox.getChildren().addAll(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7);
                 }
 
                 if (btnClicked.getText().equals("High Scores")) {
