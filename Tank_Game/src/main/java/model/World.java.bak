@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.input.KeyEvent;
-import model.enums.BulletType;
 import model.enums.Difficulty;
 import model.gameObjects.*;
 import model.gameObjects.powerups.*;
@@ -274,10 +273,7 @@ public class World {
         score += waveScore/2;
         for (GameObject object : entities) {
             if (object instanceof Bullet) {
-                Bullet bullet = (Bullet) object;
-                if (bullet.getType() == BulletType.ENEMY) {
-                    toRemove.add(object);
-                }
+                toRemove.add(object);
             }
         }
         for (GameObject object : toRemove) {
