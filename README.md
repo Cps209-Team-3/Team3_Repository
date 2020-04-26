@@ -13,11 +13,13 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
 * Work Completed: 
   * Serialize/Deserialize methods written
   * Load/Save methods written with unit tests
+  * Load/Save High Scores
   * Powerups added
   * Custom Cursor added
   * Pause Menu Added
   * Movement of all game objects and collision of tanks
   * Wall added
+  * All Menus functional
 * Known Issues: 
   * Bullets do not fire exactly from barrel
   * Collisions between tanks gives inconsistent results, resulting in tanks getting stuck on occasion
