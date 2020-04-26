@@ -1,7 +1,10 @@
 package model.gameObjects;
 
 import java.awt.Point;
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import model.World;
 import model.enums.BulletType;
 
@@ -42,49 +45,67 @@ public class Player extends Tank {
 
     // Moves tank in the direction of 'input' and saves last position to
     // pastPositions
-    public void move(char input) {
+    public void move(ArrayList<KeyEvent> keys) {
         GameObject object = World.instance().findCollision(this);
-            switch (input) {
-                    case 'w':
-                        if (object == null || object instanceof Bullet) {
-                                double newX = position.getX();
-                                double newY = position.getY();
-                                newX = speed * Math.sin(direction * Math.PI / 180);
-                                newY = -speed * Math.cos(direction * Math.PI / 180);
-                                lastPosition = position;
-                                position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
-                        } else {
-                                position = lastPosition;
-                        }
-                        break;
-                    case 'a':
-                        direction -= 4;
-                        break;
-                    case 's':
-                        if (object == null || object instanceof Bullet) {
-                                double newX2 = position.getX();
-                                double newY2 = position.getY();
-                                newX2 = -speed * Math.sin(direction * Math.PI / 180);
-                                newY2 = speed * Math.cos(direction * Math.PI / 180);
-                                lastPosition = position;
-                                position = new Point((int) (newX2 + position.getX()), (int) (newY2 + position.getY()));
-                        } else {
-                            position = lastPosition;
-                        }
-                        break;
-                    case 'd':
-                        direction += 4;
-                        break;
+            String input = "";
+            for(int i = 0; i < keys.size(); i++){
+                input += keys.get(i).getText().charAt(0);
             }
-            if (position.getX() > 1330) {
-                position.setLocation(1330.0, position.getY());
-            } else if (position.getX() < 30) {
-                position.setLocation(30, position.getY());
-            } else if (position.getY() < -400) {
-                position.setLocation(position.getX(), -400);
-            } else if (position.getY() > 320) {
-                position.setLocation(position.getX(), 320);
+            if (keys.size() < 3 && input.contains("w") && input.contains("a")) {
+                direction = 315;
+                calculateMove(object, direction);
+            } else if (keys.size() < 3 && input.contains("w") && input.contains("d")){
+                direction = 45;
+                calculateMove(object, direction);
+            } else if (keys.size() < 3 && input.contains("s") && input.contains("a")) {
+                direction = 225;
+                calculateMove(object, direction);
+            } else if (keys.size() < 3 && input.contains("s") && input.contains("d")) {
+                direction = 135;
+                calculateMove(object, direction);
+            } else if (keys.size() < 2 && input.contains("w")) {
+                direction = 0;
+                calculateMove(object, direction);
+            } else if (keys.size() < 2 && input.contains("s")) {
+                direction = 180;
+                calculateMove(object, direction);
+            } else if (keys.size() < 2 && input.contains("a")) {
+                direction = 270;
+                calculateMove(object, direction);
+            } else if (keys.size() < 2 && input.contains("d")) {
+                direction = 90;
+                calculateMove(object, direction);
             }
+        }
+
+    public void calculateMove(GameObject object, int desired) {
+        /*while(direction != desired){
+
+            if(desired > direction) {
+                direction += 5;
+            } else {
+                direction -= 5;
+            }
+        }*/
+        if (object == null || object instanceof Bullet) {
+            double newX = position.getX();
+            double newY = position.getY();
+            newX = speed * Math.sin(direction * Math.PI / 180);
+            newY = -speed * Math.cos(direction * Math.PI / 180);
+            lastPosition = position;
+            position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
+        } else {
+            position = lastPosition;
+        }
+        if (position.getX() > 1330) {
+            position.setLocation(1330.0, position.getY());
+        } else if (position.getX() < 30) {
+            position.setLocation(30, position.getY());
+        } else if (position.getY() < -400) {
+            position.setLocation(position.getX(), -400);
+        } else if (position.getY() > 320) {
+            position.setLocation(position.getX(), 320);
+        }
     }
 
     @Override

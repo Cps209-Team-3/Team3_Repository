@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.ImageCursor;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -58,14 +59,14 @@ public class GameWindow {
     private Text score = new Text("Score: 0");
     private Text waveNum = new Text("Wave: ");
     private MainWindow mainWindow = null;
-    private ArrayList<KeyEvent> pressedKeys = new ArrayList();
-    private int iterate = 0; 
+
+    private ArrayList<KeyEvent> keys = new ArrayList<>();
 
     // Player Tank Fires (TBF)
     @FXML
     void onMouseClicked(MouseEvent value) {
         AUDIO_SHOT.play(0.8);
-        var thread = new Thread( () -> World.instance().handleInput('%'));
+        var thread = new Thread( () -> World.instance().handleInput('%', keys));
         thread.start();
     }
 
@@ -74,7 +75,7 @@ public class GameWindow {
         // Hand Mouse Coordinates to player tank's head TBF
         mouse.setLocation(value.getX(), value.getY());
         var newCursor = new ImageCursor(new Image("/Images/cursor2.png"));
-        pane.setCursor(newCursor);
+        gameWindow.getScene().setCursor(newCursor);
 
         Point playerPosition = World.instance().getPlayerTank().getPosition();
         double y2 = value.getY() - playerPosition.getY();
@@ -89,8 +90,37 @@ public class GameWindow {
         pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                if(keys.size() == 0) {
+                    keys.add(event);
+                } else {
+                    boolean contains = false;
+                    for(int i = 0; i < keys.size(); i++){
+                        if(keys.get(i).getText().charAt(0) == event.getText().charAt(0)){
+                            contains = true;
+                        }
+                    }
+                    if(contains == false){
+                        keys.add(event);
+                    }
+                }
                 var thread = new Thread( () -> { handleInput(event); });
                 thread.start();
+            }
+        });
+        pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode() == KeyCode.ESCAPE){
+                    pauseGame();
+                } else {
+                    for(int i = 0; i < keys.size(); i++){
+                        if(event.getText().charAt(0) == keys.get(i).getText().charAt(0)) {        
+                            keys.remove(keys.get(i));
+                            var thread = new Thread( () -> { handleInput(event); });
+                            thread.start();
+                        }
+                    }
+                } 
             }
         });
         AUDIO_AMBIENT.setCycleCount(-1);
@@ -272,18 +302,7 @@ public class GameWindow {
         if (key.getCode() == KeyCode.ESCAPE) {
             pauseGame();
         } else {
-            var Thread = new Thread( () -> {World.instance().handleInput(key.getText().charAt(0));});
-            Thread.start();
-            
+            World.instance().handleInput('a', this.keys);
         }
-        /*if (event.getText().charAt(0) == 'a' || event.getText().charAt(0) == 'd') {
-            Thread inputThread = new Thread( () -> World.instance().handleInput(event.getText().charAt(0)));
-            inputThread.start();
-        } else if (event.getText().charAt(0) == 'w' || event.getText().charAt(0) == 's') {
-            Thread inputThread = new Thread( () -> World.instance().handleInput(event.getText().charAt(0)));
-            inputThread.start();
-        } else {
-            
-        }*/
     }
 }

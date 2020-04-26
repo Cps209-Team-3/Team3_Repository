@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.scene.input.KeyEvent;
 import model.enums.Difficulty;
 import model.gameObjects.*;
 import model.gameObjects.powerups.*;
@@ -232,13 +233,13 @@ public class World {
      * 
      * @param inp - input of the user
      */
-    public void handleInput(char inp) {
+    public void handleInput(char inp, ArrayList<KeyEvent> keys) {
         // Check for game end, may want to adjust this so GameWindow knows.a
         if (entities.contains(playerTank)) {
             if (inp == '%') {
                 World.instance().addObject(playerTank.fire());
             } else {
-                playerTank.move(inp);
+                playerTank.move(keys);
             }
         }
     }

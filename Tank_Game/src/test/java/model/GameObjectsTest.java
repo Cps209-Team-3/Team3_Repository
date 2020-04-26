@@ -5,8 +5,10 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 import java.awt.Point;
-import javafx.scene.image.Image;
+import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import model.enums.BulletType;
 import model.enums.EnemyState;
 import model.gameObjects.*;
@@ -29,7 +31,8 @@ public class GameObjectsTest {
         Player playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         assertEquals(10, playerTank.getSpeed());
         assertEquals(90, playerTank.getDirection());
-        playerTank.move('W');
+        ArrayList<KeyEvent> keys = new ArrayList<>();
+        playerTank.move(keys);
         assertEquals(new Point(42, 64), playerTank.getPosition());
         World.instance().addObject(playerTank);
         playerTank.onDeath();

@@ -275,7 +275,7 @@ public class MainWindow {
                     btns.get(0).setText("Easy");
                     btns.get(1).setText("Medium");
                     btns.get(2).setText("Hard");
-                    btns.get(3).setText("Cheat Mode");
+                    MidVbox.getChildren().remove(btns.get(3));
                     MidVbox.getChildren().remove(btns.get(4));
                     BHbox.getChildren().add(backBtn);
                 }
@@ -298,15 +298,21 @@ public class MainWindow {
                 if (btnClicked.getText().equals("About")) {
                     screen = Screen.ABOUT;
                     MidVbox.getChildren().clear();
+                    BHbox.getChildren().add(backBtn);
                     Label lbl1 = new Label("David Disler - Save/Load game functionality & Powerups");
-                    lbl1.setStyle("-fx-font-size: 20pt;");
+                    lbl1.getStyleClass().add("about");
                     Label lbl2 = new Label("Andrew James - Game Logic and Game Screen");
-                    lbl2.setStyle("-fx-font-size: 20pt;");
-                    Label lbl3 = new Label("Austin Pennington - Game Logic and Art Design");
-                    lbl3.setStyle("-fx-font-size: 20pt;");
+                    lbl2.getStyleClass().add("about");
+                    Label lbl3 = new Label("Austin Pennington - Game Logic, Art Design, and Audio Design");
+                    lbl3.getStyleClass().add("about");
                     Label lbl4 = new Label("Brandon Swain - Menus and Save/Load High Scores");
-                    lbl4.setStyle("-fx-font-size: 20pt;");
-                    MidVbox.getChildren().addAll(lbl1, lbl2, lbl3, lbl4);
+                    lbl4.getStyleClass().add("about");
+                    Label lbl5 = new Label("Music: Floating Cities by Kevin MacLeod");
+                    lbl5.getStyleClass().add("about");
+                    Label lbl6 = new Label("Link: https://incompetech.filmmusic.io/song/3765-floating-cities");
+                    lbl6.getStyleClass().add("about");
+                    Label lbl7 = new Label ("License: http://creativecommons.org/licenses/by/4.0/");
+                    MidVbox.getChildren().addAll(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6);
                 }
 
                 if (btnClicked.getText().equals("High Scores")) {
@@ -327,7 +333,7 @@ public class MainWindow {
 
                 break;
 
-            case DIFF:
+                case DIFF:
 
                 if (btnClicked.getText().equals("<- Back")) {
                     resetTitle();
@@ -339,7 +345,7 @@ public class MainWindow {
                         World.instance().setDifficulty(Difficulty.MEDIUM);
                     } else if (btnClicked.getText().equals("Hard")) {
                         World.instance().setDifficulty(Difficulty.HARD);
-                    } else if (btnClicked.getText().equals("Cheat Mode")) {
+                    } else if (btnClicked.getText().equals("Cheat Mode")) { 
                         // Add Cheat Code!!!
                     }
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
@@ -354,6 +360,7 @@ public class MainWindow {
                 }
 
                 break;
+            
 
             case HELP:
 
