@@ -167,6 +167,7 @@ public class MainWindow {
             GameWindow window = loader.getController();
             window.initialize(gameWindow, this);
             gameWindow.show();
+        	resetTitle();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

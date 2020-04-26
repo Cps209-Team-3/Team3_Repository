@@ -181,7 +181,7 @@ public class Enemy extends Tank {
         String serialization = "EnemyTank,";
         String[] imageName = image.getUrl().split("/");
         Object[] list = new Object[] {imageName[imageName.length - 1], position.getX(), position.getY(), direction,
-                height, width, health, speed, turretDirection, state, reloadTime, reloadStatus };
+                height, width, health, speed, turretDirection, state, reloadTime, reloadStatus };                height, width, health, speed, turretDirection, state, reloadTime, reloadStatus };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {

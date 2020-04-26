@@ -308,7 +308,7 @@ public class GameWindow {
             case 2:
                 AUDIO_AMBIENT.stop();
                 AUDIO_MUSIC.stop();
-                AUDIO_SHOT.stop();
+				AUDIO_SHOT.stop();
                 gameWindow.close();
                 break;
         }
