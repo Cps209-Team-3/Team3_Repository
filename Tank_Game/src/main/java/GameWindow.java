@@ -141,7 +141,7 @@ public class GameWindow {
 
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
-        score.setText("Score: " + World.instance().getScore());
+        score.setText("Score: " + (int)World.instance().getScore());
         waveNum.setText("Wave: " + (World.instance().getCurrentWave()));
 
         for (GameObject object : objects) {
@@ -221,10 +221,11 @@ public class GameWindow {
             AUDIO_MUSIC.stop();
             gameWindow.close();
             clock.stop();
-            World.reset();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("EndWindow.fxml"));
             Stage endWindow = new Stage();
             endWindow.setScene(new Scene(loader.load()));
+            EndWindow window = loader.getController();
+            window.initialize(endWindow);
             endWindow.show();
         }
     }

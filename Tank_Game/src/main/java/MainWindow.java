@@ -313,17 +313,18 @@ public class MainWindow {
                 if (btnClicked.getText().equals("About")) {
                     screen = Screen.ABOUT;
                     MidVbox.getChildren().clear();
-                    Label credits = new Label("Credits");
+                    Label credits = new Label("Credits:");
                     credits.setStyle("-fx-font-size: 28pt;");
-                    Label lbl1 = new Label("David Disler - Save/Load game functionality & Powerups");
+                    Label lbl1 = new Label("David Disler - Save/Load Game & Powerups");
                     lbl1.setStyle("-fx-font-size: 20pt;");
-                    Label lbl2 = new Label("Andrew James - Game Logic and Game Screen");
+                    Label lbl2 = new Label("Andrew James - Game Logic & Game Screen");
                     lbl2.setStyle("-fx-font-size: 20pt;");
-                    Label lbl3 = new Label("Austin Pennington - Game Logic and Art Design");
+                    Label lbl3 = new Label("Austin Pennington - Game Logic & Art Design");
                     lbl3.setStyle("-fx-font-size: 20pt;");
-                    Label lbl4 = new Label("Brandon Swain - Menus and Save/Load High Scores");
+                    Label lbl4 = new Label("Brandon Swain - Menus & Save/Load High Scores");
                     lbl4.setStyle("-fx-font-size: 20pt;");
-                    MidVbox.getChildren().addAll(lbl1, lbl2, lbl3, lbl4);
+                    MidVbox.getChildren().addAll(credits, lbl1, lbl2, lbl3, lbl4);
+                    BHbox.getChildren().add(backBtn);
                 }
 
                 if (btnClicked.getText().equals("High Scores")) {
@@ -352,12 +353,7 @@ public class MainWindow {
                 if (btnClicked.getText().equals("Easy")) {
                     World.reset();
                     World.instance().setDifficulty(Difficulty.EASY);
-                    // loadGame();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("EndWindow.fxml"));
-                    Stage endWindow = new Stage();
-                    endWindow.setScene(new Scene(loader.load()));
-                    endWindow.show();
-
+                    loadGame();
                     resetTitle();
                 }
                 if (btnClicked.getText().equals("Medium")) {
@@ -371,12 +367,6 @@ public class MainWindow {
                     World.instance().setDifficulty(Difficulty.HARD);
                     loadGame();
                     resetTitle();
-                }
-                if (btnClicked.getText().equals("Cheat Mode")) {
-                    World.reset();
-                    loadGame();
-                    resetTitle();
-                    // Add Cheat Code!!!
                 }
 
                 break;
@@ -441,6 +431,7 @@ public class MainWindow {
                 break;
 
             case ABOUT:
+
                 if (btnClicked.getText().equals("<- Back")) {
                     resetTitle();
                 }
