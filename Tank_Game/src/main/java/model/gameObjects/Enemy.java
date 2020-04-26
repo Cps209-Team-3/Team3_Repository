@@ -170,7 +170,8 @@ public class Enemy extends Tank {
     @Override
     public void onDeath() {
         World.instance().removeObject(this);
-        World.instance().setScore(World.instance().getScore() + 1); // SCORING!
+        World.instance().setWaveScore(World.instance().getWaveScore() + 25);
+        World.instance().setScore(World.instance().getScore() + 25);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class PlayerData {
      * @param name      String
      * @param highScore double
      */
-    PlayerData(String name, double highScore) {
+    public PlayerData(String name, double highScore) {
         this.name = name;
         this.highScore = highScore;
     }

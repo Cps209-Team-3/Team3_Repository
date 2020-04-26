@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,6 +52,14 @@ public class MainWindow {
     @FXML
     Button fifthBtn = new Button("High Scores");
     @FXML
+    Button easyBtn = new Button("Easy");
+    @FXML
+    Button medBtn = new Button("Medium");
+    @FXML
+    Button hardBtn = new Button("Hard");
+    @FXML
+    Button cheatBtn = new Button("Cheat Mode");
+    @FXML
     Button backBtn = new Button("<- Back");
     @FXML
     Button leftBtn = new Button("<-");
@@ -61,18 +67,15 @@ public class MainWindow {
     Button rightBtn = new Button("->");
 
     @FXML
-    Image LOGO_IMG = new Image("/Images/Logo.gif");
+    Image LOGO_GIF = new Image("/Images/Logo.gif");
     @FXML
     Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
     @FXML
     Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
     @FXML
-    Image PUP_IMG = new Image("/Images/PowerupsSlide.png"); // Edit url for Beta
+    Image PUP_IMG = new Image("/Images/PowerupsSlide.png");
     @FXML
     Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
-    // @FXML
-    // Image BLANK_IMG = new Image("/Images/BlankSlide.png"); // Not sure we will
-    // need this
 
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/beep-7.wav").toString());
 
@@ -87,8 +90,6 @@ public class MainWindow {
 
     HelpSlide slide = HelpSlide.CONTROLS;
 
-    World world = World.instance();
-
     HighScores scoreList = HighScores.scoreList();
 
     @FXML
@@ -102,6 +103,7 @@ public class MainWindow {
         MainHbox.getChildren().add(MidVbox);
         MidVbox.setPrefWidth(1200);
         MidVbox.setAlignment(Pos.CENTER);
+        imgView.setImage(LOGO_GIF);
         MidVbox.getChildren().add(imgView);
         lbl.setStyle("-fx-font-size: 28pt;");
         MidVbox.getChildren().add(lbl);
@@ -115,6 +117,10 @@ public class MainWindow {
         btns.add(thirdBtn);
         btns.add(fourthBtn);
         btns.add(fifthBtn);
+        btns.add(easyBtn);
+        btns.add(medBtn);
+        btns.add(hardBtn);
+        btns.add(cheatBtn);
 
         for (Button btn : btns) {
             btn.setOnAction(e -> {
@@ -127,7 +133,6 @@ public class MainWindow {
             btn.setPrefWidth(250);
             btn.setPrefHeight(100);
             btn.setStyle("-fx-font-size: 20pt;");
-            MidVbox.getChildren().add(btn);
         }
         backBtn.setOnAction(e -> {
             try {
@@ -150,6 +155,8 @@ public class MainWindow {
                 e1.printStackTrace();
             }
         });
+
+        MidVbox.getChildren().addAll(firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
     }
 
     @FXML
@@ -257,8 +264,18 @@ public class MainWindow {
         BHbox.getChildren().clear();
         RightVbox.getChildren().clear();
         LeftVbox.getChildren().clear();
-        imgView.setImage(LOGO_IMG);
+        imgView.setImage(LOGO_GIF);
         MidVbox.getChildren().addAll(imgView, lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
+    }
+
+    public void loadGame() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+
+        Stage gameWindow = new Stage();
+        gameWindow.setScene(new Scene(loader.load()));
+        GameWindow window = loader.getController();
+        window.initialize(gameWindow, this);
+        gameWindow.show();
     }
 
     @FXML
@@ -271,12 +288,10 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("New Game")) {
                     screen = Screen.DIFF;
-                    lbl.setText("Difficulty");
-                    btns.get(0).setText("Easy");
-                    btns.get(1).setText("Medium");
-                    btns.get(2).setText("Hard");
-                    btns.get(3).setText("Cheat Mode");
-                    MidVbox.getChildren().remove(btns.get(4));
+                    MidVbox.getChildren().clear();
+                    Label difLbl = new Label("Difficulty");
+                    difLbl.setStyle("-fx-font-size: 28pt;");
+                    MidVbox.getChildren().addAll(difLbl, easyBtn, medBtn, hardBtn, cheatBtn);
                     BHbox.getChildren().add(backBtn);
                 }
 
@@ -287,7 +302,7 @@ public class MainWindow {
                 if (btnClicked.getText().equals("Help")) {
                     screen = Screen.HELP;
                     imgView.setImage(PTANK_IMG);
-                    lbl.setText("");
+                    MidVbox.getChildren().remove(lbl);
                     MidVbox.getChildren().removeAll(btns);
                     MidVbox.getChildren().add(slidePic);
                     LeftVbox.getChildren().add(leftBtn);
@@ -298,6 +313,8 @@ public class MainWindow {
                 if (btnClicked.getText().equals("About")) {
                     screen = Screen.ABOUT;
                     MidVbox.getChildren().clear();
+                    Label credits = new Label("Credits");
+                    credits.setStyle("-fx-font-size: 28pt;");
                     Label lbl1 = new Label("David Disler - Save/Load game functionality & Powerups");
                     lbl1.setStyle("-fx-font-size: 20pt;");
                     Label lbl2 = new Label("Andrew James - Game Logic and Game Screen");
@@ -312,7 +329,7 @@ public class MainWindow {
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
                     scoreList.load();
-                    imgView.setImage(LOGO_IMG);
+                    imgView.setImage(LOGO_GIF);
                     MidVbox.getChildren().removeAll(btns);
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
@@ -331,26 +348,35 @@ public class MainWindow {
 
                 if (btnClicked.getText().equals("<- Back")) {
                     resetTitle();
-                } else {
+                }
+                if (btnClicked.getText().equals("Easy")) {
                     World.reset();
-                    if (btnClicked.getText().equals("Easy")) {
-                        World.instance().setDifficulty(Difficulty.EASY);
-                    } else if (btnClicked.getText().equals("Medium")) {
-                        World.instance().setDifficulty(Difficulty.MEDIUM);
-                    } else if (btnClicked.getText().equals("Hard")) {
-                        World.instance().setDifficulty(Difficulty.HARD);
-                    } else if (btnClicked.getText().equals("Cheat Mode")) {
-                        // Add Cheat Code!!!
-                    }
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
-
-                    Stage gameWindow = new Stage();
-                    gameWindow.setScene(new Scene(loader.load()));
-                    GameWindow window = loader.getController();
-                    window.initialize(gameWindow, this);
-                    gameWindow.show();
+                    World.instance().setDifficulty(Difficulty.EASY);
+                    // loadGame();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("EndWindow.fxml"));
+                    Stage endWindow = new Stage();
+                    endWindow.setScene(new Scene(loader.load()));
+                    endWindow.show();
 
                     resetTitle();
+                }
+                if (btnClicked.getText().equals("Medium")) {
+                    World.reset();
+                    World.instance().setDifficulty(Difficulty.MEDIUM);
+                    loadGame();
+                    resetTitle();
+                }
+                if (btnClicked.getText().equals("Hard")) {
+                    World.reset();
+                    World.instance().setDifficulty(Difficulty.HARD);
+                    loadGame();
+                    resetTitle();
+                }
+                if (btnClicked.getText().equals("Cheat Mode")) {
+                    World.reset();
+                    loadGame();
+                    resetTitle();
+                    // Add Cheat Code!!!
                 }
 
                 break;
@@ -366,7 +392,7 @@ public class MainWindow {
                         if (btnClicked.getText().equals("->")) {
                             slide = HelpSlide.ENEMIES;
                             imgView.setImage(ETANK_IMG);
-                        } 
+                        }
                         if (btnClicked.getText().equals("<- Back")) {
                             resetTitle();
                         }
@@ -414,16 +440,18 @@ public class MainWindow {
 
                 break;
 
-            case ABOUT :
+            case ABOUT:
                 if (btnClicked.getText().equals("<- Back")) {
                     resetTitle();
-                } break;
+                }
+                break;
 
             case HIGHSCORES:
 
                 if (btnClicked.getText().equals("<- Back")) {
                     resetTitle();
-                } break;
+                }
+                break;
 
             case LOAD:
                 screen = Screen.TITLE;

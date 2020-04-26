@@ -16,7 +16,8 @@ public class World {
 
     int width;
     int height;
-    int score;
+    double score;
+    double waveScore;
     int currentWave;
     Difficulty difficulty;
     Player playerTank;
@@ -254,6 +255,7 @@ public class World {
 
     // Creates a new wave
     public void createWave() {
+        waveScore = 0;
         for (int i = 0; i < currentWave; ++i) {
             Enemy tank = new Enemy(true);
             while (!checkSpawn(tank)) {
@@ -267,6 +269,7 @@ public class World {
     // Handles wave ending
     public void onWaveEnd(int readyNum) {
         ArrayList<GameObject> toRemove = new ArrayList<>();
+        score += waveScore/2;
         for (GameObject object : entities) {
             if (object instanceof Bullet) {
                 toRemove.add(object);
@@ -450,11 +453,11 @@ public class World {
         this.height = height;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
@@ -496,5 +499,13 @@ public class World {
 
     public void setCheatMode(boolean cheatMode) {
         this.cheatMode = cheatMode;
+    }
+
+    public double getWaveScore() {
+        return waveScore;
+    }
+
+    public void setWaveScore(double waveScore) {
+        this.waveScore = waveScore;
     }
 }

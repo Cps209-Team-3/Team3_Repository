@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="MainWindow" fx:id="vbox" xmlns:fx="http://javafx.com/fxml" stylesheets="MainWindow.css"
+    spacing="15" prefHeight="500" prefWidth="1000" alignment="CENTER"/>
