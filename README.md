@@ -18,6 +18,9 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
   * Pause Menu Added
   * Movement of all game objects and collision of tanks
   * Wall added
+  * Allowed for Multiple Inputs from User
+  * Pause Menu
+  * Cheat Mode added
 * Known Issues: 
   * Bullets do not fire exactly from barrel
   * Collisions between tanks gives inconsistent results, resulting in tanks getting stuck on occasion
