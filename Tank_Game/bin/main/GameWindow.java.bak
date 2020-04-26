@@ -248,12 +248,12 @@ public class GameWindow {
             AUDIO_MUSIC.stop();
             gameWindow.close();
             clock.stop();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("EndWindow.fxml"));
-            Stage endWindow = new Stage();
-            endWindow.setScene(new Scene(loader.load()));
-            EndWindow window = loader.getController();
-            window.initialize(endWindow);
-            endWindow.show();
+            // FXMLLoader loader = new FXMLLoader(getClass().getResource("EndWindow.fxml"));
+            // Stage endWindow = new Stage();
+            // endWindow.setScene(new Scene(loader.load()));
+            // EndWindow window = loader.getController();
+            // window.initialize(endWindow);
+            // endWindow.show();
 
         }
     }
@@ -308,7 +308,7 @@ public class GameWindow {
             case 2:
                 AUDIO_AMBIENT.stop();
                 AUDIO_MUSIC.stop();
-                AUDIO_SHOT.stop();
+				AUDIO_SHOT.stop();
                 gameWindow.close();
                 break;
         }
