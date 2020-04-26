@@ -39,6 +39,8 @@ public class MainWindow {
 
     @FXML
     Label lbl = new Label("TANK ATTACK ARENA");
+    @FXML
+    Label champs = new Label("TANK ATTACK CHAMPIONS:");
 
     @FXML
     Button firstBtn = new Button("New Game");
@@ -334,14 +336,13 @@ public class MainWindow {
                 if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
                     scoreList.load();
-                    imgView.setImage(LOGO_GIF);
-                    MidVbox.getChildren().removeAll(btns);
+                    MidVbox.getChildren().clear();
+                    MidVbox.getChildren().add(champs);
+                    MidVbox.setStyle("-fx-font-size: 32pt;");
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
-                    lbl.setText("TANK ATTACK CHAMPIONS:");
-                    lbl.setStyle("-fx-font-size: 32pt;");
                     for (PlayerData player : scores) {
-                        Label lbl = new Label(player.getName() + "   " + player.getHighScore());
+                        Label lbl = new Label(player.getName() + " - " + (int)player.getHighScore());
                         lbl.setStyle("-fx-font-size: 24pt;");
                         MidVbox.getChildren().add(lbl);
                     }
