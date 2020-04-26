@@ -106,7 +106,7 @@ public class MainWindow {
         MidVbox.setAlignment(Pos.CENTER);
         imgView.setImage(LOGO_GIF);
         MidVbox.getChildren().add(imgView);
-        lbl.setStyle("-fx-font-size: 28pt;");
+        lbl.setStyle("-fx-font-size: 32pt;");
         MidVbox.getChildren().add(lbl);
 
         MainHbox.getChildren().add(RightVbox);
@@ -339,6 +339,8 @@ public class MainWindow {
                     MidVbox.getChildren().clear();
                     MidVbox.getChildren().add(champs);
                     MidVbox.setStyle("-fx-font-size: 32pt;");
+                    Label lines = new Label("_________________________________");
+                    MidVbox.getChildren().add(lines);
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
                     for (PlayerData player : scores) {
