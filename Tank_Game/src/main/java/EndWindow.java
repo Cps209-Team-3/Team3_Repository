@@ -9,7 +9,7 @@ import model.World;
 
 public class EndWindow {
 
-    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/beep-7.wav").toString());
+    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
 
     private Stage endWindow;
 

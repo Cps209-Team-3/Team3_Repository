@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="EndWindow" fx:id="vbox" xmlns:fx="http://javafx.com/fxml" stylesheets="MainWindow.css"
+    spacing="20" prefHeight="500" prefWidth="900"/>
