@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="GameWindow" xmlns:fx="http://javafx.com/fxml" prefHeight="900" prefWidth="1440">
+<VBox fx:controller="GameWindow" fx:id="vbox" xmlns:fx="http://javafx.com/fxml" prefHeight="900" prefWidth="1440">
     
     <Pane fx:id="background" prefHeight="900" prefWidth="1440" />
     <Pane fx:id="pane" prefHeight="900" prefWidth="1440" onMouseClicked="#onMouseClicked"
@@ -12,5 +12,4 @@
     <Pane fx:id="buttonPane" prefHeight="500" prefWidth="1440" />
     
     
-
 </VBox>

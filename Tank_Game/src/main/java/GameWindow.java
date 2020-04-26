@@ -10,6 +10,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -33,6 +35,9 @@ import model.gameObjects.Tank;
 public class GameWindow {
 
     @FXML
+    VBox vbox;
+
+    @FXML
     Pane pane;
 
     @FXML
@@ -41,7 +46,13 @@ public class GameWindow {
     @FXML
     Pane buttonPane;
 
-    private final KeyFrame keyFrame = new KeyFrame(Duration.millis(16.67), e -> gameLoop());
+    private final KeyFrame keyFrame = new KeyFrame(Duration.millis(16.67), e -> {
+        try {
+            gameLoop();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    });
     private final Timeline clock = new Timeline(keyFrame);
 
     private Point mouse = new Point();
@@ -154,11 +165,11 @@ public class GameWindow {
         clock.play();
     }
 
-    public void gameLoop() {
+    public void gameLoop() throws Exception {
 
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
-        score.setText("Score: " + World.instance().getScore());
+        score.setText("Score: " + (int)World.instance().getScore());
         waveNum.setText("Wave: " + (World.instance().getCurrentWave()));
 
         for (GameObject object : objects) {
@@ -238,7 +249,12 @@ public class GameWindow {
             AUDIO_MUSIC.stop();
             gameWindow.close();
             clock.stop();
-            World.reset();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("EndWindow.fxml"));
+            Stage endWindow = new Stage();
+            endWindow.setScene(new Scene(loader.load()));
+            EndWindow window = loader.getController();
+            window.initialize(endWindow);
+            endWindow.show();
         }
     }
 
