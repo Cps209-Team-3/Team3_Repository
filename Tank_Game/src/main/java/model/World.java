@@ -45,7 +45,7 @@ public class World {
         width = 1440;
         score = -20;
         currentWave = 0;
-        difficulty = Difficulty.EASY; // TODO: get difficulty from somewhere
+        difficulty = Difficulty.EASY; 
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
         entities.add(playerTank);
         fillSavedGames();

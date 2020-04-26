@@ -77,7 +77,7 @@ public class MainWindow {
     @FXML
     Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
 
-    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/beep-7.wav").toString());
+    final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
 
     @FXML
     ImageView imgView = new ImageView();

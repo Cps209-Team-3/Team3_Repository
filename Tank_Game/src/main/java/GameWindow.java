@@ -26,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.media.AudioClip;
 
 import model.World;
 import model.gameObjects.Bullet;
@@ -61,16 +62,24 @@ public class GameWindow {
     private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>();
     private ArrayList<ImageView> images;
 
+    final AudioClip AUDIO_SHOT = new AudioClip(getClass().getResource("/Media/shot1.wav").toString());
+    final AudioClip AUDIO_MUSIC = new AudioClip(getClass().getResource("/Media/music.mp3").toString());
+    final AudioClip AUDIO_AMBIENT = new AudioClip(getClass().getResource("/Media/wind.wav").toString());
+
     private Stage gameWindow;
     private ImageView image;
     private Text score = new Text("Score: 0");
     private Text waveNum = new Text("Wave: ");
     private MainWindow mainWindow = null;
+    private ArrayList<KeyEvent> pressedKeys = new ArrayList();
+    private int iterate = 0; 
 
     // Player Tank Fires (TBF)
     @FXML
     void onMouseClicked(MouseEvent value) {
-        World.instance().handleInput('%');
+        AUDIO_SHOT.play(0.8);
+        var thread = new Thread( () -> World.instance().handleInput('%'));
+        thread.start();
     }
 
     @FXML
@@ -93,9 +102,14 @@ public class GameWindow {
         pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                handleInput(event);
+                var thread = new Thread( () -> { handleInput(event); });
+                thread.start();
             }
         });
+        AUDIO_AMBIENT.setCycleCount(-1);
+        AUDIO_MUSIC.setCycleCount(-1);
+        AUDIO_AMBIENT.play(0.25);
+        AUDIO_MUSIC.play(0.5);
         run();
     }
 
@@ -106,16 +120,16 @@ public class GameWindow {
         image.setFitHeight(pane.getHeight());
         background.getChildren().add(image);
 
-        score.setX(30);
-        score.setY(-400);
-        score.setFill(Color.WHITE);
+        score.setX(45);
+        score.setY(-350);
+        score.setFill(Color.PINK);
         score.setScaleX(2);
         score.setScaleY(2);
-        waveNum.setX(130);
-        waveNum.setY(-400);
-        waveNum.setFill(Color.WHITESMOKE);
+        waveNum.setX(1350);
+        waveNum.setY(-350);
         waveNum.setScaleX(2);
         waveNum.setScaleY(2);
+        waveNum.setFill(Color.PINK);
         pane.getChildren().add(score);
         pane.getChildren().add(waveNum);
 
@@ -203,6 +217,8 @@ public class GameWindow {
         }
         // When the player dies
         if (!World.instance().getEntities().contains(World.instance().getPlayerTank())) {
+            AUDIO_AMBIENT.stop();
+            AUDIO_MUSIC.stop();
             gameWindow.close();
             clock.stop();
             World.reset();
@@ -261,6 +277,8 @@ public class GameWindow {
                 }
 
             case 2:
+                AUDIO_AMBIENT.stop();
+                AUDIO_MUSIC.stop();
                 gameWindow.close();
                 break;
         }
@@ -271,9 +289,18 @@ public class GameWindow {
         if (key.getCode() == KeyCode.ESCAPE) {
             pauseGame();
         } else {
-            if (!key.getText().isEmpty()) {
-                World.instance().handleInput(key.getText().charAt(0));
-            }
+            var Thread = new Thread( () -> {World.instance().handleInput(key.getText().charAt(0));});
+            Thread.start();
+            
         }
+        /*if (event.getText().charAt(0) == 'a' || event.getText().charAt(0) == 'd') {
+            Thread inputThread = new Thread( () -> World.instance().handleInput(event.getText().charAt(0)));
+            inputThread.start();
+        } else if (event.getText().charAt(0) == 'w' || event.getText().charAt(0) == 's') {
+            Thread inputThread = new Thread( () -> World.instance().handleInput(event.getText().charAt(0)));
+            inputThread.start();
+        } else {
+            
+        }*/
     }
 }

@@ -3,7 +3,7 @@ package model.gameObjects;
 import model.World;
 import model.enums.BulletType;
 import model.enums.EnemyState;
-
+import javafx.scene.media.AudioClip;
 import java.awt.Point;
 import javafx.scene.image.Image;
 import java.util.Random;
@@ -11,6 +11,7 @@ import java.util.Random;
 public class Enemy extends Tank {
 
     EnemyState state;
+    final AudioClip AUDIO_ENEMYSHOT = new AudioClip(getClass().getResource("/Media/enemyshot.mp3").toString());
 
     /**
      * Initializes a new Enemy using parameters.
@@ -55,7 +56,7 @@ public class Enemy extends Tank {
             height = (int) (image.getHeight() + 0.5);
             width = (int) (image.getWidth() + 0.5);
             health = 1;
-            speed = random.nextInt(10) + 1;
+            speed = 4;
             turretDirection = direction;
             state = EnemyState.PAUSE;
             lastPosition = position;
@@ -162,6 +163,7 @@ public class Enemy extends Tank {
 
     @Override
     public Bullet fire() {
+        AUDIO_ENEMYSHOT.play(0.7);
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
                 10, 5, 1, BulletType.ENEMY);

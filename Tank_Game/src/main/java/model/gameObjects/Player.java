@@ -6,7 +6,6 @@ import model.World;
 import model.enums.BulletType;
 
 public class Player extends Tank {
-
     /**
      * Initializes a new Player using parameters.
      * 
@@ -45,54 +44,47 @@ public class Player extends Tank {
     // pastPositions
     public void move(char input) {
         GameObject object = World.instance().findCollision(this);
-        switch (input) {
-            case 'w':
-                if (object == null || object instanceof Bullet) {
-                    double newX = speed * Math.sin(direction * Math.PI / 180);
-                    double newY = -speed * Math.cos(direction * Math.PI / 180);
-                    lastPosition = position;
-                    position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
-                } else {
-                    position = lastPosition;
-                }
-                break;
-            case 'a':
-                direction -= 4;
-                break;
-            case 's':
-                if (object == null || object instanceof Bullet) {
-                    double newX2 = -speed * Math.sin(direction * Math.PI / 180);
-                    double newY2 = speed * Math.cos(direction * Math.PI / 180);
-                    lastPosition = position;
-                    position = new Point((int) (newX2 + position.getX()), (int) (newY2 + position.getY()));
-                } else {
-                    position = lastPosition;
-                }
-                break;
-            case 'd':
-                direction += 4;
-                break;
-        }
-        if (position.getX() > 1330) {
-            position.setLocation(1330.0, position.getY());
-            if (position.getY() < -400) {
+            switch (input) {
+                    case 'w':
+                        if (object == null || object instanceof Bullet) {
+                                double newX = position.getX();
+                                double newY = position.getY();
+                                newX = speed * Math.sin(direction * Math.PI / 180);
+                                newY = -speed * Math.cos(direction * Math.PI / 180);
+                                lastPosition = position;
+                                position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
+                        } else {
+                                position = lastPosition;
+                        }
+                        break;
+                    case 'a':
+                        direction -= 4;
+                        break;
+                    case 's':
+                        if (object == null || object instanceof Bullet) {
+                                double newX2 = position.getX();
+                                double newY2 = position.getY();
+                                newX2 = -speed * Math.sin(direction * Math.PI / 180);
+                                newY2 = speed * Math.cos(direction * Math.PI / 180);
+                                lastPosition = position;
+                                position = new Point((int) (newX2 + position.getX()), (int) (newY2 + position.getY()));
+                        } else {
+                            position = lastPosition;
+                        }
+                        break;
+                    case 'd':
+                        direction += 4;
+                        break;
+            }
+            if (position.getX() > 1330) {
+                position.setLocation(1330.0, position.getY());
+            } else if (position.getX() < 30) {
+                position.setLocation(30, position.getY());
+            } else if (position.getY() < -400) {
                 position.setLocation(position.getX(), -400);
             } else if (position.getY() > 320) {
                 position.setLocation(position.getX(), 320);
             }
-        } else if (position.getX() < 30) {
-            position.setLocation(30, position.getY());
-            if (position.getY() > 320) {
-                position.setLocation(position.getX(), 320);
-            } else if (position.getY() < -400) {
-                position.setLocation(position.getX(), -400);
-            }
-        } else if (position.getY() < -400) {
-            position.setLocation(position.getX(), -400);
-        } else if (position.getY() > 320) {
-            position.setLocation(position.getX(), 320);
-        }
-
     }
 
     @Override
