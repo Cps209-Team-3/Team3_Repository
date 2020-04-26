@@ -26,6 +26,7 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
 * Known Issues: 
   * Bullets do not fire exactly from barrel
   * Collisions between tanks gives inconsistent results, resulting in tanks getting stuck on occasion
+  * Some issues with Save/Load
 
 * Recording: 
   * [Alpha Build](https://www.youtube.com/watch?v=HLsGVoCF8H4&feature=youtu.be)
