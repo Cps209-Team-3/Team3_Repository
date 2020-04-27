@@ -26,7 +26,7 @@ public class SpeedyPowerup extends Powerup {
         if (object instanceof Player) {
             World.instance().removeObject(this);
             tank = (Tank) object;
-            tank.setSpeed(20);
+            tank.setSpeed(8);
             timeline.setCycleCount(10);
             timeline.play();
         }
@@ -36,7 +36,7 @@ public class SpeedyPowerup extends Powerup {
     public void powerupPower() {
         frameCount++;
         if (frameCount >= 10) {
-            tank.setSpeed(20);
+            tank.setSpeed(8);
         }
     }
 }

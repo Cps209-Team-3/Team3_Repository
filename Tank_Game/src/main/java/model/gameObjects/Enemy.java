@@ -12,6 +12,7 @@ public class Enemy extends Tank {
 
     EnemyState state;
     final AudioClip AUDIO_ENEMYSHOT = new AudioClip(getClass().getResource("/Media/enemyshot.mp3").toString());
+    int fireNum = 60;
 
     /**
      * Initializes a new Enemy using parameters.
@@ -51,7 +52,7 @@ public class Enemy extends Tank {
         if (useRandom) {
             Random random = new Random();
             image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
-            position = new Point(random.nextInt(1400) + 320, random.nextInt(900 - 400));
+            position = new Point(random.nextInt(1400) + 320, random.nextInt(900) - 400);
             direction = random.nextInt(360);
             height = (int) (image.getHeight() + 0.5);
             width = (int) (image.getWidth() + 0.5);
@@ -60,6 +61,7 @@ public class Enemy extends Tank {
             turretDirection = direction;
             state = EnemyState.PAUSE;
             lastPosition = position;
+            fireNum = random.nextInt(61) + 30;
         }
     }
 
@@ -166,7 +168,7 @@ public class Enemy extends Tank {
         AUDIO_ENEMYSHOT.play(0.7);
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
-                10, 5, 1, BulletType.ENEMY);
+                10, 7, 1, BulletType.ENEMY);
     }
 
     @Override
@@ -224,4 +226,9 @@ public class Enemy extends Tank {
     public void setState(EnemyState state) {
         this.state = state;
     }
+
+    public int getFireNum() {
+        return fireNum;
+    }
+
 }
