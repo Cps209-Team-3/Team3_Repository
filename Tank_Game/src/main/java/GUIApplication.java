@@ -14,6 +14,8 @@ public class GUIApplication extends Application {
         var scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setTitle("Tank Attack Arena"); // Title of main window
+        MainWindow window = loader.getController();
+        window.initialize(stage);
         stage.show();
     }
 }

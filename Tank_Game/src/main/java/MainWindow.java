@@ -90,8 +90,11 @@ public class MainWindow {
 
     HighScores scoreList = HighScores.scoreList();
 
+    private Stage mainWindow;
+
     @FXML
-    public void initialize() throws Exception {
+    public void initialize(Stage stage) throws Exception {
+        this.mainWindow = stage;
         World.reset();
 
         MainHbox.getChildren().add(LeftVbox);
@@ -275,6 +278,7 @@ public class MainWindow {
         GameWindow window = loader.getController();
         window.initialize(gameWindow, this);
         gameWindow.show();
+        mainWindow.close();
     }
 
     @FXML
