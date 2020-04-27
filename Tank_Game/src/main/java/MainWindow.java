@@ -169,7 +169,7 @@ public class MainWindow {
             GameWindow window = loader.getController();
             window.initialize(gameWindow, this);
             gameWindow.show();
-        	resetTitle();
+            resetTitle();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -328,7 +328,7 @@ public class MainWindow {
                     lbl5.getStyleClass().add("about");
                     Label lbl6 = new Label("Link: https://incompetech.filmmusic.io/song/3765-floating-cities");
                     lbl6.getStyleClass().add("about");
-                    Label lbl7 = new Label ("License: http://creativecommons.org/licenses/by/4.0/");
+                    Label lbl7 = new Label("License: http://creativecommons.org/licenses/by/4.0/");
                     lbl7.getStyleClass().add("about");
                     MidVbox.getChildren().addAll(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7);
                 }
@@ -344,7 +344,7 @@ public class MainWindow {
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
                     for (PlayerData player : scores) {
-                        Label lbl = new Label(player.getName() + " - " + (int)player.getHighScore());
+                        Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                         lbl.setStyle("-fx-font-size: 24pt;");
                         MidVbox.getChildren().add(lbl);
                     }
@@ -360,24 +360,19 @@ public class MainWindow {
                 World.reset();
                 if (btnClicked.getText().equals("Easy")) {
                     World.instance().setDifficulty(Difficulty.EASY);
+                    loadGame();
+                    resetTitle();
                 } else if (btnClicked.getText().equals("Medium")) {
                     World.instance().setDifficulty(Difficulty.MEDIUM);
+                    loadGame();
+                    resetTitle();
                 } else if (btnClicked.getText().equals("Hard")) {
                     World.instance().setDifficulty(Difficulty.HARD);
+                    loadGame();
+                    resetTitle();
                 }
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
-
-                Stage gameWindow = new Stage();
-                gameWindow.setScene(new Scene(loader.load()));
-                GameWindow window = loader.getController();
-                window.initialize(gameWindow, this);
-                gameWindow.show();
-
-                resetTitle();
-
                 break;
-            
 
             case HELP:
 
@@ -453,10 +448,11 @@ public class MainWindow {
                 break;
 
             case LOAD:
-                screen = Screen.TITLE;
-                MidVbox.getChildren().clear();
-                BHbox.getChildren().clear();
-                MidVbox.getChildren().addAll(lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
+
+                if (btnClicked.getText().equals("<- Back")) {
+                    resetTitle();
+                }
+                break;
         }
     }
 }
