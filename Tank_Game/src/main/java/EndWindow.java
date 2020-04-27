@@ -1,5 +1,7 @@
 import javafx.event.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
@@ -12,6 +14,7 @@ public class EndWindow {
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
 
     private Stage endWindow;
+    private Stage mainWindow;
 
     @FXML
     VBox vbox;
@@ -28,8 +31,8 @@ public class EndWindow {
     Button btn = new Button("Enter");
 
     @FXML
-    public void initialize(Stage stage) {
-        this.endWindow = stage;
+    public void initialize(Stage endWindow) {
+        this.endWindow = endWindow;
         scoreLbl.setStyle("-fx-font-size: 28pt;");
         qLbl.setStyle("-fx-font-size: 24pt;");
         nameTxt.setPrefWidth(70);
@@ -58,6 +61,12 @@ public class EndWindow {
         HighScores.scoreList().save();
         endWindow.close();
         World.reset();
-    }
 
+        var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+        Stage mainWindow = new Stage();
+        mainWindow.setScene(new Scene(loader.load()));
+        MainWindow window = loader.getController();
+        window.initialize(mainWindow);
+        mainWindow.show();
+    }
 }

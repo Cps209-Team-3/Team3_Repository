@@ -125,27 +125,19 @@ public class Enemy extends Tank {
         switch (state) {
             case CHARGE:
                 // move toward player
-                x = (int) position.getX() + (int) (dx * speed); 
+                x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
-                if (object == null || object instanceof Bullet) {
-                    lastPosition = position;
-                    position = new Point(x, y);
-                    turretDirection = targetPlayer();
-                } else {
-                    position = lastPosition;
-                }
+                lastPosition = position;
+                position = new Point(x, y);
+                turretDirection = targetPlayer();
                 break;
             case FLEE:
                 // move away from player
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
-                if (object == null || object instanceof Bullet) {
-                    lastPosition = position;
-                    position = new Point(x, y);
-                    turretDirection = targetPlayer();
-                } else {
-                    position = lastPosition;
-                }
+                lastPosition = position;
+                position = new Point(x, y);
+                turretDirection = targetPlayer();
                 break;
             case PAUSE:
                 World.instance().addObject(fire());
@@ -182,7 +174,7 @@ public class Enemy extends Tank {
     public String serialize() {
         String serialization = "EnemyTank,";
         String[] imageName = image.getUrl().split("/");
-        Object[] list = new Object[] {imageName[imageName.length - 1], position.getX(), position.getY(), direction,
+        Object[] list = new Object[] { imageName[imageName.length - 1], position.getX(), position.getY(), direction,
                 height, width, health, speed, turretDirection, state, reloadTime, reloadStatus };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
