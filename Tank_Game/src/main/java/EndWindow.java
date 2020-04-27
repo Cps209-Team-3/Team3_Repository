@@ -14,7 +14,6 @@ public class EndWindow {
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
 
     private Stage endWindow;
-    private Stage mainWindow;
 
     @FXML
     VBox vbox;
