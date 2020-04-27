@@ -41,6 +41,8 @@ public class MainWindow {
     Label lbl = new Label("TANK ATTACK ARENA");
     @FXML
     Label champs = new Label("TANK ATTACK CHAMPIONS:");
+    @FXML
+    Label credits = new Label("Credits:");
 
     @FXML
     Button firstBtn = new Button("New Game");
@@ -67,15 +69,10 @@ public class MainWindow {
     @FXML
     Button rightBtn = new Button("->");
 
-    @FXML
     final Image LOGO_GIF = new Image("/Images/Logo.gif");
-    @FXML
     final Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
-    @FXML
     final Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
-    @FXML
     final Image PUP_IMG = new Image("/Images/PowerupsSlide.png");
-    @FXML
     final Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
 
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
@@ -316,6 +313,7 @@ public class MainWindow {
                     screen = Screen.ABOUT;
                     MidVbox.getChildren().clear();
                     BHbox.getChildren().add(backBtn);
+                    credits.setStyle("-fx-font-size: 28pt;");
                     Label lbl1 = new Label("David Disler - Save/Load game functionality & Powerups");
                     lbl1.getStyleClass().add("about");
                     Label lbl2 = new Label("Andrew James - Game Logic and Game Screen");
@@ -330,7 +328,7 @@ public class MainWindow {
                     lbl6.getStyleClass().add("about");
                     Label lbl7 = new Label("License: http://creativecommons.org/licenses/by/4.0/");
                     lbl7.getStyleClass().add("about");
-                    MidVbox.getChildren().addAll(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7);
+                    MidVbox.getChildren().addAll(credits, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7);
                 }
 
                 if (btnClicked.getText().equals("High Scores")) {
