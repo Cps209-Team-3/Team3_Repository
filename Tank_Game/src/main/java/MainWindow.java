@@ -68,15 +68,15 @@ public class MainWindow {
     Button rightBtn = new Button("->");
 
     @FXML
-    Image LOGO_GIF = new Image("/Images/Logo.gif");
+    final Image LOGO_GIF = new Image("/Images/Logo.gif");
     @FXML
-    Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
+    final Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
     @FXML
-    Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
+    final Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
     @FXML
-    Image PUP_IMG = new Image("/Images/PowerupsSlide.png");
+    final Image PUP_IMG = new Image("/Images/PowerupsSlide.png");
     @FXML
-    Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
+    final Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
 
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
 
