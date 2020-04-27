@@ -48,7 +48,7 @@ public class World {
         score = -20;
         currentWave = 0;
         difficulty = Difficulty.EASY; 
-        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60));
+        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 5, 90, 5, 5, new Point(30, 60));
         entities.add(playerTank);
         fillSavedGames();
     }
@@ -206,7 +206,7 @@ public class World {
 
                     Enemy tank = (Enemy) object;
                     enemies.add(tank);
-                    if (cycleCount % 60 == 0) {
+                    if (cycleCount % tank.getFireNum() == 0) {
                         tank.changeState();
                     }
                 }
@@ -296,11 +296,8 @@ public class World {
                 for (GameObject object : toRemove) {
                     entities.remove(object);
                 }
-                playerTank.setHealth(5); // REFRESH PLAYER HEALTH
                 entities.add(playerTank);
                 createWave();
-            } else {
-                // TODO: END THE GAME
             }
         }
     }

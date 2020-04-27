@@ -114,7 +114,7 @@ public class GameWindow {
                             keys.add(event);
                         }
                     }
-                    handleInput(event);
+                    // handleInput(event);
                 }
             }
         });
@@ -127,7 +127,7 @@ public class GameWindow {
                     for(int i = 0; i < keys.size(); i++){
                         if(event.getText().charAt(0) == keys.get(i).getText().charAt(0)) {        
                             keys.remove(keys.get(i));
-                            handleInput(event);
+                            // handleInput(event);
                         }
                     }
                 } 
@@ -170,7 +170,7 @@ public class GameWindow {
         ArrayList<GameObject> handledObjects = new ArrayList<>();
         score.setText("Score: " + (int)World.instance().getScore());
         waveNum.setText("Wave: " + (World.instance().getCurrentWave()));
-
+        World.instance().handleInput('F', keys);
         for (GameObject object : objects) {
             handledObjects.add(object);
             images = new ArrayList<>();

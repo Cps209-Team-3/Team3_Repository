@@ -112,7 +112,7 @@ public class Player extends Tank {
     public Bullet fire() {
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
-                10, 5, 1, BulletType.PLAYER);
+                10, 7, 1, BulletType.PLAYER);
     }
 
     @Override
