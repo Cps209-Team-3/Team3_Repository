@@ -2,7 +2,7 @@ package model.gameObjects;
 
 import java.awt.Point;
 
-public abstract class Tank extends GameObject { 
+public abstract class Tank extends GameObject {
     int health;
     int speed;
     int turretDirection; // 0-360
@@ -23,12 +23,29 @@ public abstract class Tank extends GameObject {
      */
     @Override
     public void onCollision(GameObject object) {
+        Point newPosition = object.getPosition();
+        double dx = newPosition.getX() - position.getX();
+        double dy = newPosition.getY() - position.getY();
+        double dist = Math.hypot(dx, dy);
+        dx = dx / dist;
+        dy = dy / dist;
         if (object instanceof Tank) {
-            this.position = lastPosition;
-            // TODO: Use current position to calculate mid-point, so both tanks don't jump
-            // back too far.
+            int x;
+            int y;
+            if (object instanceof Player) {
+                x = (int) position.getX() - (int) (dx * 7 + 0.5);
+                y = (int) position.getY() - (int) (dy * 7 + 0.5);
+            } else {
+                x = (int) position.getX() - (int) (dx * 5 + 0.5);
+                y = (int) position.getY() - (int) (dy * 5 + 0.5);
+            }
+            lastPosition = position;
+            position = new Point(x, y);
         } else if (object instanceof Wall) {
-            this.position = lastPosition;
+            int x = (int) position.getX() - (int) (dx * 7 + 0.5);
+            int y = (int) position.getY() - (int) (dy * 7 + 0.5);
+            lastPosition = position;
+            position = new Point(x, y);
         }
     }
 
