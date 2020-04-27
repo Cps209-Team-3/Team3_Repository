@@ -47,46 +47,43 @@ public class Player extends Tank {
     // pastPositions
     public void move(ArrayList<KeyEvent> keys) {
         GameObject object = World.instance().findCollision(this);
-            String input = "";
-            for(int i = 0; i < keys.size(); i++){
-                input += keys.get(i).getText().charAt(0);
-            }
-            if (keys.size() < 3 && input.contains("w") && input.contains("a")) {
-                direction = 315;
-                calculateMove(object, direction);
-            } else if (keys.size() < 3 && input.contains("w") && input.contains("d")){
-                direction = 45;
-                calculateMove(object, direction);
-            } else if (keys.size() < 3 && input.contains("s") && input.contains("a")) {
-                direction = 225;
-                calculateMove(object, direction);
-            } else if (keys.size() < 3 && input.contains("s") && input.contains("d")) {
-                direction = 135;
-                calculateMove(object, direction);
-            } else if (keys.size() < 2 && input.contains("w")) {
-                direction = 0;
-                calculateMove(object, direction);
-            } else if (keys.size() < 2 && input.contains("s")) {
-                direction = 180;
-                calculateMove(object, direction);
-            } else if (keys.size() < 2 && input.contains("a")) {
-                direction = 270;
-                calculateMove(object, direction);
-            } else if (keys.size() < 2 && input.contains("d")) {
-                direction = 90;
-                calculateMove(object, direction);
-            }
+        String input = "";
+        for (int i = 0; i < keys.size(); i++) {
+            input += keys.get(i).getText().charAt(0);
         }
+        if (keys.size() < 3 && input.contains("w") && input.contains("a")) {
+            direction = 315;
+            calculateMove(object, direction);
+        } else if (keys.size() < 3 && input.contains("w") && input.contains("d")) {
+            direction = 45;
+            calculateMove(object, direction);
+        } else if (keys.size() < 3 && input.contains("s") && input.contains("a")) {
+            direction = 225;
+            calculateMove(object, direction);
+        } else if (keys.size() < 3 && input.contains("s") && input.contains("d")) {
+            direction = 135;
+            calculateMove(object, direction);
+        } else if (keys.size() < 2 && input.contains("w")) {
+            direction = 0;
+            calculateMove(object, direction);
+        } else if (keys.size() < 2 && input.contains("s")) {
+            direction = 180;
+            calculateMove(object, direction);
+        } else if (keys.size() < 2 && input.contains("a")) {
+            direction = 270;
+            calculateMove(object, direction);
+        } else if (keys.size() < 2 && input.contains("d")) {
+            direction = 90;
+            calculateMove(object, direction);
+        }
+    }
 
     public void calculateMove(GameObject object, int desired) {
-        /*while(direction != desired){
-
-            if(desired > direction) {
-                direction += 5;
-            } else {
-                direction -= 5;
-            }
-        }*/
+        /*
+         * while(direction != desired){
+         * 
+         * if(desired > direction) { direction += 5; } else { direction -= 5; } }
+         */
         if (object == null || object instanceof Bullet) {
             double newX = position.getX();
             double newY = position.getY();
@@ -119,7 +116,6 @@ public class Player extends Tank {
     public void onDeath() {
         if (!World.instance().isCheatMode()) {
             World.instance().removeObject(this);
-            // TODO World.instance().onWaveEnd();
         }
     }
 
@@ -127,7 +123,7 @@ public class Player extends Tank {
     public String serialize() {
         String serialization = "PlayerTank,";
         String[] imageName = image.getUrl().split("/");
-        Object[] list = new Object[] {imageName[imageName.length - 1], position.getX(), position.getY(), direction,
+        Object[] list = new Object[] { imageName[imageName.length - 1], position.getX(), position.getY(), direction,
                 height, width, health, speed, turretDirection, reloadTime, reloadStatus };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();

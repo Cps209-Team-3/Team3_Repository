@@ -114,7 +114,6 @@ public class GameWindow {
                             keys.add(event);
                         }
                     }
-                    // handleInput(event);
                 }
             }
         });
@@ -127,7 +126,6 @@ public class GameWindow {
                     for(int i = 0; i < keys.size(); i++){
                         if(event.getText().charAt(0) == keys.get(i).getText().charAt(0)) {        
                             keys.remove(keys.get(i));
-                            // handleInput(event);
                         }
                     }
                 } 
