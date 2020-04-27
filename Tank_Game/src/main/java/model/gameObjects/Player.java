@@ -84,16 +84,13 @@ public class Player extends Tank {
          * 
          * if(desired > direction) { direction += 5; } else { direction -= 5; } }
          */
-        if (object == null || object instanceof Bullet) {
-            double newX = position.getX();
-            double newY = position.getY();
-            newX = speed * Math.sin(direction * Math.PI / 180);
-            newY = -speed * Math.cos(direction * Math.PI / 180);
-            lastPosition = position;
-            position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
-        } else {
-            position = lastPosition;
-        }
+        double newX = position.getX();
+        double newY = position.getY();
+        newX = speed * Math.sin(direction * Math.PI / 180);
+        newY = -speed * Math.cos(direction * Math.PI / 180);
+        lastPosition = position;
+        position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
+
         if (position.getX() > 1330) {
             position.setLocation(1330.0, position.getY());
         } else if (position.getX() < 30) {

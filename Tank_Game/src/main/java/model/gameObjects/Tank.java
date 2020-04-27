@@ -30,13 +30,20 @@ public abstract class Tank extends GameObject {
         dx = dx / dist;
         dy = dy / dist;
         if (object instanceof Tank) {
-            int x = (int) position.getX() - (int) (dx + 0.5);
-            int y = (int) position.getY() - (int) (dy + 0.5);
+            int x;
+            int y;
+            if (object instanceof Player) {
+                x = (int) position.getX() - (int) (dx * 7 + 0.5);
+                y = (int) position.getY() - (int) (dy * 7 + 0.5);
+            } else {
+                x = (int) position.getX() - (int) (dx * 5 + 0.5);
+                y = (int) position.getY() - (int) (dy * 5 + 0.5);
+            }
             lastPosition = position;
             position = new Point(x, y);
         } else if (object instanceof Wall) {
-            int x = (int) position.getX() - (int) (dx * 2);
-            int y = (int) position.getY() - (int) (dy * 2);
+            int x = (int) position.getX() - (int) (dx * 7 + 0.5);
+            int y = (int) position.getY() - (int) (dy * 7 + 0.5);
             lastPosition = position;
             position = new Point(x, y);
         }
