@@ -56,7 +56,7 @@ public class EndWindow {
     public void onButtonClicked(ActionEvent e) throws Exception {
         AUDIO_BEEP.play();
         String name = nameTxt.getText();
-        HighScores.scoreList().addHighScore(name, World.instance().getScore());
+        HighScores.scoreList().addHighScore(name, World.instance().getScore(), World.instance().getDiffString());
         HighScores.scoreList().save();
         endWindow.close();
         World.reset();

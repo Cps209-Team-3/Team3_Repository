@@ -305,6 +305,16 @@ public class GameWindow {
 
         gameWindow.setAlwaysOnTop(false);
         Object[] buttonTexts = { "Resume", "Cheat", "Exit", "Save and Exit" };
+        var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+        Stage mW = new Stage();
+        try {
+            mW.setScene(new Scene(loader.load()));
+            MainWindow win = loader.getController();
+            win.initialize(mW);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
 
         int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
@@ -348,6 +358,7 @@ public class GameWindow {
                 AUDIO_MUSIC.stop();
                 AUDIO_SHOT.stop();
                 gameWindow.close();
+                mW.show();
                 break;
         }
         gameWindow.setAlwaysOnTop(true);
