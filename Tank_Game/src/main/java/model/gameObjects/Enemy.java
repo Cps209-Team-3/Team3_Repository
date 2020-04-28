@@ -74,7 +74,7 @@ public class Enemy extends Tank {
                     break;
             }
 
-            position = new Point(random.nextInt(1400) + 320, random.nextInt(900) - 400);
+            position = new Point(random.nextInt(1010) + 320, random.nextInt(900) - 400);
             direction = random.nextInt(360);
             height = (int) (image.getHeight() + 0.5);
             width = (int) (image.getWidth() + 0.5);
@@ -133,6 +133,9 @@ public class Enemy extends Tank {
     }
 
     public void move() {
+        if (World.instance().getCycleCount()%180 == savedCycle + 18) {
+            turretImage = new Image("/Images/cannonbase.png");
+        }
         Point playerPosition = findPlayer();
         double dx = playerPosition.getX() - position.getX();
         double dy = playerPosition.getY() - position.getY();
@@ -142,7 +145,6 @@ public class Enemy extends Tank {
         int x;
         int y;
 
-        GameObject object = World.instance().findCollision(this);
         switch (state) {
             case CHARGE:
                 // move toward player
@@ -193,6 +195,8 @@ public class Enemy extends Tank {
 
     @Override
     public Bullet fire() {
+        savedCycle = World.instance().getCycleCount();
+        turretImage = new Image("/Images/cannonfiresprites.gif");
         AUDIO_ENEMYSHOT.play(0.7);
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,

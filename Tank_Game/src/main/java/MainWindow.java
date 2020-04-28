@@ -126,7 +126,6 @@ public class MainWindow {
         MidVbox.getChildren().add(imgView);
         lbl.setStyle("-fx-font-size: 32pt;");
         MidVbox.getChildren().add(lbl);
-        MidVbox.getChildren().add(exitBtn);
 
         MainHbox.getChildren().add(RightVbox);
         RightVbox.setPrefWidth(150);

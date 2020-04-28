@@ -71,6 +71,7 @@ public class GameWindow {
     private Text waveNum = new Text("Wave: ");
     private MainWindow mainWindow = null;
     private ImageCursor newCursor = new ImageCursor(new Image("/Images/cursor2.png"));
+    private boolean isPaused = false;
 
     private ArrayList<KeyEvent> keys = new ArrayList<>();
 
@@ -133,7 +134,15 @@ public class GameWindow {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ESCAPE) {
-                    pauseGame();
+                    if (!isPaused) {
+                        pauseGame();
+                        isPaused = true;
+                    } else {
+                        JOptionPane.getRootFrame().dispose();
+                        clock.play();
+                        isPaused = false;
+                    }
+                    
                 } else {
                     for (int i = 0; i < keys.size(); i++) {
                         if (event.getCode() == keys.get(i).getCode()) {
@@ -205,6 +214,9 @@ public class GameWindow {
                     image.setRotate(object.getDirection());
                     Bounds bound = image.getBoundsInLocal();
                     image = tiedImages.get(object).get(1);
+                    if (!tank.getTurretImage().equals(image.getImage())) {
+                        image.setImage(tank.getTurretImage());
+                    }
                     image.setY(bound.getCenterY() - 100);
                     image.setX(bound.getCenterX() - 20);
                     image.setRotate(tank.getTurretDirection() + 90);
@@ -240,7 +252,7 @@ public class GameWindow {
                     image = new ImageView();
                     image.setX(bound.getCenterX() - 20);
                     image.setY(bound.getCenterY() - 100);
-                    image.setImage(new Image("/Images/cannonfiresprites.gif"));
+                    image.setImage(tank.getTurretImage());
                     image.setPreserveRatio(true);
                     image.setRotate(tank.getTurretDirection() + 90);
                     images.add(image);
@@ -300,68 +312,66 @@ public class GameWindow {
     // It can resume gameplay, exit the gamewindow,
     // or save and exit the gamewindow
     void pauseGame() {
-        // Pauses the game loop & pops up pause screen
-        clock.pause();
+            // Pauses the game loop & pops up pause screen
+            clock.pause();
 
-        gameWindow.setAlwaysOnTop(false);
-        Object[] buttonTexts = { "Resume", "Cheat", "Exit", "Save and Exit" };
-        var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-        Stage mW = new Stage();
-        try {
-            mW.setScene(new Scene(loader.load()));
-            MainWindow win = loader.getController();
-            win.initialize(mW);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
+            gameWindow.setAlwaysOnTop(false);
+            Object[] buttonTexts = { "Resume", "Cheat", "Exit", "Save and Exit" };
+            var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+            Stage mW = new Stage();
+            try {
+                mW.setScene(new Scene(loader.load()));
+                MainWindow win = loader.getController();
+                win.initialize(mW);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
-                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
+            int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
 
-        switch (choice) {
-            case 0:
-                clock.play();
-                break;
-            case 1:
-                World.instance().setCheatMode(!World.instance().isCheatMode());
-                clock.play();
-                break;
-            case 3:
-                String gameName = null;
-                while (true) {
-                    JOptionPane nameGame = new JOptionPane();
-                    gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
-                    if (World.instance().getSavedGames().indexOf(gameName) != -1 && gameName != null) {
-                        JOptionPane nameTaken = new JOptionPane();
-                        int answer = JOptionPane.showConfirmDialog(nameTaken,
-                                "That name is taken ... would you like to override it?");
-                        if (answer == 0) {
-                            mainWindow.deleteSavedGame(gameName);
+            switch (choice) {
+                case 0:
+                    clock.play();
+                    break;
+                case 1:
+                    World.instance().toggleCheatMode();
+                    clock.play();
+                    break;
+                case 2:
+                    AUDIO_AMBIENT.stop();
+                    AUDIO_MUSIC.stop();
+                    AUDIO_SHOT.stop();
+                    gameWindow.close();
+                    mW.show();
+                    break;
+                case 3:
+                    String gameName = null;
+                    while (true) {
+                        JOptionPane nameGame = new JOptionPane();
+                        gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
+                        if (World.instance().getSavedGames().indexOf(gameName) != -1 && gameName != null) {
+                            JOptionPane nameTaken = new JOptionPane();
+                            int answer = JOptionPane.showConfirmDialog(nameTaken,
+                                    "That name is taken ... would you like to override it?");
+                            if (answer == 0) {
+                                mainWindow.deleteSavedGame(gameName);
+                                break;
+                            }
+
+                        } else {
                             break;
                         }
-
-                    } else {
-                        break;
                     }
-                }
-                try {
-                    if (gameName != null) {
-                        World.instance().save("GameBackup.txt", gameName);
+                    try {
+                        if (gameName != null) {
+                            World.instance().save("GameBackup.txt", gameName);
+                        }
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
                     }
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
-
-            case 2:
-                AUDIO_AMBIENT.stop();
-                AUDIO_MUSIC.stop();
-                AUDIO_SHOT.stop();
-                gameWindow.close();
-                mW.show();
-                break;
-        }
-        gameWindow.setAlwaysOnTop(true);
+            }
+            gameWindow.setAlwaysOnTop(true);
     }
 
     void handleInput(KeyEvent key) {

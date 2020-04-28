@@ -46,7 +46,7 @@ public class World {
     private World() {
         height = 900;
         width = 1440;
-        score = -20;
+        score = 0;
         currentWave = 0;
         difficulty = Difficulty.EASY; 
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 5, 90, 5, 5, new Point(30, 60));
@@ -285,7 +285,6 @@ public class World {
     // Handles wave ending
     public void onWaveEnd(int readyNum) {
         ArrayList<GameObject> toRemove = new ArrayList<>();
-        score += waveScore/2;
         for (GameObject object : entities) {
             if (object instanceof Bullet) {
                 Bullet bullet = (Bullet) object;
@@ -299,7 +298,7 @@ public class World {
         }
         if (readyNum > 179) {
             if (entities.contains(playerTank)) {
-                score += 20;
+                score += waveScore/2;
                 currentWave += 1;
                 toRemove = new ArrayList<>();
                 for (GameObject object : entities) {
@@ -452,6 +451,10 @@ public class World {
      */
     public void removeObject(GameObject gameObject) {
         entities.remove(gameObject);
+    }
+
+    public int getCycleCount() {
+        return cycleCount;
     }
 
     public int getWidth() {
