@@ -44,7 +44,8 @@ public abstract class Powerup extends GameObject {
     @Override
     public String serialize() {
         String serialization = "Powerup,";
-        Object[] list = new Object[] {image.getUrl().split("/")[17], position.getX(), position.getY(), direction, height, width, type};
+        String[] imageName = image.getUrl().split("/");
+        Object[] list = new Object[] {imageName[imageName.length - 1], position.getX(), position.getY(), direction, height, width, type};
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
