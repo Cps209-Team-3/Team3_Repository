@@ -3,12 +3,12 @@
 * Instructions: 
   * The player will control their tank using the WASD keys and their mouse. WASD will control the direction and movement of the tank itself. The tank will be restricted to moving forwards and backwards and rotating slowly left and right. The mouse will be used to aim the tank's cannon across the arena and to fire the cannon.
 
-  * W: Move forward in the direction the tank is pointing  
-S: Move backward from the direction the tank is pointing  
-A: Rotate left (counter-clockwise)   
-D: Rotate right (clockwise)  
-Mouse: Cannon aims towards where the cursor is positioned on the game screen   
-Left-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked  
+  * W: Move toward the top of the screen
+S: Move toward the bottom of the screen
+A: Move toward the left of the screen   
+D: Move toward the right of the screen
+Mouse: Cannon aims towards where the cursor is positioned on the game screen in relation to the player's tank
+Left-Click: Cannon fires a bullet towards the postition of the cursor at the time it was clicked from the player's tank
 
 * Work Completed: 
   * Serialize/Deserialize methods written
