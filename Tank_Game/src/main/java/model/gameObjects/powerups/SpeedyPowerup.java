@@ -36,7 +36,7 @@ public class SpeedyPowerup extends Powerup {
     public void powerupPower() {
         frameCount++;
         if (frameCount >= 10) {
-            tank.setSpeed(8);
+            tank.setSpeed(5);
         }
     }
 }

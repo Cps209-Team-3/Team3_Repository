@@ -61,8 +61,6 @@ public class MainWindow {
     @FXML
     Button hardBtn = new Button("Hard");
     @FXML
-    Button cheatBtn = new Button("Cheat Mode");
-    @FXML
     Button backBtn = new Button("<- Back");
     @FXML
     Button leftBtn = new Button("<-");
@@ -121,7 +119,6 @@ public class MainWindow {
         btns.add(easyBtn);
         btns.add(medBtn);
         btns.add(hardBtn);
-        btns.add(cheatBtn);
 
         for (Button btn : btns) {
             btn.setOnAction(e -> {
@@ -294,7 +291,7 @@ public class MainWindow {
                     MidVbox.getChildren().clear();
                     Label difLbl = new Label("Difficulty");
                     difLbl.setStyle("-fx-font-size: 28pt;");
-                    MidVbox.getChildren().addAll(difLbl, easyBtn, medBtn, hardBtn, cheatBtn);
+                    MidVbox.getChildren().addAll(difLbl, easyBtn, medBtn, hardBtn);
                     BHbox.getChildren().add(backBtn);
                 }
 
