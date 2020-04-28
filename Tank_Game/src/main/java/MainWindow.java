@@ -160,12 +160,9 @@ public class MainWindow {
     @FXML
     void loadGameButtonPressed(ActionEvent event, String gameName) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
-            Stage gameWindow = new Stage();
-            gameWindow.setScene(new Scene(loader.load()));
-            GameWindow window = loader.getController();
-            window.initialize(gameWindow, this);
-            gameWindow.show();
+            World.reset();
+            World.instance().load("GameBackup.txt", gameName);
+            loadGame();
             resetTitle();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -268,12 +265,14 @@ public class MainWindow {
     }
 
     public void loadGame() throws IOException {
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
         Stage gameWindow = new Stage();
         gameWindow.setScene(new Scene(loader.load()));
         GameWindow window = loader.getController();
         window.initialize(gameWindow, this);
+        
         gameWindow.show();
         mainWindow.close();
     }

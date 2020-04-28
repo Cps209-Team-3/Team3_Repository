@@ -143,7 +143,7 @@ public class World {
             line = reader.readLine();
         }
         line = reader.readLine();
-        this.deserialize(line);
+        deserialize(line);
         line = reader.readLine();
 
         GameObject gameObject = null;
@@ -151,17 +151,27 @@ public class World {
             if (line.contains("Wall")) {
                 gameObject = new Wall();
             } else if (line.contains("PlayerTank")) {
-                gameObject = new Player();
+                entities.remove(entities.indexOf(playerTank));
+                playerTank = new Player();
+                gameObject = playerTank;
             } else if (line.contains("EnemyTank")) {
                 gameObject = new Enemy();
             } else if (line.contains("Bullet")) {
                 gameObject = new Bullet();
+            } else if (line.contains("SPEEDY")) {
+                gameObject = new SpeedyPowerup();
+            } else if (line.contains("FAST_FIRE")) {
+                gameObject = new FastFirePowerup();
+            } else if (line.contains("HEALTH")) {
+                gameObject = new HealthPowerup();
             }
             gameObject.deserialize(line);
             entities.add(gameObject);
-
-            if ((line = reader.readLine()).contains("##")) {
-                line = null;
+            line = reader.readLine();
+            if (line != null) {
+                if (line.contains("##")) {
+                    line = null;
+               }
             }
         }
         reader.close();
@@ -176,7 +186,7 @@ public class World {
     public void save(String filename, String gameName) throws IOException {
         FileWriter writer = new FileWriter(filename, true);
         writer.append("##," + gameName + "\n");
-        writer.append(this.serialize() + "\n");
+        writer.append(serialize() + "\n");
         for (GameObject gameObject : entities) {
             writer.append(gameObject.serialize() + "\n");
         }
@@ -382,7 +392,7 @@ public class World {
     // serializes the world
     public String serialize() {
         String serialization = "World,";
-        Object[] list = new Object[] { width, height, difficulty, score, currentWave, cheatMode };
+        Object[] list = new Object[] { width, height, difficulty, score, currentWave, cheatMode, waveScore };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
@@ -408,13 +418,14 @@ public class World {
                 difficulty = Difficulty.HARD;
                 break;
         }
-        score = Integer.parseInt(list[4]);
+        score = (int)Double.parseDouble(list[4]);
         currentWave = Integer.parseInt(list[5]);
         if (list[6].equals("true")) {
             cheatMode = true;
         } else if (list[6].equals("false")) {
             cheatMode = false;
         }
+        waveScore = (int)Double.parseDouble(list[7]);
     }
 
     public ArrayList<GameObject> getEntities() {

@@ -31,6 +31,7 @@ public abstract class Powerup extends GameObject {
         height = Integer.parseInt(list[5]);
         width = Integer.parseInt(list[6]);
         switch (list[7]) {
+            
             case "HEALTH":
                 type = PowerupType.HEALTH;
             case "FAST_FIRE":
