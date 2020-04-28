@@ -70,6 +70,7 @@ public class GameWindow {
     private Text score = new Text("Score: 0");
     private Text waveNum = new Text("Wave: ");
     private MainWindow mainWindow = null;
+    private ImageCursor newCursor = new ImageCursor(new Image("/Images/cursor2.png"));
 
     private ArrayList<KeyEvent> keys = new ArrayList<>();
 
@@ -84,7 +85,6 @@ public class GameWindow {
     void onMouseMoved(MouseEvent value) {
         // Hand Mouse Coordinates to player tank's head TBF
         mouse.setLocation(value.getX(), value.getY());
-        var newCursor = new ImageCursor(new Image("/Images/cursor2.png"));
         gameWindow.getScene().setCursor(newCursor);
 
         Point playerPosition = World.instance().getPlayerTank().getPosition();
@@ -102,16 +102,27 @@ public class GameWindow {
             public void handle(KeyEvent event) {
                 if (event.getCode() != KeyCode.ESCAPE) {
                     if (keys.size() == 0) {
-                        keys.add(event);
+                        if (event.getCode().toString().equals("W") || event.getCode().toString().equals("A")
+                                || event.getCode().toString().equals("S") || event.getCode().toString().equals("D")) {
+                            keys.add(event);
+                        }
                     } else {
                         boolean contains = false;
                         for (int i = 0; i < keys.size(); i++) {
-                            if (keys.get(i).getText().charAt(0) == event.getText().charAt(0)) {
-                                contains = true;
+                            if (event.getCode().toString().equals("W") || event.getCode().toString().equals("A")
+                                    || event.getCode().toString().equals("S")
+                                    || event.getCode().toString().equals("D")) {
+                                if (keys.get(i).getText().charAt(0) == event.getText().charAt(0)) {
+                                    contains = true;
+                                }
                             }
                         }
                         if (contains == false) {
-                            keys.add(event);
+                            if (event.getCode().toString().equals("W") || event.getCode().toString().equals("A")
+                                    || event.getCode().toString().equals("S")
+                                    || event.getCode().toString().equals("D")) {
+                                keys.add(event);
+                            }
                         }
                     }
                     // handleInput(event);
@@ -125,7 +136,7 @@ public class GameWindow {
                     pauseGame();
                 } else {
                     for (int i = 0; i < keys.size(); i++) {
-                        if (event.getText().charAt(0) == keys.get(i).getText().charAt(0)) {
+                        if (event.getCode() == keys.get(i).getCode()) {
                             keys.remove(keys.get(i));
                             // handleInput(event);
                         }

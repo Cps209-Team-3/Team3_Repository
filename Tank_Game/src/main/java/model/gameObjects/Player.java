@@ -21,7 +21,7 @@ public class Player extends Tank {
      * @param turretDirection
      * @param reloadTime
      * @param reloadStatus
-     * @param pastPositions
+     * @param lastPosition
      */
     public Player(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
             int reloadTime, int reloadStatus, Point lastPosition) {
@@ -44,35 +44,35 @@ public class Player extends Tank {
     }
 
     // Moves tank in the direction of 'input' and saves last position to
-    // pastPositions
+    // lastPosition
     public void move(ArrayList<KeyEvent> keys) {
         GameObject object = World.instance().findCollision(this);
         String input = "";
         for (int i = 0; i < keys.size(); i++) {
-            input += keys.get(i).getText().charAt(0);
+            input += keys.get(i).getCode().toString();
         }
-        if (keys.size() < 3 && input.contains("w") && input.contains("a")) {
+        if (keys.size() < 3 && input.contains("W") && input.contains("A")) {
             direction = 315;
             calculateMove(object, direction);
-        } else if (keys.size() < 3 && input.contains("w") && input.contains("d")) {
+        } else if (keys.size() < 3 && input.contains("W") && input.contains("D")) {
             direction = 45;
             calculateMove(object, direction);
-        } else if (keys.size() < 3 && input.contains("s") && input.contains("a")) {
+        } else if (keys.size() < 3 && input.contains("S") && input.contains("A")) {
             direction = 225;
             calculateMove(object, direction);
-        } else if (keys.size() < 3 && input.contains("s") && input.contains("d")) {
+        } else if (keys.size() < 3 && input.contains("S") && input.contains("D")) {
             direction = 135;
             calculateMove(object, direction);
-        } else if (keys.size() < 2 && input.contains("w")) {
+        } else if (keys.size() < 2 && input.equals("W")) {
             direction = 0;
             calculateMove(object, direction);
-        } else if (keys.size() < 2 && input.contains("s")) {
+        } else if (keys.size() < 2 && input.equals("S")) {
             direction = 180;
             calculateMove(object, direction);
-        } else if (keys.size() < 2 && input.contains("a")) {
+        } else if (keys.size() < 2 && input.equals("A")) {
             direction = 270;
             calculateMove(object, direction);
-        } else if (keys.size() < 2 && input.contains("d")) {
+        } else if (keys.size() < 2 && input.equals("D")) {
             direction = 90;
             calculateMove(object, direction);
         }
