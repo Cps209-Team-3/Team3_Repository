@@ -261,7 +261,7 @@ public class World {
         for (int i = 0; i < currentWave; ++i) {
             Enemy tank = new Enemy(true);
             while (!checkSpawn(tank)) {
-                tank = new Enemy(true); // TODO: infinite loop when no space left.
+                tank = new Enemy(true);
             }
             entities.add(tank);
         }

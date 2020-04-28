@@ -41,7 +41,7 @@ public class GameObjectsTest {
 
     @Test
     public void testEnemy_Fire_ChangeState_success() {
-        Enemy enemy = new Enemy(new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60), EnemyState.PAUSE);
+        Enemy enemy = new Enemy(new Image("/Images/bluetankv1wider.gif"), new Point(37, 64), 0, 50, 60, 5, 10, 90, 5, 5, new Point(30, 60), EnemyState.PAUSE);
         Bullet bullet = enemy.fire();
         assertEquals(BulletType.ENEMY, bullet.getType());
         assertEquals(new Point(62, 94), bullet.getPosition());

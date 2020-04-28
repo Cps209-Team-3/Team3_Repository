@@ -100,17 +100,17 @@ public class GameWindow {
         pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(event.getCode() != KeyCode.ESCAPE){
-                    if(keys.size() == 0) {
+                if (event.getCode() != KeyCode.ESCAPE) {
+                    if (keys.size() == 0) {
                         keys.add(event);
                     } else {
                         boolean contains = false;
-                        for(int i = 0; i < keys.size(); i++){
-                            if(keys.get(i).getText().charAt(0) == event.getText().charAt(0)){
+                        for (int i = 0; i < keys.size(); i++) {
+                            if (keys.get(i).getText().charAt(0) == event.getText().charAt(0)) {
                                 contains = true;
                             }
                         }
-                        if(contains == false){
+                        if (contains == false) {
                             keys.add(event);
                         }
                     }
@@ -120,15 +120,15 @@ public class GameWindow {
         pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(event.getCode() == KeyCode.ESCAPE){
+                if (event.getCode() == KeyCode.ESCAPE) {
                     pauseGame();
                 } else {
-                    for(int i = 0; i < keys.size(); i++){
-                        if(event.getText().charAt(0) == keys.get(i).getText().charAt(0)) {        
+                    for (int i = 0; i < keys.size(); i++) {
+                        if (event.getText().charAt(0) == keys.get(i).getText().charAt(0)) {
                             keys.remove(keys.get(i));
                         }
                     }
-                } 
+                }
             }
         });
         AUDIO_AMBIENT.setCycleCount(-1);
@@ -166,7 +166,7 @@ public class GameWindow {
 
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
-        score.setText("Score: " + (int)World.instance().getScore());
+        score.setText("Score: " + (int) World.instance().getScore());
         waveNum.setText("Wave: " + (World.instance().getCurrentWave()));
         World.instance().handleInput('F', keys);
         for (GameObject object : objects) {
@@ -195,6 +195,17 @@ public class GameWindow {
                     image.setY(bound.getCenterY() - 100);
                     image.setX(bound.getCenterX() - 20);
                     image.setRotate(tank.getTurretDirection() + 90);
+
+                    image = tiedImages.get(object).get(2);
+                    image.setY(bound.getCenterY() - 10);
+                    image.setX(bound.getCenterX() - 10);
+                    if (tank.getHealth() > 10) {
+                        image.setImage(new Image("/Images/NumberImages/11.png"));
+                    } else {
+                        if (tank.getHealth() > 0) {
+                            image.setImage(new Image("/Images/NumberImages/" + tank.getHealth() + ".png"));
+                        }
+                    }
                 } else {
                     image.setRotate(object.getDirection());
                 }
@@ -215,10 +226,24 @@ public class GameWindow {
                     Bounds bound = image.getBoundsInLocal();
                     image = new ImageView();
                     image.setX(bound.getCenterX() - 20);
-                    image.setY(bound.getCenterY() - 105);
+                    image.setY(bound.getCenterY() - 100);
                     image.setImage(new Image("/Images/cannonfiresprites.gif"));
                     image.setPreserveRatio(true);
                     image.setRotate(tank.getTurretDirection() + 90);
+                    images.add(image);
+                    pane.getChildren().add(image);
+
+                    image = new ImageView();
+                    image.setX(bound.getCenterX() - 10);
+                    image.setY(bound.getCenterY() - 10);
+                    if (tank.getHealth() > 10) {
+                        image.setImage(new Image("/Images/NumberImages/11.png"));
+                    } else {
+                        if (tank.getHealth() > 0) {
+                            image.setImage(new Image("/Images/NumberImages/" + tank.getHealth() + ".png"));
+                        }
+                    }
+                    image.setPreserveRatio(true);
                     images.add(image);
                     pane.getChildren().add(image);
                 } else {
@@ -230,7 +255,10 @@ public class GameWindow {
         for (Map.Entry<GameObject, ArrayList<ImageView>> entry : tiedImages.entrySet()) {
             if (!handledObjects.contains(entry.getKey())) {
                 pane.getChildren().remove(entry.getValue().get(0));
-                if (entry.getValue().size() > 1) {
+                if (entry.getValue().size() > 2) {
+                    pane.getChildren().remove(entry.getValue().get(1));
+                    pane.getChildren().remove(entry.getValue().get(2));
+                } else if (entry.getValue().size() > 1) {
                     pane.getChildren().remove(entry.getValue().get(1));
                 }
             } else {
@@ -252,7 +280,6 @@ public class GameWindow {
             EndWindow window = loader.getController();
             window.initialize(endWindow);
             endWindow.show();
-
         }
     }
 

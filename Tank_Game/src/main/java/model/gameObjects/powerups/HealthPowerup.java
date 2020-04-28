@@ -8,6 +8,8 @@ import model.gameObjects.*;
 
 public class HealthPowerup extends Powerup {
 
+    boolean used = false;
+
     /**
      * Initializes a new Powerup with random parameters.
      */
@@ -23,7 +25,8 @@ public class HealthPowerup extends Powerup {
 
     @Override
     public void onCollision(GameObject object) {
-        if (object instanceof Player) {
+        if (object instanceof Player && !used) {
+            used = true;
             World.instance().removeObject(this);
             Tank tank = (Tank) object;
             tank.setHealth(tank.getHealth() + 3);
