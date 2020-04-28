@@ -145,5 +145,4 @@ public class Player extends Tank {
         reloadTime = Integer.parseInt(list[10]);
         reloadStatus = Integer.parseInt(list[11]);
     }
-
 }

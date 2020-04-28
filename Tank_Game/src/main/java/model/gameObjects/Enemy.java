@@ -26,9 +26,9 @@ public class Enemy extends Tank {
      * @param turretDirection
      * @param pastPositions
      */
-    public Enemy(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
-            int reloadTime, int reloadStatus, Point lastPosition, EnemyState state) {
-        image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
+    public Enemy(Image image, Point position, int direction, int height, int width, int health, int speed,
+            int turretDirection, int reloadTime, int reloadStatus, Point lastPosition, EnemyState state) {
+        this.image = image;
         this.position = position;
         this.direction = direction;
         this.height = (int) (image.getHeight() + 0.5);
@@ -51,18 +51,39 @@ public class Enemy extends Tank {
     public Enemy(boolean useRandom) {
         if (useRandom) {
             Random random = new Random();
-            image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
+            int type = random.nextInt(3);
+            switch (type) {
+                case 0:
+                    if (World.instance().getCurrentWave() > 7) {
+                        image = new Image(getClass().getResource("/Images/fastTankTEMP.png").toString());
+                        health = 2;
+                        speed = 10;
+                        break;
+                    }
+                case 1:
+                    if (World.instance().getCurrentWave() > 3) {
+                        image = new Image(getClass().getResource("/Images/deadtank.png").toString());
+                        health = 10;
+                        speed = 2;
+                        break;
+                    }
+                case 2:
+                    image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
+                    health = 3;
+                    speed = 4;
+                    break;
+            }
+
             position = new Point(random.nextInt(1400) + 320, random.nextInt(900) - 400);
             direction = random.nextInt(360);
             height = (int) (image.getHeight() + 0.5);
             width = (int) (image.getWidth() + 0.5);
-            health = 1;
-            speed = 4;
             turretDirection = direction;
             state = EnemyState.PAUSE;
             lastPosition = position;
             fireNum = random.nextInt(61) + 30;
         }
+
     }
 
     // Initialize a new enemy
@@ -127,6 +148,11 @@ public class Enemy extends Tank {
                 // move toward player
                 x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
+                if (image.getUrl().endsWith("/Images/fastTankTEMP.png")) {
+                    int moveToward = targetPlayer() + 90;
+                    x = (int)(speed * Math.cos(moveToward * Math.PI / 180) + position.getX() + 0.5);
+                    y = (int)(speed * Math.sin(moveToward * Math.PI / 180) + position.getY() + 0.5);
+                }
                 lastPosition = position;
                 position = new Point(x, y);
                 turretDirection = targetPlayer();
@@ -135,6 +161,11 @@ public class Enemy extends Tank {
                 // move away from player
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
+                if (image.getUrl().endsWith("/Images/fastTankTEMP.png")) {
+                    int moveToward = targetPlayer() - 90;
+                    x = (int)(speed * Math.cos(moveToward * Math.PI / 180) + position.getX() + 0.5);
+                    y = (int)(speed * Math.sin(moveToward * Math.PI / 180) + position.getY() + 0.5);
+                }
                 lastPosition = position;
                 position = new Point(x, y);
                 turretDirection = targetPlayer();
@@ -143,6 +174,11 @@ public class Enemy extends Tank {
                 World.instance().addObject(fire());
                 changeState();
                 break;
+        }
+        if (image.getUrl().endsWith("/Images/fastTankTEMP.png")) {
+            direction = targetPlayer() + 180;
+        } else {
+            direction = targetPlayer() + 90;
         }
         if (position.getX() > 1330) {
             position.setLocation(1330.0, position.getY());
