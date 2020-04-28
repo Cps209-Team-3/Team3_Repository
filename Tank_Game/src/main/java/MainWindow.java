@@ -43,6 +43,12 @@ public class MainWindow {
     Label champs = new Label("TANK ATTACK CHAMPIONS:");
     @FXML
     Label credits = new Label("Credits:");
+    @FXML
+    Label easyLbl = new Label("Easy");
+    @FXML
+    Label medLbl = new Label("Medium");
+    @FXML
+    Label hardLbl = new Label("Hard");
 
     @FXML
     Button firstBtn = new Button("New Game");
@@ -68,6 +74,18 @@ public class MainWindow {
     Button leftBtn = new Button("<-");
     @FXML
     Button rightBtn = new Button("->");
+    @FXML
+    Button leftEasySlideBtn = new Button("<- Easy");
+    @FXML
+    Button rightEasySlideBtn = new Button("Easy ->");
+    @FXML
+    Button leftMediumSlideBtn = new Button("<- Medium");
+    @FXML
+    Button rightMediumSlideBtn = new Button("Medium ->");
+    @FXML
+    Button leftHardSlideBtn = new Button("<- Hard");
+    @FXML
+    Button rightHardSlideBtn = new Button("Hard ->");
 
     final Image LOGO_GIF = new Image("/Images/Logo.gif");
     final Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
@@ -85,8 +103,8 @@ public class MainWindow {
     ArrayList<Button> btns = new ArrayList<Button>();
 
     Screen screen = Screen.TITLE;
-
     HelpSlide slide = HelpSlide.CONTROLS;
+    HighScoreSlides scoreSlide = HighScoreSlides.EASY;
 
     HighScores scoreList = HighScores.scoreList();
 
@@ -336,14 +354,17 @@ public class MainWindow {
                     MidVbox.getChildren().addAll(credits, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7);
                 }
 
-                if (btnClicked.getText().equals("High Scores")) {
+                if (btnClicked.getText().equals("High Scores")) {  // REDO THIS FOR DIFFICULTY SORTED SCORES!!!
                     screen = Screen.HIGHSCORES;
                     scoreList.load();
                     MidVbox.getChildren().clear();
                     MidVbox.getChildren().add(champs);
+                    LeftVbox.getChildren().add(leftHardSlideBtn);
+                    RightVbox.getChildren().add(rightMediumSlideBtn);
                     MidVbox.setStyle("-fx-font-size: 32pt;");
-                    Label lines = new Label("_________________________________");
+                    Label lines = new Label("___________________________________________");
                     MidVbox.getChildren().add(lines);
+                    MidVbox.getChildren().add(easyLbl);
                     BHbox.getChildren().add(backBtn);
                     ArrayList<PlayerData> scores = scoreList.getHighScores();
                     for (PlayerData player : scores) {

@@ -22,6 +22,7 @@ public class World {
     double waveScore;
     int currentWave;
     Difficulty difficulty;
+    String diffString;
     Player playerTank;
     boolean cheatMode = false;
     int cycleCount;
@@ -75,10 +76,12 @@ public class World {
     public void generateDifficulty() {
         switch (difficulty) {
             case HARD:
+                diffString = "Hard";
                 // NO WALLS!
                 playerTank.setHealth(5);
                 break;
             case MEDIUM:
+                diffString = "Medium";
                 for (int i = 0; i < 7; ++i) {
                     Wall wall = new Wall(new Point(i * 80 + 400, 100), 0, 80, 80);
                     entities.add(wall);
@@ -86,6 +89,7 @@ public class World {
                 playerTank.setHealth(7);
                 break;
             case EASY:
+                diffString = "Easy";
                 for (int i = 0; i < 13; ++i) {
                     Wall wall = new Wall(new Point(i * 80 + 200, 100), 0, 80, 80);
                     entities.add(wall);
@@ -509,5 +513,13 @@ public class World {
 
     public void setWaveScore(double waveScore) {
         this.waveScore = waveScore;
+    }
+
+    public String getDiffString() {
+        return diffString;
+    }
+
+    public void setDiffString(String diffString) {
+        this.diffString = diffString;
     }
 }

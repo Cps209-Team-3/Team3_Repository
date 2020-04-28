@@ -3,6 +3,8 @@ package model;
 import java.io.*;
 import java.util.*;
 
+import model.enums.Difficulty;
+
 public class HighScores {
 
     private static HighScores instance = new HighScores();
@@ -12,9 +14,24 @@ public class HighScores {
     }
 
     /**
-     * List of Players and their corresponding High Scores
+     * List of All Players and their corresponding High Scores
      */
-    ArrayList<PlayerData> highScores = new ArrayList<PlayerData>();
+    ArrayList<PlayerData> allHighScores = new ArrayList<PlayerData>();
+
+    /**
+     * List of Players and their corresponding Easy High Scores
+     */
+    ArrayList<PlayerData> easyHighScores = new ArrayList<PlayerData>();
+
+    /**
+     * List of Players and their corresponding Medium High Scores
+     */
+    ArrayList<PlayerData> mediumHighScores = new ArrayList<PlayerData>();
+
+    /**
+     * List of Players and their corresponding Hard High Scores
+     */
+    ArrayList<PlayerData> hardHighScores = new ArrayList<PlayerData>();
 
     /**
      * Creates a PlayerData object that stores the name and high score of the player
@@ -25,8 +42,8 @@ public class HighScores {
      */
     public void addHighScore(String name, double highScore, String difficulty) {
         PlayerData player = new PlayerData(name, highScore, difficulty);
-        highScores.add(player);
-        Collections.sort(highScores, (a, b) -> {
+        allHighScores.add(player);
+        Collections.sort(allHighScores, (a, b) -> {
             return (int) b.getHighScore() - (int) a.getHighScore();
         });
     }
@@ -35,7 +52,7 @@ public class HighScores {
      * Returns the list of PlayerData objects.
      */
     public ArrayList<PlayerData> getHighScores() {
-        return highScores;
+        return allHighScores;
     }
 
     /**
@@ -45,10 +62,10 @@ public class HighScores {
      */
     public void save() throws Exception {
         try (PrintWriter printer = new PrintWriter(new FileWriter("highScores.txt"))) {
-            for (PlayerData player : highScores) {
+            for (PlayerData player : allHighScores) {
                 printer.println(player.getName() + "," + player.getHighScore());
             }
-            highScores.removeAll(highScores);
+            allHighScores.removeAll(allHighScores);
         } catch (Exception e) {
             System.out.println("Error with High Scores save");
         }
@@ -66,8 +83,37 @@ public class HighScores {
                 List<String> player = Arrays.asList(str.split(","));
                 String name = player.get(0);
                 double score = Double.parseDouble(player.get(1));
-                highScores.add(new PlayerData(name, score));
+                String difficulty = player.get(2);
+                allHighScores.add(new PlayerData(name, score, difficulty));
+                if (difficulty.equals("Easy")) {
+                    easyHighScores.add(new PlayerData(name, score, difficulty));
+                } else if (difficulty.equals("Medium")) {
+                    mediumHighScores.add(new PlayerData(name, score, difficulty));
+                } else if (difficulty.equals("Hard")) {
+                    hardHighScores.add(new PlayerData(name, score, difficulty));
+                }
             }
         }
+    }
+
+    /**
+     * Returns the list of PlayerData objects on Easy difficulty.
+     */
+    public ArrayList<PlayerData> getEasyHighScores() {
+        return easyHighScores;
+    }
+
+    /**
+     * Returns the list of PlayerData objects on Medium difficulty.
+     */
+    public ArrayList<PlayerData> getMediumHighScores() {
+        return mediumHighScores;
+    }
+
+    /**
+     * Returns the list of PlayerData objects on Hard difficulty.
+     */
+    public ArrayList<PlayerData> getHardHighScores() {
+        return hardHighScores;
     }
 }
