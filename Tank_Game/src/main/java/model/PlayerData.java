@@ -4,16 +4,19 @@ public class PlayerData {
 
     String name; // Name of the Player
     double highScore = 0; // High Score the Player earned
+    String difficulty;
 
     /**
      * Initializes a PlayerData object by adding a required name and high score
      * 
      * @param name      String
      * @param highScore double
+     * @param difficulty
      */
-    public PlayerData(String name, double highScore) {
+    public PlayerData(String name, double highScore, String difficulty) {
         this.name = name;
         this.highScore = highScore;
+        this.difficulty = difficulty;
     }
 
     /**

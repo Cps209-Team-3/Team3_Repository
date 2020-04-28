@@ -23,8 +23,8 @@ public class HighScores {
      * @param name      String
      * @param highScore double
      */
-    public void addHighScore(String name, double highScore) {
-        PlayerData player = new PlayerData(name, highScore);
+    public void addHighScore(String name, double highScore, String difficulty) {
+        PlayerData player = new PlayerData(name, highScore, difficulty);
         highScores.add(player);
         Collections.sort(highScores, (a, b) -> {
             return (int) b.getHighScore() - (int) a.getHighScore();

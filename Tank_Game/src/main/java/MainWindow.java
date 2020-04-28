@@ -55,6 +55,8 @@ public class MainWindow {
     @FXML
     Button fifthBtn = new Button("High Scores");
     @FXML
+    Button exitBtn = new Button("Exit");
+    @FXML
     Button easyBtn = new Button("Easy");
     @FXML
     Button medBtn = new Button("Medium");
@@ -106,6 +108,7 @@ public class MainWindow {
         MidVbox.getChildren().add(imgView);
         lbl.setStyle("-fx-font-size: 32pt;");
         MidVbox.getChildren().add(lbl);
+        MidVbox.getChildren().add(exitBtn);
 
         MainHbox.getChildren().add(RightVbox);
         RightVbox.setPrefWidth(150);
@@ -116,6 +119,7 @@ public class MainWindow {
         btns.add(thirdBtn);
         btns.add(fourthBtn);
         btns.add(fifthBtn);
+        btns.add(exitBtn);
         btns.add(easyBtn);
         btns.add(medBtn);
         btns.add(hardBtn);
@@ -154,7 +158,7 @@ public class MainWindow {
             }
         });
 
-        MidVbox.getChildren().addAll(firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
+        MidVbox.getChildren().addAll(firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
     }
 
     @FXML
@@ -264,7 +268,7 @@ public class MainWindow {
         RightVbox.getChildren().clear();
         LeftVbox.getChildren().clear();
         imgView.setImage(LOGO_GIF);
-        MidVbox.getChildren().addAll(imgView, lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn);
+        MidVbox.getChildren().addAll(imgView, lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
     }
 
     public void loadGame() throws IOException {
@@ -347,6 +351,10 @@ public class MainWindow {
                         lbl.setStyle("-fx-font-size: 24pt;");
                         MidVbox.getChildren().add(lbl);
                     }
+                }
+
+                if (btnClicked.getText().equals("Exit")) {
+                    mainWindow.close();
                 }
 
                 break;
