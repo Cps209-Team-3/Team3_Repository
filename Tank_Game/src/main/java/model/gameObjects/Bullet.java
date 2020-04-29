@@ -67,6 +67,8 @@ public class Bullet extends GameObject {
     public void onCollision(GameObject object) {
         final AudioClip AUDIO_HIT = new AudioClip(getClass().getResource("/Media/hit.wav").toString());
         final AudioClip AUDIO_BOOM = new AudioClip(getClass().getResource("/Media/explosion.wav").toString());
+        AUDIO_BOOM.setPriority(3); 
+        AUDIO_HIT.setPriority(3);
         if (!exploding) {
             if (object instanceof Tank) {
                 if ((this.type == BulletType.PLAYER && !(object instanceof Player))
@@ -76,7 +78,7 @@ public class Bullet extends GameObject {
                     Tank tank = (Tank) object;
                     tank.setHealth(tank.getHealth() - damageAmount);
                     if (tank.getHealth() <= 0) {
-                        AUDIO_BOOM.play(0.3);
+                        AUDIO_BOOM.play(0.25);
                         tank.onDeath();
                     } else {
                         AUDIO_HIT.play(0.4);

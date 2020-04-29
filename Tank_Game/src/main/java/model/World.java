@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   World.java
+//Author: Andrew James, David Disler, Austin Pennington, Brandon Swain.
+//Desc:   The main game world.
+//----------------------------------------------------------- 
 package model;
 
 import java.awt.Point;
@@ -16,19 +21,20 @@ import model.gameObjects.powerups.*;
 
 public class World {
 
-    int width;
-    int height;
-    double score;
-    double waveScore;
-    int currentWave;
-    Difficulty difficulty;
-    String diffString;
-    Player playerTank;
-    boolean cheatMode = false;
-    int cycleCount;
-    boolean difficultySet = false;
+    int width; // The World's width
+    int height; // The World's height
+    double score; // The current score
+    double waveScore; // the current wave score
+    int currentWave; // the current wave
+    Difficulty difficulty; // The difficulty of the game
+    String diffString; // String version of Difficulty
+    Player playerTank; // The player's current Tank
+    boolean cheatMode = false; // Weather cheat mode is active, true if true, false otherwise.
+    int cycleCount; // The current World's cyclecount, used for timing in place of timelines & keyframes.
+    int readyNum = 0; // Timer to wait 3 seconds in between waves.
+    boolean difficultySet = false; // Weather the difficulty has been set. True if true, false otherwise.
 
-    ArrayList<GameObject> entities = new ArrayList<GameObject>();
+    ArrayList<GameObject> entities = new ArrayList<GameObject>(); // List of all gameObjects.
     ArrayList<String> savedGames = new ArrayList<String>(); // List of up to ten saved games, where "String" is the game
                                                             // name - Disler, David
 
@@ -36,14 +42,21 @@ public class World {
 
     private static World instance = new World();
 
+    /**
+     * Returns the current World
+     * 
+     * @return - The current World.
+     */
     public static World instance() {
         return instance;
     }
 
+    // Initializes a new World and sets 'instance' to it.
     public static void reset() {
         instance = new World();
     }
 
+    // Initializes a new World.
     private World() {
         height = 900;
         width = 1440;
@@ -249,7 +262,7 @@ public class World {
         }
         detectAnyCollisions();
         if (waveComplete) {
-            onWaveEnd(cycleCount);
+            onWaveEnd();
         }
     }
 
@@ -294,7 +307,8 @@ public class World {
     }
 
     // Handles wave ending
-    public void onWaveEnd(int readyNum) {
+    public void onWaveEnd() {
+        ++readyNum;
         ArrayList<GameObject> toRemove = new ArrayList<>();
         for (GameObject object : entities) {
             if (object instanceof Bullet) {
@@ -308,6 +322,7 @@ public class World {
             entities.remove(object);
         }
         if (readyNum > 179) {
+            readyNum = 0;
             if (entities.contains(playerTank)) {
                 score += waveScore / 2;
                 currentWave += 1;
@@ -327,8 +342,7 @@ public class World {
     }
 
     /**
-     * Handles a Collision between two objects. Creates preference in order of
-     * Bullet, Tank, Wall to determine which onCollision method to call.
+     * Handles a Collision between two objects.
      * 
      * @param object1
      * @param object2
@@ -358,6 +372,12 @@ public class World {
         }
     }
 
+    /**
+     * Finds any collision between parameter object and any other object.
+     * 
+     * @param object - object to search for collisions against
+     * @return - null if no object was found, object found otherwise.
+     */
     public GameObject findCollision(GameObject object) {
         for (GameObject object2 : entities) { // Test current object with all other objects
             if (!object.equals(object2)) {
@@ -388,7 +408,7 @@ public class World {
     }
 
     /**
-     * Checks weather location chosen to spawn a tank is valid
+     * Checks weather location chosen to spawn an object is valid
      * 
      * @param tank - the tank that contains the area to be tested
      */
@@ -451,10 +471,6 @@ public class World {
         waveScore = (int) Double.parseDouble(list[7]);
     }
 
-    public ArrayList<GameObject> getEntities() {
-        return entities;
-    }
-
     /**
      * Adds an object to the world's list of entities
      * 
@@ -471,6 +487,11 @@ public class World {
      */
     public void removeObject(GameObject gameObject) {
         entities.remove(gameObject);
+    }
+
+    // getters & setters
+    public ArrayList<GameObject> getEntities() {
+        return entities;
     }
 
     public int getCycleCount() {
