@@ -109,9 +109,11 @@ public class Player extends Tank {
         turretImage = new Image("/Images/cannonfiresprites.gif");
         reloadStatus = 0; 
         AUDIO_SHOT.play(0.2);
+        double newX = 45 * Math.cos(turretDirection * Math.PI / 180);
+        double newY = 45 * Math.sin(turretDirection * Math.PI / 180);
         return new Bullet(new Image("/Images/projectile.png"),
-                new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
-                10, 13, 1, BulletType.PLAYER);
+                new Point((int) (position.getX() + newX + width / 2), (int) (position.getY() + newY + height / 2 - 8)), turretDirection, 19,
+                11, 13, 1, BulletType.PLAYER);
     }
 
     @Override

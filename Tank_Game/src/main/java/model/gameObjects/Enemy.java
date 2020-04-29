@@ -55,20 +55,20 @@ public class Enemy extends Tank {
             switch (type) {
                 case 0:
                     if (World.instance().getCurrentWave() > 7) {
-                        image = new Image(getClass().getResource("/Images/drone.gif").toString());
+                        image = new Image("/Images/drone.gif");
                         health = 1;
                         speed = 8;
                         break;
                     }
                 case 1:
                     if (World.instance().getCurrentWave() > 3) {
-                        image = new Image(getClass().getResource("/Images/heavytank.gif").toString());
+                        image = new Image("/Images/heavytank.gif");
                         health = 4;
                         speed = 2;
                         break;
                     }
                 case 2:
-                    image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
+                    image = new Image("/Images/bluetankv1wider.gif");
                     health = 2;
                     speed = 4;
                     break;
@@ -89,7 +89,7 @@ public class Enemy extends Tank {
     // Initialize a new enemy
     public Enemy() { // number one
         // wuhan virus is the above line when read as a sentence
-        image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
+        image = new Image("/Images/bluetankv1wider.gif");
         state = EnemyState.PAUSE;
     }
 
@@ -132,6 +132,7 @@ public class Enemy extends Tank {
         }
     }
 
+    // Move based off the players position
     public void move() {
         if (World.instance().getCycleCount() == (savedCycle + 18)%180) {
             turretImage = new Image("/Images/cannonbase.png");
@@ -198,9 +199,11 @@ public class Enemy extends Tank {
         savedCycle = World.instance().getCycleCount();
         turretImage = new Image("/Images/cannonfiresprites.gif");
         AUDIO_ENEMYSHOT.play(0.3);
+        double newX = 45 * Math.cos(turretDirection * Math.PI / 180);
+        double newY = 45 * Math.sin(turretDirection * Math.PI / 180);
         return new Bullet(new Image("/Images/projectile.png"),
-                new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
-                10, 7, 1, BulletType.ENEMY);
+                new Point((int) (position.getX() + newX + width / 2), (int) (position.getY() + newY + height / 2 - 8)), turretDirection, 19,
+                11, 7, 1, BulletType.ENEMY);
     }
 
     @Override
