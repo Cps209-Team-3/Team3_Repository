@@ -11,7 +11,6 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -158,14 +157,15 @@ public class GameWindow {
                     for (int i = 0; i < keys.size(); i++) {
                         if (event.getCode() == keys.get(i).getCode()) {
                             keys.remove(keys.get(i));
-                            // handleInput(event);
                         }
                     }
                 }
             }
         });
-        AUDIO_AMBIENT.setCycleCount(Animation.INDEFINITE);
-        AUDIO_MUSIC.setCycleCount(Animation.INDEFINITE);
+        AUDIO_AMBIENT.setCycleCount(Timeline.INDEFINITE);
+        AUDIO_MUSIC.setCycleCount(Timeline.INDEFINITE);
+        AUDIO_AMBIENT.setPriority(10);
+        AUDIO_MUSIC.setPriority(10);
         AUDIO_AMBIENT.play(0.1);
         AUDIO_MUSIC.play(0.5);
         run();
