@@ -30,7 +30,11 @@ public class MainWindow {
     @FXML
     VBox LeftVbox = new VBox();
     @FXML
+    VBox LeftCntrVbox = new VBox();
+    @FXML
     VBox MidVbox = new VBox(10);
+    @FXML
+    VBox RightCntrVbox = new VBox();
     @FXML
     VBox RightVbox = new VBox();
 
@@ -90,10 +94,10 @@ public class MainWindow {
     Button rightHardSlideBtn = new Button("Hard ->");
 
     final Image LOGO_GIF = new Image("/Images/Logo.gif");
-    final Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
-    final Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
-    final Image PUP_IMG = new Image("/Images/PowerupsSlide.png");
-    final Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
+    final Image PTANK_IMG = new Image("/Images/ControlsSlide.jpg");
+    final Image ETANK_IMG = new Image("/Images/EnemiesSlide.jpg");
+    final Image PUP_IMG = new Image("/Images/PowerupsSlide.jpg");
+    final Image SCORING_IMG = new Image("/Images/ScoringSlide.jpg");
 
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
 
@@ -120,11 +124,11 @@ public class MainWindow {
         scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
-        LeftVbox.setPrefWidth(150);
+        LeftVbox.setPrefWidth(100);
         LeftVbox.setAlignment(Pos.CENTER);
 
         MainHbox.getChildren().add(MidVbox);
-        MidVbox.setPrefWidth(1200);
+        MidVbox.setPrefWidth(1240);
         MidVbox.setAlignment(Pos.CENTER);
         imgView.setImage(LOGO_GIF);
         MidVbox.getChildren().add(imgView);
@@ -132,7 +136,7 @@ public class MainWindow {
         MidVbox.getChildren().add(lbl);
 
         MainHbox.getChildren().add(RightVbox);
-        RightVbox.setPrefWidth(150);
+        RightVbox.setPrefWidth(100);
         RightVbox.setAlignment(Pos.CENTER);
 
         btns.add(firstBtn);
