@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <HBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="MainWindow.css"
-    spacing="10" prefHeight="910" prefWidth="1450">
+    spacing="10" prefHeight="900" prefWidth="1440">
     <VBox>
         <HBox fx:id="MainHbox" spacing="10" prefHeight="800"/>
         <HBox fx:id="BHbox" spacing="10" prefHeight="100" alignment="BASELINE_LEFT"/>
