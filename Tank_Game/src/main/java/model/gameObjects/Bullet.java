@@ -3,6 +3,7 @@ package model.gameObjects;
 import model.World;
 import model.enums.BulletType;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 
 import java.awt.Point;
 
@@ -64,6 +65,8 @@ public class Bullet extends GameObject {
 
     @Override
     public void onCollision(GameObject object) {
+        final AudioClip AUDIO_HIT = new AudioClip(getClass().getResource("/Media/hit.wav").toString());
+        final AudioClip AUDIO_BOOM = new AudioClip(getClass().getResource("/Media/explosion.wav").toString());
         if (!exploding) {
             if (object instanceof Tank) {
                 if ((this.type == BulletType.PLAYER && !(object instanceof Player))
@@ -73,7 +76,10 @@ public class Bullet extends GameObject {
                     Tank tank = (Tank) object;
                     tank.setHealth(tank.getHealth() - damageAmount);
                     if (tank.getHealth() <= 0) {
+                        AUDIO_BOOM.play(0.7);
                         tank.onDeath();
+                    } else {
+                        AUDIO_HIT.play();
                     }
                     numMoves = 0;
                 }

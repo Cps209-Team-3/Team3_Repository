@@ -61,7 +61,6 @@ public class GameWindow {
     private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>();
     private ArrayList<ImageView> images;
 
-    final AudioClip AUDIO_SHOT = new AudioClip(getClass().getResource("/Media/shot1.wav").toString());
     final AudioClip AUDIO_MUSIC = new AudioClip(getClass().getResource("/Media/music.mp3").toString());
     final AudioClip AUDIO_AMBIENT = new AudioClip(getClass().getResource("/Media/wind.wav").toString());
 
@@ -78,7 +77,6 @@ public class GameWindow {
     // Player Tank Fires (TBF)
     @FXML
     void onMouseClicked(MouseEvent value) {
-        AUDIO_SHOT.play(0.8);
         World.instance().handleInput('%', keys);
     }
 
@@ -341,7 +339,6 @@ public class GameWindow {
                 case 2:
                     AUDIO_AMBIENT.stop();
                     AUDIO_MUSIC.stop();
-                    AUDIO_SHOT.stop();
                     gameWindow.close();
                     mW.show();
                     break;

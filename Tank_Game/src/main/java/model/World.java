@@ -48,8 +48,8 @@ public class World {
         width = 1440;
         score = 0;
         currentWave = 0;
-        difficulty = Difficulty.EASY;
-        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 5, 90, 5, 5, new Point(30, 60));
+        difficulty = Difficulty.EASY; 
+        playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 5, 90, 20, 20, new Point(30, 60));
         entities.add(playerTank);
         fillSavedGames();
     }
@@ -208,7 +208,6 @@ public class World {
         cycleCount += 1;
         ArrayList<Enemy> enemies = new ArrayList<>();
         ArrayList<Bullet> bullets = new ArrayList<>();
-        // playerTank.setDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
         boolean waveComplete = true;
         for (GameObject object : entities) {
 
@@ -253,7 +252,9 @@ public class World {
         // Check for game end, may want to adjust this so GameWindow knows.a
         if (entities.contains(playerTank)) {
             if (inp == '%') {
-                World.instance().addObject(playerTank.fire());
+                if(playerTank.getReloadStatus() == playerTank.getReloadTime()){
+                    World.instance().addObject(playerTank.fire());
+                }
             } else {
                 playerTank.move(keys);
             }

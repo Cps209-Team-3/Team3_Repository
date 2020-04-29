@@ -27,6 +27,7 @@ public class FastFirePowerup extends Powerup {
             World.instance().removeObject(this);
             tank = (Tank) object;
             tank.setReloadTime(2);
+            tank.setReloadStatus(0);
             timeline.setCycleCount(10);
             timeline.play();
         }
@@ -36,7 +37,8 @@ public class FastFirePowerup extends Powerup {
     public void powerupPower() {
         frameCount++;
         if (frameCount >= 10) {
-            tank.setReloadTime(5);
+            tank.setReloadTime(20);
+            tank.setReloadStatus(20);
         }
     }
 }
