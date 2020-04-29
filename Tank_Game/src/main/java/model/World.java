@@ -26,6 +26,7 @@ public class World {
     Player playerTank;
     boolean cheatMode = false;
     int cycleCount;
+    int readyNum = 0;
     boolean difficultySet = false;
 
     ArrayList<GameObject> entities = new ArrayList<GameObject>();
@@ -249,7 +250,7 @@ public class World {
         }
         detectAnyCollisions();
         if (waveComplete) {
-            onWaveEnd(cycleCount);
+            onWaveEnd();
         }
     }
 
@@ -294,7 +295,8 @@ public class World {
     }
 
     // Handles wave ending
-    public void onWaveEnd(int readyNum) {
+    public void onWaveEnd() {
+        ++readyNum;
         ArrayList<GameObject> toRemove = new ArrayList<>();
         for (GameObject object : entities) {
             if (object instanceof Bullet) {
@@ -308,6 +310,7 @@ public class World {
             entities.remove(object);
         }
         if (readyNum > 179) {
+            readyNum = 0;
             if (entities.contains(playerTank)) {
                 score += waveScore / 2;
                 currentWave += 1;
