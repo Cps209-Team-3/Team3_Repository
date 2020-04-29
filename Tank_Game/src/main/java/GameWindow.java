@@ -1,3 +1,4 @@
+
 //-----------------------------------------------------------
 //File:   GameWindow.java
 //Author: Andrew James, Austin Pennington, Brandon Swain, David disler.
@@ -31,7 +32,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
-
+import model.HighScores;
 import model.World;
 import model.gameObjects.Bullet;
 import model.gameObjects.GameObject;
@@ -63,11 +64,13 @@ public class GameWindow {
     private Point mouse = new Point(); // The current mouses position
 
     private ArrayList<GameObject> objects = World.instance().getEntities(); // The current list of World's entities
-    private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>(); // List of game objects tied with their images
+    private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>(); // List of game objects tied with their
+                                                                                // images
     private ArrayList<ImageView> images; // Images to tie to a new game object
 
     final AudioClip AUDIO_MUSIC = new AudioClip(getClass().getResource("/Media/music.mp3").toString()); // game music
-    final AudioClip AUDIO_AMBIENT = new AudioClip(getClass().getResource("/Media/wind.wav").toString()); // game ambient sounds
+    final AudioClip AUDIO_AMBIENT = new AudioClip(getClass().getResource("/Media/wind.wav").toString()); // game ambient
+                                                                                                         // sounds
 
     private Stage gameWindow; // The current game window
     private ImageView image; // The current image to work on
@@ -145,7 +148,11 @@ public class GameWindow {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     // Executes pause game when Escape is pressed
                     if (!isPaused) {
-                        pauseGame();
+                        try {
+                            pauseGame();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         isPaused = true;
                     } else {
                         JOptionPane.getRootFrame().dispose();
@@ -325,8 +332,9 @@ public class GameWindow {
      * "Exit", and "Save and Exit"
      * 
      * @param data - The string to be split
+     * @throws Exception
      */
-    void pauseGame() {
+    void pauseGame() throws Exception {
         // Pauses the game loop & pops up pause screen
         clock.pause();
         // Allows the pause menu to appear
@@ -346,6 +354,12 @@ public class GameWindow {
                 clock.play();
                 break;
             case 2: // This exits the GameWindow and brings up the MainWindow
+                HighScores.scoreList().save();
+                HighScores.scoreList().getAllHighScores().clear();
+                HighScores.scoreList().getEasyHighScores().clear();
+                HighScores.scoreList().getMediumHighScores().clear();
+                HighScores.scoreList().getHardHighScores().clear();
+
                 AUDIO_AMBIENT.stop();
                 AUDIO_MUSIC.stop();
                 gameWindow.close();
@@ -362,6 +376,13 @@ public class GameWindow {
                 break;
             case 3: // Saves and then Exits the GameWindow
                 String gameName = null;
+
+                HighScores.scoreList().save();
+                HighScores.scoreList().getAllHighScores().clear();
+                HighScores.scoreList().getEasyHighScores().clear();
+                HighScores.scoreList().getMediumHighScores().clear();
+                HighScores.scoreList().getHardHighScores().clear();
+                
                 while (true) {
                     JOptionPane nameGame = new JOptionPane();
                     gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
