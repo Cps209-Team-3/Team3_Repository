@@ -24,9 +24,6 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
   * Pause Menu
   * Cheat Mode added
   * Variety of enemy tanks added
-* Known Issues:
-  * Bullets do not fire exactly from barrel
-  * Music randomly stops playing
 
 * Recording:
   * [Alpha Build](https://www.youtube.com/watch?v=HLsGVoCF8H4&feature=youtu.be)
