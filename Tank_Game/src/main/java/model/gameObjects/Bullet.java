@@ -86,7 +86,7 @@ public class Bullet extends GameObject {
             } else if (object instanceof Bullet) {
                 // Run explosion animation
                 Bullet bullet = (Bullet) object;
-                if (!bullet.isExploding()) {
+                if (!bullet.isExploding() || bullet.getNumMoves() < 2) {
                     exploding = true;
                     image = new Image("/Images/explosion.gif");
                     numMoves = 0;
@@ -105,6 +105,10 @@ public class Bullet extends GameObject {
 
     public boolean isExploding() {
         return exploding;
+    }
+
+    public int getNumMoves() {
+        return numMoves;
     }
 
     public int getSpeed() {
