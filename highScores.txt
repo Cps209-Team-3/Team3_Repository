@@ -1,3 +1,4 @@
+dddd,375.0,Easy
 geterrer,250.0,Hard
 dgfgfd,225.0,Medium
 gsgsgsg,37.5,Easy

@@ -42,15 +42,15 @@ public class MainWindow {
     HBox BHbox;
 
     @FXML
-    Label champs = new Label("TANK ATTACK CHAMPIONS:");
+    Label champs = new Label("TANK ATTACK CHAMPIONS");
     @FXML
     Label credits = new Label("Credits:");
     @FXML
-    Label easyLbl = new Label("Easy");
+    Label easyLbl = new Label("Easy:");
     @FXML
-    Label medLbl = new Label("Medium");
+    Label medLbl = new Label("Medium:");
     @FXML
-    Label hardLbl = new Label("Hard");
+    Label hardLbl = new Label("Hard:");
     @FXML
     Label line = new Label("___________________________________________");
 
@@ -367,10 +367,12 @@ public class MainWindow {
                     } else {
                         champs.setStyle("-fx-font-size: 32pt;");
                         MidVbox.getChildren().add(champs);
+                        easyLbl.setStyle("-fx-font-size: 28pt;");
+                        MidVbox.getChildren().add(easyLbl);
                         LeftVbox.getChildren().add(leftHardSlideBtn);
                         RightVbox.getChildren().add(rightMediumSlideBtn);
+                        line.setStyle("-fx-font-size: 18pt;");
                         MidVbox.getChildren().add(line);
-                        MidVbox.getChildren().add(easyLbl);
                         BHbox.getChildren().add(backBtn);
                         ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
                         for (PlayerData player : scores) {
@@ -486,8 +488,9 @@ public class MainWindow {
                             RightVbox.getChildren().clear();
 
                             MidVbox.getChildren().add(champs);
-                            MidVbox.getChildren().add(line);
+                            hardLbl.setStyle("-fx-font-size: 28pt;");
                             MidVbox.getChildren().add(hardLbl);
+                            MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftMediumSlideBtn);
                             RightVbox.getChildren().add(rightEasySlideBtn);
                             ArrayList<PlayerData> scores = scoreList.getHardHighScores();
@@ -505,8 +508,9 @@ public class MainWindow {
                             RightVbox.getChildren().clear();
 
                             MidVbox.getChildren().add(champs);
-                            MidVbox.getChildren().add(line);
+                            medLbl.setStyle("-fx-font-size: 28pt;");
                             MidVbox.getChildren().add(medLbl);
+                            MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftEasySlideBtn);
                             RightVbox.getChildren().add(rightHardSlideBtn);
                             ArrayList<PlayerData> scores = scoreList.getMediumHighScores();
@@ -530,8 +534,8 @@ public class MainWindow {
                             RightVbox.getChildren().clear();
 
                             MidVbox.getChildren().add(champs);
-                            MidVbox.getChildren().add(line);
                             MidVbox.getChildren().add(easyLbl);
+                            MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftHardSlideBtn);
                             RightVbox.getChildren().add(rightMediumSlideBtn);
                             ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
@@ -549,8 +553,9 @@ public class MainWindow {
                             RightVbox.getChildren().clear();
 
                             MidVbox.getChildren().add(champs);
-                            MidVbox.getChildren().add(line);
+                            hardLbl.setStyle("-fx-font-size: 28pt;");
                             MidVbox.getChildren().add(hardLbl);
+                            MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftMediumSlideBtn);
                             RightVbox.getChildren().add(rightEasySlideBtn);
                             ArrayList<PlayerData> scores = scoreList.getHardHighScores();
@@ -574,8 +579,9 @@ public class MainWindow {
                             RightVbox.getChildren().clear();
 
                             MidVbox.getChildren().add(champs);
-                            MidVbox.getChildren().add(line);
+                            medLbl.setStyle("-fx-font-size: 28pt;");
                             MidVbox.getChildren().add(medLbl);
+                            MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftEasySlideBtn);
                             RightVbox.getChildren().add(rightHardSlideBtn);
                             ArrayList<PlayerData> scores = scoreList.getMediumHighScores();
@@ -593,8 +599,8 @@ public class MainWindow {
                             RightVbox.getChildren().clear();
 
                             MidVbox.getChildren().add(champs);
-                            MidVbox.getChildren().add(line);
                             MidVbox.getChildren().add(easyLbl);
+                            MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftHardSlideBtn);
                             RightVbox.getChildren().add(rightMediumSlideBtn);
                             ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
