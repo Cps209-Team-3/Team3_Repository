@@ -27,12 +27,12 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
 * Known Issues: 
   * Bullets do not fire exactly from barrel
   * Pausing often causes the game to freeze (not crash)
+  * Music randomly stops playing 
 
 * Recording: 
   * [Alpha Build](https://www.youtube.com/watch?v=HLsGVoCF8H4&feature=youtu.be)
   * [Beta Build](https://youtu.be/s6qXOSBcVK8)
-* Expenses:    
-  * None
+* Expenses: (None)
 
 Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
