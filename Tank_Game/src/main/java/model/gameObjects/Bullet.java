@@ -119,7 +119,7 @@ public class Bullet extends GameObject {
         }
     }
 
-    //Removes bullet if it's gone out of bounds or played the explosion animation once.
+    //Removes bullet from the World's object list.
     public void explode() {
         World.instance().removeObject(this);
     }
