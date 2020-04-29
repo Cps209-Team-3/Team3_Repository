@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 import model.World;
 import model.enums.BulletType;
 
@@ -45,7 +46,8 @@ public class Player extends Tank {
 
     // Sets direction based off of paramter keys and calls calculateMove()
     public void move(ArrayList<KeyEvent> keys) {
-        if (World.instance().getCycleCount()%180 == savedCycle + 18) {
+        final AudioClip AUDIO_RELOAD = new AudioClip(getClass().getResource("/Media/reload.wav").toString());
+        if (World.instance().getCycleCount() == (savedCycle + 18)%180) {
             turretImage = new Image("/Images/cannonbase.png");
         }
         String input = "";
@@ -72,6 +74,12 @@ public class Player extends Tank {
         if (!input.isBlank()) {
             calculateMove();
         }
+        if(reloadStatus != reloadTime){
+            if(reloadStatus == 10){
+                AUDIO_RELOAD.play(0.7);
+            }
+            reloadStatus++; 
+        }
     }
 
     // Move in the direction of This' direction.
@@ -96,11 +104,14 @@ public class Player extends Tank {
 
     @Override
     public Bullet fire() {
+        final AudioClip AUDIO_SHOT = new AudioClip(getClass().getResource("/Media/shot1.wav").toString());
         savedCycle = World.instance().getCycleCount();
         turretImage = new Image("/Images/cannonfiresprites.gif");
+        reloadStatus = 0; 
+        AUDIO_SHOT.play(0.8);
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
-                10, 7, 1, BulletType.PLAYER);
+                10, 13, 1, BulletType.PLAYER);
     }
 
     @Override

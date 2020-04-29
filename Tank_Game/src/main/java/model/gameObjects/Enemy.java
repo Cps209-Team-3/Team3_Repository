@@ -55,21 +55,21 @@ public class Enemy extends Tank {
             switch (type) {
                 case 0:
                     if (World.instance().getCurrentWave() > 7) {
-                        image = new Image(getClass().getResource("/Images/fastTankTEMP.png").toString());
-                        health = 2;
-                        speed = 10;
+                        image = new Image(getClass().getResource("/Images/drone.gif").toString());
+                        health = 1;
+                        speed = 8;
                         break;
                     }
                 case 1:
                     if (World.instance().getCurrentWave() > 3) {
-                        image = new Image(getClass().getResource("/Images/deadtank.png").toString());
-                        health = 10;
+                        image = new Image(getClass().getResource("/Images/heavytank.gif").toString());
+                        health = 4;
                         speed = 2;
                         break;
                     }
                 case 2:
                     image = new Image(getClass().getResource("/Images/bluetankv1wider.gif").toString());
-                    health = 3;
+                    health = 2;
                     speed = 4;
                     break;
             }
@@ -133,7 +133,7 @@ public class Enemy extends Tank {
     }
 
     public void move() {
-        if (World.instance().getCycleCount()%180 == savedCycle + 18) {
+        if (World.instance().getCycleCount() == (savedCycle + 18)%180) {
             turretImage = new Image("/Images/cannonbase.png");
         }
         Point playerPosition = findPlayer();
@@ -150,7 +150,7 @@ public class Enemy extends Tank {
                 // move toward player
                 x = (int) position.getX() + (int) (dx * speed);
                 y = (int) position.getY() + (int) (dy * speed);
-                if (image.getUrl().endsWith("/Images/fastTankTEMP.png")) {
+                if (image.getUrl().endsWith("/Images/drone.gif")) {
                     int moveToward = targetPlayer() + 90;
                     x = (int)(speed * Math.cos(moveToward * Math.PI / 180) + position.getX() + 0.5);
                     y = (int)(speed * Math.sin(moveToward * Math.PI / 180) + position.getY() + 0.5);
@@ -163,7 +163,7 @@ public class Enemy extends Tank {
                 // move away from player
                 x = (int) position.getX() - (int) (dx * speed);
                 y = (int) position.getY() - (int) (dy * speed);
-                if (image.getUrl().endsWith("/Images/fastTankTEMP.png")) {
+                if (image.getUrl().endsWith("/Images/drone.gif")) {
                     int moveToward = targetPlayer() - 90;
                     x = (int)(speed * Math.cos(moveToward * Math.PI / 180) + position.getX() + 0.5);
                     y = (int)(speed * Math.sin(moveToward * Math.PI / 180) + position.getY() + 0.5);
@@ -177,7 +177,7 @@ public class Enemy extends Tank {
                 changeState();
                 break;
         }
-        if (image.getUrl().endsWith("/Images/fastTankTEMP.png")) {
+        if (image.getUrl().endsWith("/Images/drone.gif")) {
             direction = targetPlayer() + 180;
         } else {
             direction = targetPlayer() + 90;
