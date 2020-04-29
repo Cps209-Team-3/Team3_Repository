@@ -2,5 +2,7 @@ dddd,375.0,Easy
 geterrer,250.0,Hard
 dgfgfd,225.0,Medium
 gsgsgsg,37.5,Easy
+granger,37.5,Easy
 a,0.0,Easy
 a,0.0,Easy
+hello 2,0.0,Easy
