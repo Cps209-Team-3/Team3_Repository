@@ -1,3 +1,9 @@
+
+//-----------------------------------------------------------
+//File:   GameWindow.java
+//Author: Andrew James, Austin Pennington, Brandon Swain, David disler.
+//Desc:   The main game window to show the game.
+//----------------------------------------------------------- 
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +32,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
-
+import model.HighScores;
 import model.World;
 import model.gameObjects.Bullet;
 import model.gameObjects.GameObject;
@@ -35,16 +41,16 @@ import model.gameObjects.Tank;
 public class GameWindow {
 
     @FXML
-    VBox vbox;
+    VBox vbox; // The main VBox
 
     @FXML
-    Pane pane;
+    Pane pane; // The game pane
 
     @FXML
-    Pane background;
+    Pane background; // The pane for the background image
 
     @FXML
-    Pane buttonPane;
+    Pane buttonPane; // unused
 
     private final KeyFrame keyFrame = new KeyFrame(Duration.millis(16.67), e -> {
         try {
@@ -52,38 +58,41 @@ public class GameWindow {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-    });
-    private final Timeline clock = new Timeline(keyFrame);
+    }); // Keyframe to run 60 times a second
+    private final Timeline clock = new Timeline(keyFrame); // timeline to run keyFrame
 
-    private Point mouse = new Point();
+    private Point mouse = new Point(); // The current mouses position
 
-    private ArrayList<GameObject> objects = World.instance().getEntities();
-    private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>();
-    private ArrayList<ImageView> images;
+    private ArrayList<GameObject> objects = World.instance().getEntities(); // The current list of World's entities
+    private Map<GameObject, ArrayList<ImageView>> tiedImages = new HashMap<>(); // List of game objects tied with their
+                                                                                // images
+    private ArrayList<ImageView> images; // Images to tie to a new game object
 
-    final AudioClip AUDIO_MUSIC = new AudioClip(getClass().getResource("/Media/music.mp3").toString());
-    final AudioClip AUDIO_AMBIENT = new AudioClip(getClass().getResource("/Media/wind.wav").toString());
+    final AudioClip AUDIO_MUSIC = new AudioClip(getClass().getResource("/Media/music.mp3").toString()); // game music
+    final AudioClip AUDIO_AMBIENT = new AudioClip(getClass().getResource("/Media/wind.wav").toString()); // game ambient
+                                                                                                         // sounds
 
-    private Stage gameWindow;
-    private ImageView image;
-    private Text score = new Text("Score: 0");
-    private Text waveNum = new Text("Wave: ");
-    private MainWindow mainWindow = null;
+    private Stage gameWindow; // The current game window
+    private ImageView image; // The current image to work on
+    private Text score = new Text("Score: 0"); // The current score
+    private Text waveNum = new Text("Wave: "); // The current wave
+    private MainWindow mainWindow = null; // the current main window
     private ImageCursor newCursor = new ImageCursor(new Image("/Images/cursor2.png")); // This is the image for the
                                                                                        // custom curser - Disler, David
-    private boolean isPaused = false;
+    private boolean isPaused = false; // true if game is paused, false otherwise.
 
-    private ArrayList<KeyEvent> keys = new ArrayList<>();
+    private ArrayList<KeyEvent> keys = new ArrayList<>(); // list of inputs from the player.
 
-    // Player Tank Fires (TBF)
+    // On mouse clicked, make the player tank fire.
     @FXML
     void onMouseClicked(MouseEvent value) {
         World.instance().handleInput('%', keys);
     }
 
+    // Set the players turretdirection to point at mouse when it moves.
     @FXML
     void onMouseMoved(MouseEvent value) {
-        // Hand Mouse Coordinates to player tank's head TBF
+        // Hand Mouse Coordinates to player tank's head
         mouse.setLocation(value.getX(), value.getY());
         gameWindow.getScene().setCursor(newCursor);
 
@@ -93,11 +102,14 @@ public class GameWindow {
         World.instance().getPlayerTank().setTurretDirection((int) Math.toDegrees(Math.atan2(y2, x2)));
     }
 
+    // initializes the game window.
     void initialize(Stage gameWindow, MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.gameWindow = gameWindow;
         pane.setFocusTraversable(true);
         pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            // Handle the user pressing a key
+            // @param event - the key event to be processed
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() != KeyCode.ESCAPE) {
@@ -129,12 +141,18 @@ public class GameWindow {
             }
         });
         pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            // Handle the user releasing a key
+            // @param event - the key event to be processed
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     // Executes pause game when Escape is pressed
                     if (!isPaused) {
-                        pauseGame();
+                        try {
+                            pauseGame();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         isPaused = true;
                     } else {
                         JOptionPane.getRootFrame().dispose();
@@ -160,6 +178,7 @@ public class GameWindow {
         run();
     }
 
+    // Start the timeline and begin the game.
     public void run() {
         image = new ImageView();
         image.setImage(new Image("/Images/map.png"));
@@ -184,6 +203,7 @@ public class GameWindow {
         clock.play();
     }
 
+    // Main game loop to run every frame.
     public void gameLoop() throws Exception {
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
@@ -312,8 +332,9 @@ public class GameWindow {
      * "Exit", and "Save and Exit"
      * 
      * @param data - The string to be split
+     * @throws Exception
      */
-    void pauseGame() {
+    void pauseGame() throws Exception {
         // Pauses the game loop & pops up pause screen
         clock.pause();
         // Allows the pause menu to appear
@@ -333,6 +354,12 @@ public class GameWindow {
                 clock.play();
                 break;
             case 2: // This exits the GameWindow and brings up the MainWindow
+                HighScores.scoreList().save();
+                HighScores.scoreList().getAllHighScores().clear();
+                HighScores.scoreList().getEasyHighScores().clear();
+                HighScores.scoreList().getMediumHighScores().clear();
+                HighScores.scoreList().getHardHighScores().clear();
+
                 AUDIO_AMBIENT.stop();
                 AUDIO_MUSIC.stop();
                 gameWindow.close();
@@ -349,6 +376,13 @@ public class GameWindow {
                 break;
             case 3: // Saves and then Exits the GameWindow
                 String gameName = null;
+
+                HighScores.scoreList().save();
+                HighScores.scoreList().getAllHighScores().clear();
+                HighScores.scoreList().getEasyHighScores().clear();
+                HighScores.scoreList().getMediumHighScores().clear();
+                HighScores.scoreList().getHardHighScores().clear();
+                
                 while (true) {
                     JOptionPane nameGame = new JOptionPane();
                     gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
@@ -388,9 +422,5 @@ public class GameWindow {
         }
         // Makes the GameWindow on top of MainWindow
         gameWindow.setAlwaysOnTop(true);
-    }
-
-    void handleInput(KeyEvent key) {
-        World.instance().handleInput(key.getText().charAt(0), this.keys);
     }
 }

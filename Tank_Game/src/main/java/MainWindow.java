@@ -1,46 +1,42 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
-import javafx.stage.Stage;
-import model.HighScores;
-import model.PlayerData;
-import model.World;
-import model.enums.Difficulty;
+//---------------------------------------------------------------------
+// File:    MainWindow.java
+// Authors: Brandon Swain, David Disler
+// Desc:    This class is used to display the Title screen for the game
+//          and to navigate to other screens available in the menus.
+//---------------------------------------------------------------------
+
+import java.io.*;
+import java.util.*;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.geometry.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
+import javafx.scene.media.*;
+import javafx.stage.*;
+import model.*;
+import model.enums.*;
 
 public class MainWindow {
 
     @FXML
-    HBox MainHbox;
+    HBox MainHbox; // This is the HBox that all the FXML layouts are placed into to make up the
+                   // menu screens.
 
+    // Below are the VBoxes that help design the layout of the menu screens.
     @FXML
     VBox LeftVbox = new VBox();
     @FXML
-    VBox LeftCntrVbox = new VBox();
-    @FXML
     VBox MidVbox = new VBox(10);
-    @FXML
-    VBox RightCntrVbox = new VBox();
     @FXML
     VBox RightVbox = new VBox();
 
     @FXML
-    HBox BHbox;
+    HBox BHbox; // This HBox hold the back button in the menu screens.
 
+    // Below are the text labels displayed on the various menu screens.
     @FXML
     Label champs = new Label("TANK ATTACK CHAMPIONS");
     @FXML
@@ -54,6 +50,7 @@ public class MainWindow {
     @FXML
     Label line = new Label("___________________________________________");
 
+    // Below are the various buttons used to navigate the menus.
     @FXML
     Button firstBtn = new Button("New Game");
     @FXML
@@ -91,35 +88,49 @@ public class MainWindow {
     @FXML
     Button rightHardSlideBtn = new Button("Hard ->");
 
+    // Below are the images used for the menu screens.
     final Image LOGO_GIF = new Image("/Images/title.png");
     final Image PTANK_IMG = new Image("/Images/ControlsSlide.jpg");
     final Image ETANK_IMG = new Image("/Images/EnemiesSlide.jpg");
     final Image PUP_IMG = new Image("/Images/PowerupsSlide.jpg");
     final Image SCORING_IMG = new Image("/Images/ScoringSlide.jpg");
 
+    // This Audio file is a beep that plays when a button is pressed.
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
 
+    // Below are the ImageViews that hold the images in the Title Screen and the
+    // Help Screen.
     @FXML
     ImageView imgView = new ImageView();
     @FXML
     ImageView slidePic = new ImageView();
 
+    // Below are the arraylists of buttons sorted by how the buttons must be
+    // formatted.
     ArrayList<Button> btns = new ArrayList<Button>();
     ArrayList<Button> btns2 = new ArrayList<Button>();
 
+    // Below are the initialized enums for the Main Screens, the Slides used for the
+    // Help Screen, and the Slides that sort the High Scores by difficulty.
     Screen screen = Screen.TITLE;
     HelpSlide slide = HelpSlide.CONTROLS;
     HighScoreSlides scoreSlide = HighScoreSlides.EASY;
 
-    HighScores scoreList = HighScores.scoreList();
+    private Stage mainWindow; // The MainWindow Screen itself.
 
-    private Stage mainWindow;
-
+    /**
+     * Swain, Brandon - Takes the MainWindow Stage to allow the class to close
+     * itself. Intializes the Title Screen and sets up the formatting of all
+     * buttons.
+     * 
+     * @param stage
+     * @throws Exception
+     */
     @FXML
     public void initialize(Stage stage) throws Exception {
         this.mainWindow = stage;
         World.reset();
-        scoreList.load();
+        HighScores.scoreList().load();
 
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(100);
@@ -155,6 +166,8 @@ public class MainWindow {
         btns2.add(leftHardSlideBtn);
         btns2.add(rightHardSlideBtn);
 
+        // Designs the Title Menu buttons to format size and apply the onButtonClicked()
+        // method.
         for (Button btn : btns) {
             btn.setOnAction(e -> {
                 try {
@@ -168,6 +181,7 @@ public class MainWindow {
             btn.setStyle("-fx-font-size: 20pt;");
         }
 
+        // Applies the onButtonClicked method to all other buttons.
         for (Button btn : btns2) {
             btn.setOnAction(e -> {
                 try {
@@ -295,6 +309,9 @@ public class MainWindow {
         }
     }
 
+    /**
+     * Swain, Brandon - Resets the MainWindow GUI to the Title Screen.
+     */
     @FXML
     public void resetTitle() {
         screen = Screen.TITLE;
@@ -325,6 +342,14 @@ public class MainWindow {
         mainWindow.close();
     }
 
+    /**
+     * Takes an event (e) to indicate the button clicked on the menus. Allows the
+     * user to navigate the menus and close the screen by clicking on the buttons
+     * available.
+     * 
+     * @param e
+     * @throws Exception
+     */
     @FXML
     public void onButtonClicked(ActionEvent e) throws Exception {
         Button btnClicked = (Button) e.getSource();
@@ -378,10 +403,10 @@ public class MainWindow {
                     MidVbox.getChildren().addAll(credits, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7);
                 }
 
-                if (btnClicked.getText().equals("High Scores")) { // REDO THIS FOR DIFFICULTY SORTED SCORES!!!
+                if (btnClicked.getText().equals("High Scores")) {
                     screen = Screen.HIGHSCORES;
                     MidVbox.getChildren().clear();
-                    if (scoreList.getAllHighScores() == null) {
+                    if (HighScores.scoreList().getAllHighScores() == null) {
                         Label noScores = new Label("No High Scores Yet");
                         noScores.setStyle("-fx-font-size: 32pt;");
                         MidVbox.getChildren().add(noScores);
@@ -396,7 +421,7 @@ public class MainWindow {
                         line.setStyle("-fx-font-size: 18pt;");
                         MidVbox.getChildren().add(line);
                         BHbox.getChildren().add(backBtn);
-                        ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
+                        ArrayList<PlayerData> scores = HighScores.scoreList().getEasyHighScores();
                         for (PlayerData player : scores) {
                             Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                             lbl.setStyle("-fx-font-size: 24pt;");
@@ -515,7 +540,7 @@ public class MainWindow {
                             MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftMediumSlideBtn);
                             RightVbox.getChildren().add(rightEasySlideBtn);
-                            ArrayList<PlayerData> scores = scoreList.getHardHighScores();
+                            ArrayList<PlayerData> scores = HighScores.scoreList().getHardHighScores();
                             for (PlayerData player : scores) {
                                 Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                                 lbl.setStyle("-fx-font-size: 24pt;");
@@ -535,7 +560,7 @@ public class MainWindow {
                             MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftEasySlideBtn);
                             RightVbox.getChildren().add(rightHardSlideBtn);
-                            ArrayList<PlayerData> scores = scoreList.getMediumHighScores();
+                            ArrayList<PlayerData> scores = HighScores.scoreList().getMediumHighScores();
                             for (PlayerData player : scores) {
                                 Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                                 lbl.setStyle("-fx-font-size: 24pt;");
@@ -560,7 +585,7 @@ public class MainWindow {
                             MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftHardSlideBtn);
                             RightVbox.getChildren().add(rightMediumSlideBtn);
-                            ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
+                            ArrayList<PlayerData> scores = HighScores.scoreList().getEasyHighScores();
                             for (PlayerData player : scores) {
                                 Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                                 lbl.setStyle("-fx-font-size: 24pt;");
@@ -580,7 +605,7 @@ public class MainWindow {
                             MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftMediumSlideBtn);
                             RightVbox.getChildren().add(rightEasySlideBtn);
-                            ArrayList<PlayerData> scores = scoreList.getHardHighScores();
+                            ArrayList<PlayerData> scores = HighScores.scoreList().getHardHighScores();
                             for (PlayerData player : scores) {
                                 Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                                 lbl.setStyle("-fx-font-size: 24pt;");
@@ -606,7 +631,7 @@ public class MainWindow {
                             MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftEasySlideBtn);
                             RightVbox.getChildren().add(rightHardSlideBtn);
-                            ArrayList<PlayerData> scores = scoreList.getMediumHighScores();
+                            ArrayList<PlayerData> scores = HighScores.scoreList().getMediumHighScores();
                             for (PlayerData player : scores) {
                                 Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                                 lbl.setStyle("-fx-font-size: 24pt;");
@@ -625,7 +650,7 @@ public class MainWindow {
                             MidVbox.getChildren().add(line);
                             LeftVbox.getChildren().add(leftHardSlideBtn);
                             RightVbox.getChildren().add(rightMediumSlideBtn);
-                            ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
+                            ArrayList<PlayerData> scores = HighScores.scoreList().getEasyHighScores();
                             for (PlayerData player : scores) {
                                 Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
                                 lbl.setStyle("-fx-font-size: 24pt;");

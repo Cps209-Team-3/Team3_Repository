@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   Wall.java
+//Author: Andrew James
+//Desc:   A Wall object to sit in one spot and stop anything
+//        from going inside it.
+//----------------------------------------------------------- 
 package model.gameObjects;
 
 import javafx.scene.image.Image;
@@ -29,12 +35,13 @@ public class Wall extends GameObject {
     public String serialize() {
         String serialization = "Wall,";
         String[] imageName = image.getUrl().split("/");
-        Object[] list = new Object[] {imageName[imageName.length - 1], position.getX(), position.getY(), direction, height, width};
+        Object[] list = new Object[] { imageName[imageName.length - 1], position.getX(), position.getY(), direction,
+                height, width };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
                 serialization += ",";
-            } 
+            }
         }
         return serialization;
     }
@@ -43,7 +50,7 @@ public class Wall extends GameObject {
     public void deserialize(String data) {
         String[] list = data.split(",");
         image = new Image(getClass().getResource("/Images/" + list[1]).toString());
-        position = new Point((int)Double.parseDouble(list[2]), (int)Double.parseDouble(list[3]));
+        position = new Point((int) Double.parseDouble(list[2]), (int) Double.parseDouble(list[3]));
         direction = Integer.parseInt(list[4]);
         height = Integer.parseInt(list[5]);
         width = Integer.parseInt(list[6]);

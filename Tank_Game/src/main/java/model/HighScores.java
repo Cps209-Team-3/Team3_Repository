@@ -1,3 +1,9 @@
+//---------------------------------------------------------------------------
+// File:   HighScores.java
+// Author: Brandon Swain
+// Desc:   This class sorts and contains the High Scores earned in the game.
+//---------------------------------------------------------------------------
+
 package model;
 
 import java.io.*;

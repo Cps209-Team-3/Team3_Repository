@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   Tank.java
+//Author: Andrew James
+//Desc:   A tank object that moves and shoots.
+//----------------------------------------------------------- 
 package model.gameObjects;
 
 import java.awt.Point;
@@ -5,13 +10,13 @@ import java.awt.Point;
 import javafx.scene.image.Image;
 
 public abstract class Tank extends GameObject {
-    int health;
-    int speed;
-    int turretDirection; // 0-360
-    int reloadTime;
-    int reloadStatus;
+    int health; // If health is <= 0, tank is dead.
+    int speed; // How fast the tank moves
+    int turretDirection; // the direction this tank's turret is facing, from 0-360
+    int reloadTime; // The amount of frames it takes to reload the gun. to fire again.
+    int reloadStatus; // the current status of the reload.
     Image turretImage = new Image("/Images/cannonbase.png");
-    int savedCycle;
+    int savedCycle; // a snapshot of World's cycleCount
 
     Point lastPosition; // track previous position for collision handling
 
