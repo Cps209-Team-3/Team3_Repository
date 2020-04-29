@@ -47,6 +47,8 @@ public class Player extends Tank {
     // Sets direction based off of paramter keys and calls calculateMove()
     public void move(ArrayList<KeyEvent> keys) {
         final AudioClip AUDIO_RELOAD = new AudioClip(getClass().getResource("/Media/reload.wav").toString());
+        AUDIO_RELOAD.setPriority(4);
+        
         if (World.instance().getCycleCount() == (savedCycle + 18)%180) {
             turretImage = new Image("/Images/cannonbase.png");
         }
@@ -108,6 +110,7 @@ public class Player extends Tank {
         savedCycle = World.instance().getCycleCount();
         turretImage = new Image("/Images/cannonfiresprites.gif");
         reloadStatus = 0; 
+        AUDIO_SHOT.setPriority(5);
         AUDIO_SHOT.play(0.2);
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
