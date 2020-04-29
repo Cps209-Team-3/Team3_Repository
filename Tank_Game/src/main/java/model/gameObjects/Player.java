@@ -76,7 +76,7 @@ public class Player extends Tank {
         }
         if(reloadStatus != reloadTime){
             if(reloadStatus == 10){
-                AUDIO_RELOAD.play(0.7);
+                AUDIO_RELOAD.play(0.2);
             }
             reloadStatus++; 
         }
@@ -108,7 +108,7 @@ public class Player extends Tank {
         savedCycle = World.instance().getCycleCount();
         turretImage = new Image("/Images/cannonfiresprites.gif");
         reloadStatus = 0; 
-        AUDIO_SHOT.play(0.8);
+        AUDIO_SHOT.play(0.2);
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
                 10, 13, 1, BulletType.PLAYER);

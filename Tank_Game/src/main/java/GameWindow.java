@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -124,7 +125,6 @@ public class GameWindow {
                             }
                         }
                     }
-                    // handleInput(event);
                 }
             }
         });
@@ -151,9 +151,9 @@ public class GameWindow {
                 }
             }
         });
-        AUDIO_AMBIENT.setCycleCount(-1);
-        AUDIO_MUSIC.setCycleCount(-1);
-        AUDIO_AMBIENT.play(0.25);
+        AUDIO_AMBIENT.setCycleCount(Animation.INDEFINITE);
+        AUDIO_MUSIC.setCycleCount(Animation.INDEFINITE);
+        AUDIO_AMBIENT.play(0.1);
         AUDIO_MUSIC.play(0.5);
         run();
     }

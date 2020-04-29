@@ -76,10 +76,10 @@ public class Bullet extends GameObject {
                     Tank tank = (Tank) object;
                     tank.setHealth(tank.getHealth() - damageAmount);
                     if (tank.getHealth() <= 0) {
-                        AUDIO_BOOM.play(0.7);
+                        AUDIO_BOOM.play(0.3);
                         tank.onDeath();
                     } else {
-                        AUDIO_HIT.play();
+                        AUDIO_HIT.play(0.4);
                     }
                     numMoves = 0;
                 }
