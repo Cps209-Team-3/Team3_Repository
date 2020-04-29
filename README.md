@@ -26,7 +26,6 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
   * Variety of enemy tanks added
 * Known Issues:
   * Bullets do not fire exactly from barrel
-  * Pausing often causes the game to freeze (not crash)
   * Music randomly stops playing
 
 * Recording:
@@ -37,7 +36,7 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
 
 Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
-Disler, David | 41 Hours | 19 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
+Disler, David | 45 Hours | 15 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
 James, Andrew | 41 | 19 | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
 Pennington, Austin | 31H 20M | 29H 40M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
 Swain, Brandon | 37 hours 29 minutes | 22 hours 31 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
