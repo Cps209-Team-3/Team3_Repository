@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   HealthPowerup.java
+//Author: David Disler
+//Desc:   This program creates a powerup that increases 
+//        the players health by 3.
+//----------------------------------------------------------- 
 package model.gameObjects.powerups;
 
 import javafx.scene.image.Image;
@@ -5,16 +11,14 @@ import model.World;
 import model.enums.PowerupType;
 import model.gameObjects.*;
 
-
 public class HealthPowerup extends Powerup {
 
     boolean used = false;
 
     /**
-     * Initializes a new Powerup with random parameters.
+     * Disler, David - This constructor initializes a new HealthPowerup
      */
     public HealthPowerup() {
-        //Temporary holding image
         image = new Image(getClass().getResource("/Images/healthcrate.png").toString());
         position = null;
         direction = 0;
@@ -36,5 +40,6 @@ public class HealthPowerup extends Powerup {
     }
 
     @Override
-    public void powerupPower() {}
+    public void powerupPower() {
+    }
 }
