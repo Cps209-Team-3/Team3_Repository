@@ -1,13 +1,19 @@
+//----------------------------------------------------------
+// File:   PlayerData.java
+// Author: Brandon Swain
+// Desc:   This class creates objects that hold a Player's
+//         name, high score, and difficulty they played on.
+//----------------------------------------------------------
 package model;
 
 public class PlayerData {
 
     String name; // Name of the Player
     double highScore = 0; // High Score the Player earned
-    String difficulty;
+    String difficulty; // difficulty the Player chose
 
     /**
-     * Initializes a PlayerData object by adding a required name and high score
+     * Initializes a PlayerData object by adding a required name and high score.
      * 
      * @param name       String
      * @param highScore  double
@@ -19,38 +25,20 @@ public class PlayerData {
         this.difficulty = difficulty;
     }
 
-    /**
-     * Sets the name of the PlayerData object
-     * 
-     * @param name String
-     */
+    // Getters and Setters
+
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Returns the name of the PlayerData object
-     * 
-     * @return name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Sets the high score of the PlayerData object
-     * 
-     * @param highScore double
-     */
     public void setHighScore(double highScore) {
         this.highScore = highScore;
     }
 
-    /**
-     * Returns the high score of the PlayerData object
-     * 
-     * @return highScore
-     */
     public double getHighScore() {
         return highScore;
     }

@@ -1,3 +1,8 @@
+//--------------------------------------------------------------
+// File:   HighScoresTest.java
+// Author: Brandon Swain
+// Desc:   This file tests the methods in the HighScores class.
+//--------------------------------------------------------------
 package model;
 
 import static org.junit.Assert.assertEquals;

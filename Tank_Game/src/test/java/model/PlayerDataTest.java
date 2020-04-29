@@ -1,3 +1,8 @@
+//-------------------------------------------------------------
+// File:   PlayerDataTest.java
+// Author: Brandon Swain
+// Desc:   This file test the methods in the PlayerData class.
+//-------------------------------------------------------------
 package model;
 
 import static org.junit.Assert.assertEquals;
