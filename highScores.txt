@@ -1,2 +1,5 @@
-wafdes,18230.0,Easy
-wwwww,4727.5,Medium
+geterrer,250.0,Hard
+dgfgfd,225.0,Medium
+gsgsgsg,37.5,Easy
+a,0.0,Easy
+a,0.0,Easy

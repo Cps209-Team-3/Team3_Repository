@@ -42,8 +42,6 @@ public class MainWindow {
     HBox BHbox;
 
     @FXML
-    Label lbl = new Label("TANK ATTACK ARENA");
-    @FXML
     Label champs = new Label("TANK ATTACK CHAMPIONS:");
     @FXML
     Label credits = new Label("Credits:");
@@ -93,7 +91,7 @@ public class MainWindow {
     @FXML
     Button rightHardSlideBtn = new Button("Hard ->");
 
-    final Image LOGO_GIF = new Image("/Images/Logo.gif");
+    final Image LOGO_GIF = new Image("/Images/title.png");
     final Image PTANK_IMG = new Image("/Images/ControlsSlide.jpg");
     final Image ETANK_IMG = new Image("/Images/EnemiesSlide.jpg");
     final Image PUP_IMG = new Image("/Images/PowerupsSlide.jpg");
@@ -132,8 +130,6 @@ public class MainWindow {
         MidVbox.setAlignment(Pos.CENTER);
         imgView.setImage(LOGO_GIF);
         MidVbox.getChildren().add(imgView);
-        lbl.setStyle("-fx-font-size: 32pt;");
-        MidVbox.getChildren().add(lbl);
 
         MainHbox.getChildren().add(RightVbox);
         RightVbox.setPrefWidth(100);
@@ -291,7 +287,7 @@ public class MainWindow {
         RightVbox.getChildren().clear();
         LeftVbox.getChildren().clear();
         imgView.setImage(LOGO_GIF);
-        MidVbox.getChildren().addAll(imgView, lbl, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
+        MidVbox.getChildren().addAll(imgView, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
     }
 
     public void loadGame() throws IOException {
@@ -331,7 +327,6 @@ public class MainWindow {
                 if (btnClicked.getText().equals("Help")) {
                     screen = Screen.HELP;
                     imgView.setImage(PTANK_IMG);
-                    MidVbox.getChildren().remove(lbl);
                     MidVbox.getChildren().removeAll(btns);
                     MidVbox.getChildren().add(slidePic);
                     LeftVbox.getChildren().add(leftBtn);

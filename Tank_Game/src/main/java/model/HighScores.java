@@ -77,11 +77,10 @@ public class HighScores {
      * @throws Exception
      */
     public void save() throws Exception {
-        try (PrintWriter printer = new PrintWriter(new FileWriter("highScores.txt", true))) {
+        try (PrintWriter printer = new PrintWriter(new FileWriter("highScores.txt"))) {
             for (PlayerData player : allHighScores) {
                 printer.println(player.getName() + "," + player.getHighScore() + "," + player.getDifficulty());
             }
-            allHighScores.removeAll(allHighScores);
         } catch (Exception e) {
             System.out.println("Error with High Scores save");
         }
@@ -101,13 +100,14 @@ public class HighScores {
                 String name = player.get(0);
                 double score = Double.parseDouble(player.get(1));
                 String difficulty = player.get(2);
-                System.out.println(name + score + difficulty);
-                allHighScores.add(new PlayerData(name, score, difficulty));
                 if (difficulty.equals("Easy")) {
+                    allHighScores.add(new PlayerData(name, score, difficulty));
                     easyHighScores.add(new PlayerData(name, score, difficulty));
                 } else if (difficulty.equals("Medium")) {
+                    allHighScores.add(new PlayerData(name, score, difficulty));
                     mediumHighScores.add(new PlayerData(name, score, difficulty));
                 } else if (difficulty.equals("Hard")) {
+                    allHighScores.add(new PlayerData(name, score, difficulty));
                     hardHighScores.add(new PlayerData(name, score, difficulty));
                 }
             }
