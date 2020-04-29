@@ -26,7 +26,6 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
   * Variety of enemy tanks added
 * Known Issues: 
   * Bullets do not fire exactly from barrel
-  * Some issues with Save/Load/Exit
   * Problems with input when resuming occasionally 
 
 * Recording: 
@@ -36,7 +35,7 @@ Left-Click: Cannon fires a bullet towards the postition of the cursor at the tim
 
 Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
-Disler, David | 35 Hours | 25 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
+Disler, David | 41 Hours | 19 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
 James, Andrew | 41 | 19 | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
 Pennington, Austin | 26H 57M | 33H 3M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
 Swain, Brandon | 31 hours 14 minutes | 28 hours 46 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
