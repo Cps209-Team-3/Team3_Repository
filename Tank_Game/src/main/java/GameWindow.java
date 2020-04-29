@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -124,7 +125,6 @@ public class GameWindow {
                             }
                         }
                     }
-                    // handleInput(event);
                 }
             }
         });
@@ -151,9 +151,9 @@ public class GameWindow {
                 }
             }
         });
-        AUDIO_AMBIENT.setCycleCount(-1);
-        AUDIO_MUSIC.setCycleCount(-1);
-        AUDIO_AMBIENT.play(0.25);
+        AUDIO_AMBIENT.setCycleCount(Animation.INDEFINITE);
+        AUDIO_MUSIC.setCycleCount(Animation.INDEFINITE);
+        AUDIO_AMBIENT.play(0.1);
         AUDIO_MUSIC.play(0.5);
         run();
     }
@@ -183,7 +183,6 @@ public class GameWindow {
     }
 
     public void gameLoop() throws Exception {
-
         World.instance().gameLoop();
         ArrayList<GameObject> handledObjects = new ArrayList<>();
         score.setText("Score: " + (int) World.instance().getScore());
@@ -316,21 +315,15 @@ public class GameWindow {
             gameWindow.setAlwaysOnTop(false);
             Object[] buttonTexts = { "Resume", "Cheat", "Exit", "Save and Exit" };
             var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-            Stage mW = new Stage();
-            try {
-                mW.setScene(new Scene(loader.load()));
-                MainWindow win = loader.getController();
-                win.initialize(mW);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            
 
             int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
 
             switch (choice) {
                 case 0:
-                    clock.play();
+                    clock.play();;
                     break;
                 case 1:
                     World.instance().toggleCheatMode();
@@ -340,7 +333,16 @@ public class GameWindow {
                     AUDIO_AMBIENT.stop();
                     AUDIO_MUSIC.stop();
                     gameWindow.close();
-                    mW.show();
+                    try {
+                        Stage mW = new Stage();
+                        mW.setScene(new Scene(loader.load()));
+                        MainWindow win = loader.getController();
+                        win.initialize(mW);
+                        mW.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    
                     break;
                 case 3:
                     String gameName = null;
@@ -367,6 +369,19 @@ public class GameWindow {
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
+                    AUDIO_AMBIENT.stop();
+                    AUDIO_MUSIC.stop();
+                    gameWindow.close();
+                    try {
+                        Stage mW = new Stage();
+                        mW.setScene(new Scene(loader.load()));
+                        MainWindow win = loader.getController();
+                        win.initialize(mW);
+                        mW.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
             gameWindow.setAlwaysOnTop(true);
     }

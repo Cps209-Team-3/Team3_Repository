@@ -197,7 +197,7 @@ public class Enemy extends Tank {
     public Bullet fire() {
         savedCycle = World.instance().getCycleCount();
         turretImage = new Image("/Images/cannonfiresprites.gif");
-        AUDIO_ENEMYSHOT.play(0.7);
+        AUDIO_ENEMYSHOT.play(0.3);
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
                 10, 7, 1, BulletType.ENEMY);

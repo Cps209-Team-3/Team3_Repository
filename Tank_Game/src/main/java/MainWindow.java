@@ -482,7 +482,7 @@ public class MainWindow {
                 switch (scoreSlide) {
                     case EASY:
                         if (btnClicked.getText().equals("<- Hard")) {
-                            scoreSlide = scoreSlide.HARD;
+                            scoreSlide = HighScoreSlides.HARD;
                             MidVbox.getChildren().clear();
                             LeftVbox.getChildren().clear();
                             RightVbox.getChildren().clear();
@@ -502,7 +502,7 @@ public class MainWindow {
                         }
 
                         if (btnClicked.getText().equals("Medium ->")) {
-                            scoreSlide = scoreSlide.MEDIUM;
+                            scoreSlide = HighScoreSlides.MEDIUM;
                             MidVbox.getChildren().clear();
                             LeftVbox.getChildren().clear();
                             RightVbox.getChildren().clear();
@@ -528,7 +528,7 @@ public class MainWindow {
 
                     case MEDIUM:
                         if (btnClicked.getText().equals("<- Easy")) {
-                            scoreSlide = scoreSlide.EASY;
+                            scoreSlide = HighScoreSlides.EASY;
                             MidVbox.getChildren().clear();
                             LeftVbox.getChildren().clear();
                             RightVbox.getChildren().clear();
@@ -547,7 +547,7 @@ public class MainWindow {
                         }
 
                         if (btnClicked.getText().equals("Hard ->")) {
-                            scoreSlide = scoreSlide.HARD;
+                            scoreSlide = HighScoreSlides.HARD;
                             MidVbox.getChildren().clear();
                             LeftVbox.getChildren().clear();
                             RightVbox.getChildren().clear();
@@ -573,7 +573,7 @@ public class MainWindow {
 
                     case HARD:
                         if (btnClicked.getText().equals("<- Medium")) {
-                            scoreSlide = scoreSlide.MEDIUM;
+                            scoreSlide = HighScoreSlides.MEDIUM;
                             MidVbox.getChildren().clear();
                             LeftVbox.getChildren().clear();
                             RightVbox.getChildren().clear();
@@ -593,7 +593,7 @@ public class MainWindow {
                         }
 
                         if (btnClicked.getText().equals("Easy ->")) {
-                            scoreSlide = scoreSlide.EASY;
+                            scoreSlide = HighScoreSlides.EASY;
                             MidVbox.getChildren().clear();
                             LeftVbox.getChildren().clear();
                             RightVbox.getChildren().clear();

@@ -16,8 +16,8 @@ public class FastFirePowerup extends Powerup {
         image = new Image(getClass().getResource("/Images/powercrate.png").toString());
         position = null;
         direction = 0;
-        height = 10;
-        width = 10;
+        height = (int) (image.getHeight() + 0.5);
+        width = (int) (image.getWidth() + 0.5);
         type = PowerupType.FAST_FIRE;
     }
 
@@ -28,14 +28,17 @@ public class FastFirePowerup extends Powerup {
             tank = (Tank) object;
             tank.setReloadTime(2);
             tank.setReloadStatus(0);
-            timeline.setCycleCount(10);
+            timeline.setCycleCount(20);
             timeline.play();
+            frameCount = 0;
         }
     }
 
     @Override
     public void powerupPower() {
         frameCount++;
+        tank.setReloadTime(2);
+        tank.setReloadStatus(0);
         if (frameCount >= 10) {
             tank.setReloadTime(20);
             tank.setReloadStatus(20);

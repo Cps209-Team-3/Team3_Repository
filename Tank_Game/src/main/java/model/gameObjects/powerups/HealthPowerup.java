@@ -18,8 +18,8 @@ public class HealthPowerup extends Powerup {
         image = new Image(getClass().getResource("/Images/healthcrate.png").toString());
         position = null;
         direction = 0;
-        height = 10;
-        width = 10;
+        height = (int) (image.getHeight() + 0.5);
+        width = (int) (image.getWidth() + 0.5);
         type = PowerupType.HEALTH;
     }
 

@@ -16,8 +16,8 @@ public class SpeedyPowerup extends Powerup {
         image = new Image(getClass().getResource("/Images/speedcrate.png").toString());
         position = null;
         direction = 0;
-        height = 10;
-        width = 10;
+        height = (int) (image.getHeight() + 0.5);
+        width = (int) (image.getWidth() + 0.5);
         type = PowerupType.SPEEDY;
     }
 
@@ -27,14 +27,16 @@ public class SpeedyPowerup extends Powerup {
             World.instance().removeObject(this);
             tank = (Tank) object;
             tank.setSpeed(8);
-            timeline.setCycleCount(10);
+            timeline.setCycleCount(20);
             timeline.play();
+            frameCount = 0;
         }
     }
 
     @Override
     public void powerupPower() {
         frameCount++;
+        tank.setSpeed(8);
         if (frameCount >= 10) {
             tank.setSpeed(5);
         }
