@@ -19,7 +19,7 @@ public class EndWindow {
     VBox vbox;
 
     @FXML
-    Label scoreLbl = new Label("You Scored " + (int)World.instance().getScore() + " Points");
+    Label scoreLbl = new Label("You Scored " + (int) World.instance().getScore() + " Points");
     @FXML
     Label qLbl = new Label("What is your Name, Warrior?");
 
@@ -41,6 +41,7 @@ public class EndWindow {
         btn.setPrefWidth(100);
         btn.setPrefHeight(40);
         btn.setStyle("-fx-font-size: 16pt;");
+        btn.isDefaultButton();
         btn.setOnAction(e -> {
             try {
                 onButtonClicked(e);
@@ -50,6 +51,7 @@ public class EndWindow {
         });
 
         vbox.getChildren().addAll(scoreLbl, qLbl, nameTxt, btn);
+        nameTxt.requestFocus();
     }
 
     @FXML
@@ -57,9 +59,13 @@ public class EndWindow {
         AUDIO_BEEP.play();
         String name = nameTxt.getText();
         HighScores.scoreList().addHighScore(name, World.instance().getScore(), World.instance().getDiffString());
-        HighScores.scoreList().save();
         endWindow.close();
         World.reset();
+        HighScores.scoreList().save();
+        HighScores.scoreList().getAllHighScores().clear();
+        HighScores.scoreList().getEasyHighScores().clear();
+        HighScores.scoreList().getMediumHighScores().clear();
+        HighScores.scoreList().getHardHighScores().clear();
 
         var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
         Stage mainWindow = new Stage();

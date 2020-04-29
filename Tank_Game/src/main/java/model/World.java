@@ -48,7 +48,7 @@ public class World {
         width = 1440;
         score = -20;
         currentWave = 0;
-        difficulty = Difficulty.EASY; 
+        difficulty = Difficulty.EASY;
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 5, 90, 5, 5, new Point(30, 60));
         entities.add(playerTank);
         fillSavedGames();
@@ -275,7 +275,7 @@ public class World {
     // Handles wave ending
     public void onWaveEnd(int readyNum) {
         ArrayList<GameObject> toRemove = new ArrayList<>();
-        score += waveScore/2;
+        score += waveScore / 2;
         for (GameObject object : entities) {
             if (object instanceof Bullet) {
                 Bullet bullet = (Bullet) object;

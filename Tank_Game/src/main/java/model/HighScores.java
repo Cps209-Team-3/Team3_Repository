@@ -3,8 +3,6 @@ package model;
 import java.io.*;
 import java.util.*;
 
-import model.enums.Difficulty;
-
 public class HighScores {
 
     private static HighScores instance = new HighScores();
@@ -34,16 +32,33 @@ public class HighScores {
     ArrayList<PlayerData> hardHighScores = new ArrayList<PlayerData>();
 
     /**
-     * Creates a PlayerData object that stores the name and high score of the player
-     * then adds the data to a list of PlayerData objects.
+     * Creates a PlayerData object that stores the name, high score, and difficulty
+     * of the player then adds the data to a list of PlayerData objects.
      * 
-     * @param name      String
-     * @param highScore double
+     * @param name       String
+     * @param highScore  double
+     * @param difficulty String
      */
     public void addHighScore(String name, double highScore, String difficulty) {
         PlayerData player = new PlayerData(name, highScore, difficulty);
         allHighScores.add(player);
+        if (difficulty.equals("Easy")) {
+            easyHighScores.add(player);
+        } else if (difficulty.equals("Medium")) {
+            mediumHighScores.add(player);
+        } else if (difficulty.equals("Hard")) {
+            hardHighScores.add(player);
+        }
         Collections.sort(allHighScores, (a, b) -> {
+            return (int) b.getHighScore() - (int) a.getHighScore();
+        });
+        Collections.sort(easyHighScores, (a, b) -> {
+            return (int) b.getHighScore() - (int) a.getHighScore();
+        });
+        Collections.sort(mediumHighScores, (a, b) -> {
+            return (int) b.getHighScore() - (int) a.getHighScore();
+        });
+        Collections.sort(hardHighScores, (a, b) -> {
             return (int) b.getHighScore() - (int) a.getHighScore();
         });
     }
@@ -51,19 +66,20 @@ public class HighScores {
     /**
      * Returns the list of PlayerData objects.
      */
-    public ArrayList<PlayerData> getHighScores() {
+    public ArrayList<PlayerData> getAllHighScores() {
         return allHighScores;
     }
 
     /**
-     * Saves the high scores in the highScores list to comma delimited text file named "highScores.txt"
+     * Saves the high scores in the highScores list to comma delimited text file
+     * named "highScores.txt"
      * 
      * @throws Exception
      */
     public void save() throws Exception {
         try (PrintWriter printer = new PrintWriter(new FileWriter("highScores.txt"))) {
             for (PlayerData player : allHighScores) {
-                printer.println(player.getName() + "," + player.getHighScore());
+                printer.println(player.getName() + "," + player.getHighScore() + "," + player.getDifficulty());
             }
             allHighScores.removeAll(allHighScores);
         } catch (Exception e) {
@@ -72,7 +88,8 @@ public class HighScores {
     }
 
     /**
-     * Loads the high scores in the highScores list from a comma delimited text file named "highScores.txt"
+     * Loads the high scores in the highScores list from a comma delimited text file
+     * named "highScores.txt"
      * 
      * @throws Exception
      */
@@ -84,6 +101,7 @@ public class HighScores {
                 String name = player.get(0);
                 double score = Double.parseDouble(player.get(1));
                 String difficulty = player.get(2);
+                System.out.println(name + score + difficulty);
                 allHighScores.add(new PlayerData(name, score, difficulty));
                 if (difficulty.equals("Easy")) {
                     easyHighScores.add(new PlayerData(name, score, difficulty));

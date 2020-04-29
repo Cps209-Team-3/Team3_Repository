@@ -1,1 +1,2 @@
-sup,14730.0
+wafdes,18230.0,Easy
+wwwww,4727.5,Medium

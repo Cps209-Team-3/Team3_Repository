@@ -9,9 +9,9 @@ public class PlayerData {
     /**
      * Initializes a PlayerData object by adding a required name and high score
      * 
-     * @param name      String
-     * @param highScore double
-     * @param difficulty
+     * @param name       String
+     * @param highScore  double
+     * @param difficulty String
      */
     public PlayerData(String name, double highScore, String difficulty) {
         this.name = name;
@@ -53,5 +53,13 @@ public class PlayerData {
      */
     public double getHighScore() {
         return highScore;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 }

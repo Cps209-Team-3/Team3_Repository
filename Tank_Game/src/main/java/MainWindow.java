@@ -49,6 +49,8 @@ public class MainWindow {
     Label medLbl = new Label("Medium");
     @FXML
     Label hardLbl = new Label("Hard");
+    @FXML
+    Label line = new Label("___________________________________________");
 
     @FXML
     Button firstBtn = new Button("New Game");
@@ -101,6 +103,7 @@ public class MainWindow {
     ImageView slidePic = new ImageView();
 
     ArrayList<Button> btns = new ArrayList<Button>();
+    ArrayList<Button> btns2 = new ArrayList<Button>();
 
     Screen screen = Screen.TITLE;
     HelpSlide slide = HelpSlide.CONTROLS;
@@ -114,6 +117,7 @@ public class MainWindow {
     public void initialize(Stage stage) throws Exception {
         this.mainWindow = stage;
         World.reset();
+        scoreList.load();
 
         MainHbox.getChildren().add(LeftVbox);
         LeftVbox.setPrefWidth(150);
@@ -126,7 +130,6 @@ public class MainWindow {
         MidVbox.getChildren().add(imgView);
         lbl.setStyle("-fx-font-size: 32pt;");
         MidVbox.getChildren().add(lbl);
-        MidVbox.getChildren().add(exitBtn);
 
         MainHbox.getChildren().add(RightVbox);
         RightVbox.setPrefWidth(150);
@@ -142,6 +145,16 @@ public class MainWindow {
         btns.add(medBtn);
         btns.add(hardBtn);
 
+        btns2.add(backBtn);
+        btns2.add(leftBtn);
+        btns2.add(rightBtn);
+        btns2.add(leftEasySlideBtn);
+        btns2.add(rightEasySlideBtn);
+        btns2.add(leftMediumSlideBtn);
+        btns2.add(rightMediumSlideBtn);
+        btns2.add(leftHardSlideBtn);
+        btns2.add(rightHardSlideBtn);
+
         for (Button btn : btns) {
             btn.setOnAction(e -> {
                 try {
@@ -151,30 +164,19 @@ public class MainWindow {
                 }
             });
             btn.setPrefWidth(250);
-            btn.setPrefHeight(100);
+            btn.setPrefHeight(90);
             btn.setStyle("-fx-font-size: 20pt;");
         }
-        backBtn.setOnAction(e -> {
-            try {
-                onButtonClicked(e);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-        leftBtn.setOnAction(e -> {
-            try {
-                onButtonClicked(e);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-        rightBtn.setOnAction(e -> {
-            try {
-                onButtonClicked(e);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
+
+        for (Button btn : btns2) {
+            btn.setOnAction(e -> {
+                try {
+                    onButtonClicked(e);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            });
+        }
 
         MidVbox.getChildren().addAll(firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
     }
@@ -281,6 +283,8 @@ public class MainWindow {
     @FXML
     public void resetTitle() {
         screen = Screen.TITLE;
+        slide = HelpSlide.CONTROLS;
+        scoreSlide = HighScoreSlides.EASY;
         MidVbox.getChildren().clear();
         BHbox.getChildren().clear();
         RightVbox.getChildren().clear();
@@ -354,23 +358,28 @@ public class MainWindow {
                     MidVbox.getChildren().addAll(credits, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7);
                 }
 
-                if (btnClicked.getText().equals("High Scores")) {  // REDO THIS FOR DIFFICULTY SORTED SCORES!!!
+                if (btnClicked.getText().equals("High Scores")) { // REDO THIS FOR DIFFICULTY SORTED SCORES!!!
                     screen = Screen.HIGHSCORES;
-                    scoreList.load();
                     MidVbox.getChildren().clear();
-                    MidVbox.getChildren().add(champs);
-                    LeftVbox.getChildren().add(leftHardSlideBtn);
-                    RightVbox.getChildren().add(rightMediumSlideBtn);
-                    MidVbox.setStyle("-fx-font-size: 32pt;");
-                    Label lines = new Label("___________________________________________");
-                    MidVbox.getChildren().add(lines);
-                    MidVbox.getChildren().add(easyLbl);
-                    BHbox.getChildren().add(backBtn);
-                    ArrayList<PlayerData> scores = scoreList.getHighScores();
-                    for (PlayerData player : scores) {
-                        Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
-                        lbl.setStyle("-fx-font-size: 24pt;");
-                        MidVbox.getChildren().add(lbl);
+                    if (scoreList.getAllHighScores() == null) {
+                        Label noScores = new Label("No High Scores Yet");
+                        noScores.setStyle("-fx-font-size: 32pt;");
+                        MidVbox.getChildren().add(noScores);
+                        BHbox.getChildren().add(backBtn);
+                    } else {
+                        champs.setStyle("-fx-font-size: 32pt;");
+                        MidVbox.getChildren().add(champs);
+                        LeftVbox.getChildren().add(leftHardSlideBtn);
+                        RightVbox.getChildren().add(rightMediumSlideBtn);
+                        MidVbox.getChildren().add(line);
+                        MidVbox.getChildren().add(easyLbl);
+                        BHbox.getChildren().add(backBtn);
+                        ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
+                        for (PlayerData player : scores) {
+                            Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
+                            lbl.setStyle("-fx-font-size: 24pt;");
+                            MidVbox.getChildren().add(lbl);
+                        }
                     }
                 }
 
@@ -470,9 +479,140 @@ public class MainWindow {
 
             case HIGHSCORES:
 
-                if (btnClicked.getText().equals("<- Back")) {
-                    resetTitle();
+                switch (scoreSlide) {
+                    case EASY:
+                        if (btnClicked.getText().equals("<- Hard")) {
+                            scoreSlide = scoreSlide.HARD;
+                            MidVbox.getChildren().clear();
+                            LeftVbox.getChildren().clear();
+                            RightVbox.getChildren().clear();
+
+                            MidVbox.getChildren().add(champs);
+                            MidVbox.getChildren().add(line);
+                            MidVbox.getChildren().add(hardLbl);
+                            LeftVbox.getChildren().add(leftMediumSlideBtn);
+                            RightVbox.getChildren().add(rightEasySlideBtn);
+                            ArrayList<PlayerData> scores = scoreList.getHardHighScores();
+                            for (PlayerData player : scores) {
+                                Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
+                                lbl.setStyle("-fx-font-size: 24pt;");
+                                MidVbox.getChildren().add(lbl);
+                            }
+                        }
+
+                        if (btnClicked.getText().equals("Medium ->")) {
+                            scoreSlide = scoreSlide.MEDIUM;
+                            MidVbox.getChildren().clear();
+                            LeftVbox.getChildren().clear();
+                            RightVbox.getChildren().clear();
+
+                            MidVbox.getChildren().add(champs);
+                            MidVbox.getChildren().add(line);
+                            MidVbox.getChildren().add(medLbl);
+                            LeftVbox.getChildren().add(leftEasySlideBtn);
+                            RightVbox.getChildren().add(rightHardSlideBtn);
+                            ArrayList<PlayerData> scores = scoreList.getMediumHighScores();
+                            for (PlayerData player : scores) {
+                                Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
+                                lbl.setStyle("-fx-font-size: 24pt;");
+                                MidVbox.getChildren().add(lbl);
+                            }
+                        }
+
+                        if (btnClicked.getText().equals("<- Back")) {
+                            resetTitle();
+                        }
+                        break;
+
+                    case MEDIUM:
+                        if (btnClicked.getText().equals("<- Easy")) {
+                            scoreSlide = scoreSlide.EASY;
+                            MidVbox.getChildren().clear();
+                            LeftVbox.getChildren().clear();
+                            RightVbox.getChildren().clear();
+
+                            MidVbox.getChildren().add(champs);
+                            MidVbox.getChildren().add(line);
+                            MidVbox.getChildren().add(easyLbl);
+                            LeftVbox.getChildren().add(leftHardSlideBtn);
+                            RightVbox.getChildren().add(rightMediumSlideBtn);
+                            ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
+                            for (PlayerData player : scores) {
+                                Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
+                                lbl.setStyle("-fx-font-size: 24pt;");
+                                MidVbox.getChildren().add(lbl);
+                            }
+                        }
+
+                        if (btnClicked.getText().equals("Hard ->")) {
+                            scoreSlide = scoreSlide.HARD;
+                            MidVbox.getChildren().clear();
+                            LeftVbox.getChildren().clear();
+                            RightVbox.getChildren().clear();
+
+                            MidVbox.getChildren().add(champs);
+                            MidVbox.getChildren().add(line);
+                            MidVbox.getChildren().add(hardLbl);
+                            LeftVbox.getChildren().add(leftMediumSlideBtn);
+                            RightVbox.getChildren().add(rightEasySlideBtn);
+                            ArrayList<PlayerData> scores = scoreList.getHardHighScores();
+                            for (PlayerData player : scores) {
+                                Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
+                                lbl.setStyle("-fx-font-size: 24pt;");
+                                MidVbox.getChildren().add(lbl);
+                            }
+                        }
+
+                        if (btnClicked.getText().equals("<- Back")) {
+                            resetTitle();
+                        }
+                        break;
+
+                    case HARD:
+                        if (btnClicked.getText().equals("<- Medium")) {
+                            scoreSlide = scoreSlide.MEDIUM;
+                            MidVbox.getChildren().clear();
+                            LeftVbox.getChildren().clear();
+                            RightVbox.getChildren().clear();
+
+                            MidVbox.getChildren().add(champs);
+                            MidVbox.getChildren().add(line);
+                            MidVbox.getChildren().add(medLbl);
+                            LeftVbox.getChildren().add(leftEasySlideBtn);
+                            RightVbox.getChildren().add(rightHardSlideBtn);
+                            ArrayList<PlayerData> scores = scoreList.getMediumHighScores();
+                            for (PlayerData player : scores) {
+                                Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
+                                lbl.setStyle("-fx-font-size: 24pt;");
+                                MidVbox.getChildren().add(lbl);
+                            }
+                        }
+
+                        if (btnClicked.getText().equals("Easy ->")) {
+                            scoreSlide = scoreSlide.EASY;
+                            MidVbox.getChildren().clear();
+                            LeftVbox.getChildren().clear();
+                            RightVbox.getChildren().clear();
+
+                            MidVbox.getChildren().add(champs);
+                            MidVbox.getChildren().add(line);
+                            MidVbox.getChildren().add(easyLbl);
+                            LeftVbox.getChildren().add(leftHardSlideBtn);
+                            RightVbox.getChildren().add(rightMediumSlideBtn);
+                            ArrayList<PlayerData> scores = scoreList.getEasyHighScores();
+                            for (PlayerData player : scores) {
+                                Label lbl = new Label(player.getName() + " - " + (int) player.getHighScore());
+                                lbl.setStyle("-fx-font-size: 24pt;");
+                                MidVbox.getChildren().add(lbl);
+                            }
+                        }
+
+                        if (btnClicked.getText().equals("<- Back")) {
+                            resetTitle();
+                        }
+                        break;
                 }
+
                 break;
 
             case LOAD:
