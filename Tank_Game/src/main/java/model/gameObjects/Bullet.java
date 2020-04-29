@@ -91,7 +91,7 @@ public class Bullet extends GameObject {
                     image = new Image("/Images/explosion.gif");
                     numMoves = 0;
                 }
-            } else {
+            } else if (object instanceof Wall) {
                 exploding = true;
                 image = new Image("/Images/explosion.gif");
                 numMoves = 0;

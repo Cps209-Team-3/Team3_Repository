@@ -16,8 +16,8 @@ public class SpeedyPowerup extends Powerup {
         image = new Image(getClass().getResource("/Images/speedcrate.png").toString());
         position = null;
         direction = 0;
-        height = 10;
-        width = 10;
+        height = (int) (image.getHeight() + 0.5);
+        width = (int) (image.getWidth() + 0.5);
         type = PowerupType.SPEEDY;
     }
 
