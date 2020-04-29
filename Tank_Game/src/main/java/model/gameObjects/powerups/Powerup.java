@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   Powerup.java
+//Author: David Disler
+//Desc:   This program is a abstract class to create powerups 
+//----------------------------------------------------------- 
 package model.gameObjects.powerups;
 
 import java.awt.Point;
@@ -12,15 +17,22 @@ import model.gameObjects.Tank;
 
 public abstract class Powerup extends GameObject {
 
-    PowerupType type;
-    Tank tank = null;
-    int frameCount = 0;
-    KeyFrame keyFrame = new KeyFrame(Duration.millis(1000), e -> powerupPower());
-    Timeline timeline = new Timeline(keyFrame);
+    PowerupType type; // This specifies which PowerupType the powerup is
+    Tank tank = null; // Used for the onCollision method to hold the collided tank
+    int frameCount = 0; // Counts the times that powerupPower is called
+    KeyFrame keyFrame = new KeyFrame(Duration.millis(1000), e -> powerupPower()); // Keyframe that runs the powerupPower
+                                                                                  // method every second
+    Timeline timeline = new Timeline(keyFrame); // Executes the keyframe
 
-
-
+    /**
+     * Disler, David - Abstract method that will return the player to its state
+     * before it collided with a powerup after the frameCount reaches 10
+     */
     public abstract void powerupPower();
+
+    @Override
+    public void onCollision(GameObject object) {
+    }
 
     @Override
     public void deserialize(String data) {
@@ -44,16 +56,14 @@ public abstract class Powerup extends GameObject {
     public String serialize() {
         String serialization = "Powerup,";
         String[] imageName = image.getUrl().split("/");
-        Object[] list = new Object[] {imageName[imageName.length - 1], position.getX(), position.getY(), direction, height, width, type};
+        Object[] list = new Object[] { imageName[imageName.length - 1], position.getX(), position.getY(), direction,
+                height, width, type };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();
             if (i != list.length - 1) {
                 serialization += ",";
-            } 
+            }
         }
         return serialization;
     }
-
-    @Override
-    public void onCollision(GameObject object) {}
 }

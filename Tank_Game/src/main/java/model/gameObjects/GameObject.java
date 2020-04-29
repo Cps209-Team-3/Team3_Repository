@@ -38,7 +38,7 @@ public abstract class GameObject {
     }
 
     /**
-     * Takes all the variables from a GameObject and puts it into a comma-delimited
+     * Disler, David - Takes all the variables from a GameObject and puts it into a comma-delimited
      * string
      * 
      * @return data of object in string format
@@ -46,14 +46,14 @@ public abstract class GameObject {
     public abstract String serialize();
 
     /**
-     * Sets all the variables in a GameObject from a string
+     * Disler, David - Sets all the variables in a GameObject from a string
      * 
      * @param data - The string to be split
      */
     public abstract void deserialize(String data);
 
     /**
-     * Handles a collison with another object.
+     * Disler, David - Handles a collison with another object.
      * 
      * @param object - The object collided with
      */

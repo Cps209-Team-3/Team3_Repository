@@ -181,6 +181,13 @@ public class MainWindow {
         MidVbox.getChildren().addAll(firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
     }
 
+    /**
+     * Disler, David - Resets the World and loads up the game from the
+     * "GameBackup.txt"
+     * 
+     * @param event    - The button clicked event
+     * @param gameName - The name of the game
+     */
     @FXML
     void loadGameButtonPressed(ActionEvent event, String gameName) {
         try {
@@ -193,11 +200,17 @@ public class MainWindow {
         }
     }
 
+    // Calls the delete method and gives it the name of the game to delete
     @FXML
     void deleteGameButtonPressed(ActionEvent event, String gameName) {
         deleteSavedGame(gameName);
     }
 
+    /**
+     * Disler, David - Deletes the game that has the name gameName
+     *
+     * @param gameName - The name of the game to be deleted
+     */
     public void deleteSavedGame(String gameName) {
         // Copies GameBackup into GameBackup1 without the information that we are
         // deleting
@@ -239,6 +252,11 @@ public class MainWindow {
         setupLoadPage();
     }
 
+    /**
+     * Disler, David - Sets up the Load Screen with all of the saved games, if there
+     * over ten, it deletes them.
+     * 
+     */
     void setupLoadPage() {
         screen = Screen.LOAD;
         MidVbox.getChildren().clear();
@@ -290,15 +308,19 @@ public class MainWindow {
         MidVbox.getChildren().addAll(imgView, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
     }
 
+    /**
+     * Disler, David - Sets up a new GameWindow
+     * 
+     */
     public void loadGame() throws IOException {
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
 
         Stage gameWindow = new Stage();
         gameWindow.setScene(new Scene(loader.load()));
         GameWindow window = loader.getController();
         window.initialize(gameWindow, this);
-        
+
         gameWindow.show();
         mainWindow.close();
     }
@@ -339,7 +361,7 @@ public class MainWindow {
                     MidVbox.getChildren().clear();
                     BHbox.getChildren().add(backBtn);
                     credits.setStyle("-fx-font-size: 28pt;");
-                    Label lbl1 = new Label("David Disler - Save/Load game functionality & Powerups");
+                    Label lbl1 = new Label("David Disler - Save/Load game functionality, Pause Menu & Powerups");
                     lbl1.getStyleClass().add("about");
                     Label lbl2 = new Label("Andrew James - Game Logic and Game Screen");
                     lbl2.getStyleClass().add("about");

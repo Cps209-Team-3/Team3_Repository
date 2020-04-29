@@ -29,7 +29,8 @@ public class World {
     boolean difficultySet = false;
 
     ArrayList<GameObject> entities = new ArrayList<GameObject>();
-    ArrayList<String> savedGames = new ArrayList<String>();
+    ArrayList<String> savedGames = new ArrayList<String>(); // List of up to ten saved games, where "String" is the game
+                                                            // name - Disler, David
 
     // Singleton Implementation
 
@@ -48,20 +49,22 @@ public class World {
         width = 1440;
         score = 0;
         currentWave = 0;
-        difficulty = Difficulty.EASY; 
+        difficulty = Difficulty.EASY;
         playerTank = new Player(new Point(37, 64), 0, 50, 60, 5, 5, 90, 20, 20, new Point(30, 60));
         entities.add(playerTank);
         fillSavedGames();
     }
 
     /**
-     * Fills up the savedGames with all the saved games from the file
+     * Disler, David Fills up the savedGames with all the saved games from the file
      * "GameBackup.txt"
      */
     public void fillSavedGames() {
+        // Opens GameBackup.txt with reader file
         try (BufferedReader reader = new BufferedReader(new FileReader("GameBackup.txt"))) {
             String line = reader.readLine();
             while (line != null) {
+                // The beginning of all games start with ##
                 if (line.contains("##")) {
                     savedGames.add(0, line.split(",")[1]);
                 }
@@ -100,7 +103,8 @@ public class World {
     }
 
     /**
-     * Puts a random amount of random powerups randomly around the world
+     * Disler, David Puts a random amount (1-2) of random powerups randomly around
+     * the world
      */
     public void generatePowerups() {
         Random random = new Random();
@@ -120,6 +124,7 @@ public class World {
                     break;
             }
             powerup.setPosition(new Point(random.nextInt(width - 100), random.nextInt(760) - 360));
+            // Keeps trying to find a position that isn't overlapping anything
             while (!checkSpawn(powerup)) {
                 powerup.setPosition(new Point(random.nextInt(width - 100), random.nextInt(760) - 360));
             }
@@ -128,10 +133,12 @@ public class World {
     }
 
     /**
-     * Takes a string filename, reads from that file, sends each line to the
-     * appropiate GameObject and calls deserialization on it
+     * Disler, David - Takes a string filename, reads from that file, finds the game
+     * using the gameName and then sends each line following that to the appropiate
+     * GameObject and calls deserialization on it.
      * 
-     * @param filename - the name of a file
+     * @param filename - the name of a file to read
+     * @param gameName - the name the game that is being loaded
      */
     public void load(String filename, String gameName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -151,6 +158,7 @@ public class World {
         line = reader.readLine();
 
         GameObject gameObject = null;
+        // Deserializes each gameObject
         while (line != null) {
             if (line.contains("Wall")) {
                 gameObject = new Wall();
@@ -172,20 +180,22 @@ public class World {
             gameObject.deserialize(line);
             entities.add(gameObject);
             line = reader.readLine();
+            // This finds either the end of the file or the beginning of a new game
             if (line != null) {
                 if (line.contains("##")) {
                     line = null;
-               }
+                }
             }
         }
         reader.close();
     }
 
     /**
-     * Takes a string filename, calls serialization on every GameObject and writes
-     * that line to the file
+     * Disler, David - Takes a string filename, calls serialization on every
+     * GameObject and writes that line to the file using gameName as the first line.
      * 
      * @param filename - the name of a file
+     * @param nameGame - the name of a file
      */
     public void save(String filename, String gameName) throws IOException {
         FileWriter writer = new FileWriter(filename, true);
@@ -252,7 +262,7 @@ public class World {
         // Check for game end, may want to adjust this so GameWindow knows.a
         if (entities.contains(playerTank)) {
             if (inp == '%') {
-                if(playerTank.getReloadStatus() == playerTank.getReloadTime()){
+                if (playerTank.getReloadStatus() == playerTank.getReloadTime()) {
                     World.instance().addObject(playerTank.fire());
                 }
             } else {
@@ -299,7 +309,7 @@ public class World {
         }
         if (readyNum > 179) {
             if (entities.contains(playerTank)) {
-                score += waveScore/2;
+                score += waveScore / 2;
                 currentWave += 1;
                 toRemove = new ArrayList<>();
                 for (GameObject object : entities) {
@@ -393,7 +403,12 @@ public class World {
         return true;
     }
 
-    // serializes the world
+    /**
+     * Disler, David - Takes all the variables from the World and puts them into a
+     * comma-delimited string
+     * 
+     * @return data of the World in string format
+     */
     public String serialize() {
         String serialization = "World,";
         Object[] list = new Object[] { width, height, difficulty, score, currentWave, cheatMode, waveScore };
@@ -406,7 +421,11 @@ public class World {
         return serialization;
     }
 
-    // deserializes the world from a file
+    /**
+     * Disler, David - Sets all the variables in the World from a string
+     * 
+     * @param data - The string to be split
+     */
     public void deserialize(String data) {
         String[] list = data.split(",");
         width = Integer.parseInt(list[1]);
@@ -422,14 +441,14 @@ public class World {
                 difficulty = Difficulty.HARD;
                 break;
         }
-        score = (int)Double.parseDouble(list[4]);
+        score = (int) Double.parseDouble(list[4]);
         currentWave = Integer.parseInt(list[5]);
         if (list[6].equals("true")) {
             cheatMode = true;
         } else if (list[6].equals("false")) {
             cheatMode = false;
         }
-        waveScore = (int)Double.parseDouble(list[7]);
+        waveScore = (int) Double.parseDouble(list[7]);
     }
 
     public ArrayList<GameObject> getEntities() {
@@ -506,6 +525,7 @@ public class World {
         this.playerTank = playerTank;
     }
 
+    // Getters and Setters for savedGames - Disler, David
     public ArrayList<String> getSavedGames() {
         return savedGames;
     }
