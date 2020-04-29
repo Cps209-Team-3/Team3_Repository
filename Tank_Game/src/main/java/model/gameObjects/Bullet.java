@@ -2,7 +2,6 @@ package model.gameObjects;
 
 import model.World;
 import model.enums.BulletType;
-
 import javafx.scene.image.Image;
 
 import java.awt.Point;
@@ -52,11 +51,11 @@ public class Bullet extends GameObject {
             double newY = speed * Math.sin(direction * Math.PI / 180);
             position = new Point((int) (newX + position.getX()), (int) (newY + position.getY()));
             if (numMoves > 360) {
-                World.instance().removeObject(this);
+                explode();
             }
         } else {
             if (numMoves > 29) {
-                World.instance().removeObject(this);
+                explode();
             } else {
                 numMoves += 1;
             }
@@ -78,8 +77,15 @@ public class Bullet extends GameObject {
                     }
                     numMoves = 0;
                 }
-            } else if (object instanceof Wall || object instanceof Bullet) {
+            } else if (object instanceof Bullet) {
                 // Run explosion animation
+                Bullet bullet = (Bullet) object;
+                if (!bullet.isExploding()) {
+                    exploding = true;
+                    image = new Image("/Images/explosion.gif");
+                    numMoves = 0;
+                }
+            } else {
                 exploding = true;
                 image = new Image("/Images/explosion.gif");
                 numMoves = 0;
@@ -89,6 +95,10 @@ public class Bullet extends GameObject {
 
     public void explode() {
         World.instance().removeObject(this);
+    }
+
+    public boolean isExploding() {
+        return exploding;
     }
 
     public int getSpeed() {
@@ -119,7 +129,7 @@ public class Bullet extends GameObject {
     public String serialize() {
         String serialization = "Bullet,";
         String[] imageName = image.getUrl().split("/");
-        Object[] list = new Object[] {imageName[imageName.length - 1], position.getX(), position.getY(), direction,
+        Object[] list = new Object[] { imageName[imageName.length - 1], position.getX(), position.getY(), direction,
                 height, width, speed, speed, damageAmount, type };
         for (int i = 0; i < list.length; i++) {
             serialization += list[i].toString();

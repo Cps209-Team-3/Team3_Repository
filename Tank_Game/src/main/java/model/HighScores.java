@@ -77,7 +77,7 @@ public class HighScores {
      * @throws Exception
      */
     public void save() throws Exception {
-        try (PrintWriter printer = new PrintWriter(new FileWriter("highScores.txt"))) {
+        try (PrintWriter printer = new PrintWriter(new FileWriter("highScores.txt", true))) {
             for (PlayerData player : allHighScores) {
                 printer.println(player.getName() + "," + player.getHighScore() + "," + player.getDifficulty());
             }

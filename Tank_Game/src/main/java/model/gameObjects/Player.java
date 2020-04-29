@@ -43,47 +43,39 @@ public class Player extends Tank {
         image = new Image("/Images/greentankv1wider.gif");
     }
 
-    // Moves tank in the direction of 'input' and saves last position to
-    // lastPosition
+    // Sets direction based off of paramter keys and calls calculateMove()
     public void move(ArrayList<KeyEvent> keys) {
-        GameObject object = World.instance().findCollision(this);
+        if (World.instance().getCycleCount()%180 == savedCycle + 18) {
+            turretImage = new Image("/Images/cannonbase.png");
+        }
         String input = "";
         for (int i = 0; i < keys.size(); i++) {
             input += keys.get(i).getCode().toString();
         }
         if (keys.size() < 3 && input.contains("W") && input.contains("A")) {
             direction = 315;
-            calculateMove(object, direction);
         } else if (keys.size() < 3 && input.contains("W") && input.contains("D")) {
             direction = 45;
-            calculateMove(object, direction);
         } else if (keys.size() < 3 && input.contains("S") && input.contains("A")) {
             direction = 225;
-            calculateMove(object, direction);
         } else if (keys.size() < 3 && input.contains("S") && input.contains("D")) {
             direction = 135;
-            calculateMove(object, direction);
         } else if (keys.size() < 2 && input.equals("W")) {
             direction = 0;
-            calculateMove(object, direction);
         } else if (keys.size() < 2 && input.equals("S")) {
             direction = 180;
-            calculateMove(object, direction);
         } else if (keys.size() < 2 && input.equals("A")) {
             direction = 270;
-            calculateMove(object, direction);
         } else if (keys.size() < 2 && input.equals("D")) {
             direction = 90;
-            calculateMove(object, direction);
+        }
+        if (!input.isBlank()) {
+            calculateMove();
         }
     }
 
-    public void calculateMove(GameObject object, int desired) {
-        /*
-         * while(direction != desired){
-         * 
-         * if(desired > direction) { direction += 5; } else { direction -= 5; } }
-         */
+    // Move in the direction of This' direction.
+    public void calculateMove() {
         double newX = position.getX();
         double newY = position.getY();
         newX = speed * Math.sin(direction * Math.PI / 180);
@@ -104,6 +96,8 @@ public class Player extends Tank {
 
     @Override
     public Bullet fire() {
+        savedCycle = World.instance().getCycleCount();
+        turretImage = new Image("/Images/cannonfiresprites.gif");
         return new Bullet(new Image("/Images/projectile.png"),
                 new Point((int) position.getX() + width / 2, (int) position.getY() + height / 2), turretDirection, 10,
                 10, 7, 1, BulletType.PLAYER);

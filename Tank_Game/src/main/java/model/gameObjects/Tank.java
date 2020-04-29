@@ -2,12 +2,16 @@ package model.gameObjects;
 
 import java.awt.Point;
 
+import javafx.scene.image.Image;
+
 public abstract class Tank extends GameObject {
     int health;
     int speed;
     int turretDirection; // 0-360
     int reloadTime;
     int reloadStatus;
+    Image turretImage = new Image("/Images/cannonbase.png");
+    int savedCycle;
 
     Point lastPosition; // track previous position for collision handling
 
@@ -95,5 +99,9 @@ public abstract class Tank extends GameObject {
 
     public void setReloadStatus(int reloadStatus) {
         this.reloadStatus = reloadStatus;
+    }
+
+    public Image getTurretImage() {
+        return turretImage;
     }
 }
