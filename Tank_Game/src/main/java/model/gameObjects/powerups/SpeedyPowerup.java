@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   SpeedyPowerup.java
+//Author: David Disler
+//Desc:   This program creates a powerup that increases 
+//        the players speed for 10 seconds.
+//----------------------------------------------------------- 
 package model.gameObjects.powerups;
 
 import javafx.scene.image.Image;
@@ -5,14 +11,12 @@ import model.World;
 import model.enums.PowerupType;
 import model.gameObjects.*;
 
-
 public class SpeedyPowerup extends Powerup {
 
     /**
-     * Initializes a new Powerup with random parameters.
+     * Disler, David - This constructor initializes a new SpeedyPowerup
      */
     public SpeedyPowerup() {
-        //Temporary holding image
         image = new Image(getClass().getResource("/Images/speedcrate.png").toString());
         position = null;
         direction = 0;

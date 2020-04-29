@@ -1,18 +1,24 @@
+//-----------------------------------------------------------
+//File:   FastFirePowerup.java
+//Author: David Disler
+//Desc:   This program creates a powerup that increases 
+//        the players rate of fire for 10 seconds.
+//----------------------------------------------------------- 
 package model.gameObjects.powerups;
 
 import javafx.scene.image.Image;
 import model.World;
 import model.enums.PowerupType;
-import model.gameObjects.*;
-
+import model.gameObjects.GameObject;
+import model.gameObjects.Player;
+import model.gameObjects.Tank;
 
 public class FastFirePowerup extends Powerup {
 
     /**
-     * Initializes a new Powerup with random parameters.
+     * Disler, David - This constructor initializes a new FastFirePowerup
      */
     public FastFirePowerup() {
-        //Temporary holding image
         image = new Image(getClass().getResource("/Images/powercrate.png").toString());
         position = null;
         direction = 0;

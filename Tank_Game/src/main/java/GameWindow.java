@@ -70,7 +70,8 @@ public class GameWindow {
     private Text score = new Text("Score: 0");
     private Text waveNum = new Text("Wave: ");
     private MainWindow mainWindow = null;
-    private ImageCursor newCursor = new ImageCursor(new Image("/Images/cursor2.png"));
+    private ImageCursor newCursor = new ImageCursor(new Image("/Images/cursor2.png")); // This is the image for the
+                                                                                       // custom curser - Disler, David
     private boolean isPaused = false;
 
     private ArrayList<KeyEvent> keys = new ArrayList<>();
@@ -132,6 +133,7 @@ public class GameWindow {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ESCAPE) {
+                    // Executes pause game when Escape is pressed
                     if (!isPaused) {
                         pauseGame();
                         isPaused = true;
@@ -140,7 +142,7 @@ public class GameWindow {
                         clock.play();
                         isPaused = false;
                     }
-                    
+
                 } else {
                     for (int i = 0; i < keys.size(); i++) {
                         if (event.getCode() == keys.get(i).getCode()) {
@@ -305,85 +307,87 @@ public class GameWindow {
         }
     }
 
-    // Pause Window
-    // It can resume gameplay, exit the gamewindow,
-    // or save and exit the gamewindow
+    /**
+     * Disler, David - Pauses the game, contains the buttons: "Resume", "Cheat",
+     * "Exit", and "Save and Exit"
+     * 
+     * @param data - The string to be split
+     */
     void pauseGame() {
-            // Pauses the game loop & pops up pause screen
-            clock.pause();
+        // Pauses the game loop & pops up pause screen
+        clock.pause();
+        // Allows the pause menu to appear
+        gameWindow.setAlwaysOnTop(false);
+        Object[] buttonTexts = { "Resume", "Cheat", "Exit", "Save and Exit" };
+        var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
 
-            gameWindow.setAlwaysOnTop(false);
-            Object[] buttonTexts = { "Resume", "Cheat", "Exit", "Save and Exit" };
-            var loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+        int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
 
-            
+        switch (choice) {
+            case 0: // This is the resume button
+                clock.play();
+                break;
+            case 1: // This is the cheat button, it toggles the cheat mode
+                World.instance().toggleCheatMode();
+                clock.play();
+                break;
+            case 2: // This exits the GameWindow and brings up the MainWindow
+                AUDIO_AMBIENT.stop();
+                AUDIO_MUSIC.stop();
+                gameWindow.close();
+                try {
+                    Stage mW = new Stage();
+                    mW.setScene(new Scene(loader.load()));
+                    MainWindow win = loader.getController();
+                    win.initialize(mW);
+                    mW.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-            int choice = JOptionPane.showOptionDialog(null, "You have paused the game.", "Paused",
-                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttonTexts, buttonTexts[0]);
-
-            switch (choice) {
-                case 0:
-                    clock.play();;
-                    break;
-                case 1:
-                    World.instance().toggleCheatMode();
-                    clock.play();
-                    break;
-                case 2:
-                    AUDIO_AMBIENT.stop();
-                    AUDIO_MUSIC.stop();
-                    gameWindow.close();
-                    try {
-                        Stage mW = new Stage();
-                        mW.setScene(new Scene(loader.load()));
-                        MainWindow win = loader.getController();
-                        win.initialize(mW);
-                        mW.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    
-                    break;
-                case 3:
-                    String gameName = null;
-                    while (true) {
-                        JOptionPane nameGame = new JOptionPane();
-                        gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
-                        if (World.instance().getSavedGames().indexOf(gameName) != -1 && gameName != null) {
-                            JOptionPane nameTaken = new JOptionPane();
-                            int answer = JOptionPane.showConfirmDialog(nameTaken,
-                                    "That name is taken ... would you like to override it?");
-                            if (answer == 0) {
-                                mainWindow.deleteSavedGame(gameName);
-                                break;
-                            }
-
-                        } else {
+                break;
+            case 3: // Saves and then Exits the GameWindow
+                String gameName = null;
+                while (true) {
+                    JOptionPane nameGame = new JOptionPane();
+                    gameName = JOptionPane.showInputDialog(nameGame, "Please enter the name of your game.");
+                    if (World.instance().getSavedGames().indexOf(gameName) != -1 && gameName != null) {
+                        JOptionPane nameTaken = new JOptionPane();
+                        int answer = JOptionPane.showConfirmDialog(nameTaken,
+                                "That name is taken ... would you like to override it?");
+                        if (answer == 0) {
+                            mainWindow.deleteSavedGame(gameName);
                             break;
                         }
+
+                    } else {
+                        break;
                     }
-                    try {
-                        if (gameName != null) {
-                            World.instance().save("GameBackup.txt", gameName);
-                        }
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
+                }
+                try {
+                    if (gameName != null) {
+                        World.instance().save("GameBackup.txt", gameName);
                     }
-                    AUDIO_AMBIENT.stop();
-                    AUDIO_MUSIC.stop();
-                    gameWindow.close();
-                    try {
-                        Stage mW = new Stage();
-                        mW.setScene(new Scene(loader.load()));
-                        MainWindow win = loader.getController();
-                        win.initialize(mW);
-                        mW.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-            }
-            gameWindow.setAlwaysOnTop(true);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+                AUDIO_AMBIENT.stop();
+                AUDIO_MUSIC.stop();
+                gameWindow.close();
+                try {
+                    Stage mW = new Stage();
+                    mW.setScene(new Scene(loader.load()));
+                    MainWindow win = loader.getController();
+                    win.initialize(mW);
+                    mW.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        // Makes the GameWindow on top of MainWindow
+        gameWindow.setAlwaysOnTop(true);
     }
 
     void handleInput(KeyEvent key) {
