@@ -38,6 +38,6 @@ Name | Time Spent | Time Remaining | Link to Journal
 ------ | ------ | ------ | ------
 Disler, David | 46 Hours | 14 Hours | [Disler Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/DislerJournal)
 James, Andrew | 41 | 19 | [James Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/JamesJournal)
-Pennington, Austin | 31H 20M | 29H 40M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
+Pennington, Austin | 33H 55M | 26H 5M | [Pennington Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/PenningtonJournal)
 Swain, Brandon | 40 hours 36 minutes | 19 hours 24 minutes | [Swain Journal](https://github.com/Cps209-Team-3/Team3_Repository/wiki/SwainJournal)
 
