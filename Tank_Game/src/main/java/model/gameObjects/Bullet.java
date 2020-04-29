@@ -1,31 +1,43 @@
+//-----------------------------------------------------------
+//File:   Bullet.java
+//Author: David Disler, Austin Pennington, Andrew James
+//Desc:   This file contains the properities of a bullet,
+//        the sound effects for the bullet, and the explosion animation.
+//----------------------------------------------------------- 
 package model.gameObjects;
-
 import model.World;
 import model.enums.BulletType;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
-
 import java.awt.Point;
 
 public class Bullet extends GameObject {
 
-    int speed;
-    int damageAmount;
-    BulletType type;
-    int numMoves = 0;
-    boolean exploding = false;
+    int speed; //How Quickly the Bullet will Travel
+    int damageAmount; //Amount of damage the bullet will do
+    BulletType type; //Who the bullet was shot by
+    int numMoves = 0; //Number of times the bullet has moved since it has been fired
+    boolean exploding = false; //Value is True if bullet collided with an object; Otherwise, false.
 
     /**
      * Initializes a new Bullet using parameters.
      *
-     * @param image
-     * @param position
-     * @param direction
-     * @param height
-     * @param width
-     * @param speed
-     * @param damageAmount
-     * @param type
+     * @param image :
+     * Image of the bullet
+     * @param position :
+     * Desired X and Y Position of Bullet
+     * @param direction :
+     * Direction the bullet will face in degrees
+     * @param height :
+     * Height of the Bullet Image
+     * @param width :
+     * Width of the Bullet Image
+     * @param speed :
+     * How quickly the bullet will travel 
+     * @param damageAmount :
+     * Amount of damage the bullet will do to a tank
+     * @param type :
+     * BulletType enum that indicates who the bullet was shot by
      */
     public Bullet(Image image, Point position, int direction, int width, int height, int speed, int damageAmount,
             BulletType type) {
@@ -44,7 +56,7 @@ public class Bullet extends GameObject {
 
     }
 
-    // moves the bullet in the direction of 'direction', by the amount of 'speed'.
+    // moves the bullet at the angle in degrees 'direction', by the amount of 'speed', and deletes the bullet if out of bounds or collided with something.
     public void move() {
         if (!exploding) {
             numMoves += 1;
@@ -63,10 +75,16 @@ public class Bullet extends GameObject {
         }
     }
 
+    /**
+     * Determines what GameObject the bullet hit, deals damage to tank (if it is one), plays hit sound, and plays animation.
+     * 
+     * @param object :
+     * GameObject that the bullet collided with
+     */
     @Override
     public void onCollision(GameObject object) {
-        final AudioClip AUDIO_HIT = new AudioClip(getClass().getResource("/Media/hit.wav").toString());
-        final AudioClip AUDIO_BOOM = new AudioClip(getClass().getResource("/Media/explosion.wav").toString());
+        final AudioClip AUDIO_HIT = new AudioClip(getClass().getResource("/Media/hit.wav").toString()); //Sound for Bullet Hitting Tank
+        final AudioClip AUDIO_BOOM = new AudioClip(getClass().getResource("/Media/explosion.wav").toString()); //Sound for Enemy Tank Death
         AUDIO_BOOM.setPriority(3); 
         AUDIO_HIT.setPriority(3);
         if (!exploding) {
@@ -101,40 +119,9 @@ public class Bullet extends GameObject {
         }
     }
 
+    //Removes bullet if it's gone out of bounds or played the explosion animation once.
     public void explode() {
         World.instance().removeObject(this);
-    }
-
-    public boolean isExploding() {
-        return exploding;
-    }
-
-    public int getNumMoves() {
-        return numMoves;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getDamageAmount() {
-        return damageAmount;
-    }
-
-    public void setDamageAmount(int damageAmount) {
-        this.damageAmount = damageAmount;
-    }
-
-    public BulletType getType() {
-        return type;
-    }
-
-    public void setType(BulletType type) {
-        this.type = type;
     }
 
     @Override
@@ -170,5 +157,39 @@ public class Bullet extends GameObject {
                 type = BulletType.ENEMY;
                 break;
         }
+    }
+
+    //Getters and Setters
+
+    public boolean isExploding() {
+        return exploding;
+    }
+
+    public int getNumMoves() {
+        return numMoves;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getDamageAmount() {
+        return damageAmount;
+    }
+
+    public void setDamageAmount(int damageAmount) {
+        this.damageAmount = damageAmount;
+    }
+
+    public BulletType getType() {
+        return type;
+    }
+
+    public void setType(BulletType type) {
+        this.type = type;
     }
 }

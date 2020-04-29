@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   Enemy.java
+//Author: Austin Pennington, Andrew James, David Disler
+//Desc:   This file handles holds properities of the enemy tank, 
+//        creates bullets based off the enemy tank's properities, and moves the player tank. 
+//----------------------------------------------------------- 
 package model.gameObjects;
 
 import model.World;
@@ -10,21 +16,29 @@ import java.util.Random;
 
 public class Enemy extends Tank {
 
-    EnemyState state;
-    final AudioClip AUDIO_ENEMYSHOT = new AudioClip(getClass().getResource("/Media/enemyshot.mp3").toString());
+    EnemyState state; //What the Enemy Tank is doing
+    final AudioClip AUDIO_ENEMYSHOT = new AudioClip(getClass().getResource("/Media/enemyshot.mp3").toString()); //Sound Effect for the Enemy Tank's Gunshot
     int fireNum = 60;
 
     /**
      * Initializes a new Enemy using parameters.
      * 
-     * @param position
-     * @param direction
-     * @param height
-     * @param width
-     * @param health
-     * @param speed
-     * @param turretDirection
-     * @param pastPositions
+     * @param position :
+     * X and Y Position of the Enemy Tank
+     * @param direction :
+     * Direction the tank is facing in degrees
+     * @param height :
+     * Height of the Enemy Tank's image
+     * @param width :
+     * Width of the Enemy Tank's image
+     * @param health :
+     * Amount of times the enemy tank can be hit before it dies
+     * @param speed :
+     * How quickly the tank will move
+     * @param turretDirection :
+     * Direction the enemy tank's cannon is facing in degrees
+     * @param pastPositions :
+     * X and Y Position of the Enemy Tank in the last frame. [UNUSED]
      */
     public Enemy(Image image, Point position, int direction, int height, int width, int health, int speed,
             int turretDirection, int reloadTime, int reloadStatus, Point lastPosition, EnemyState state) {
@@ -45,7 +59,7 @@ public class Enemy extends Tank {
     /**
      * Initializes a new enemy using random variables
      * 
-     * @param useRandom - used as a way to specify weather to use random values or
+     * @param useRandom : used as a way to specify whether to use random values or
      *                  null values, as with Enemy().
      */
     public Enemy(boolean useRandom) {
@@ -86,9 +100,8 @@ public class Enemy extends Tank {
 
     }
 
-    // Initialize a new enemy
-    public Enemy() { // number one
-        // wuhan virus is the above line when read as a sentence
+    // Initialize a new enemy, sets its image, and current state
+    public Enemy() { 
         image = new Image("/Images/bluetankv1wider.gif");
         state = EnemyState.PAUSE;
     }
@@ -100,6 +113,7 @@ public class Enemy extends Tank {
                 (int) player.getPosition().getY() + player.getHeight() / 2);
     }
 
+    // returns the direction the player is at
     public int targetPlayer() {
         Point playerPosition = findPlayer();
         double y2 = playerPosition.getY() - position.getY();
@@ -132,7 +146,7 @@ public class Enemy extends Tank {
         }
     }
 
-    // Move based off the players position
+    // Move based off the players position, speed, state, and type. 
     public void move() {
         if (World.instance().getCycleCount() == (savedCycle + 18)%180) {
             turretImage = new Image("/Images/cannonbase.png");
@@ -194,6 +208,7 @@ public class Enemy extends Tank {
         }
     }
 
+    //Plays the enemy's gunshot sound and returns a new bullet. 
     @Override
     public Bullet fire() {
         savedCycle = World.instance().getCycleCount();
@@ -206,6 +221,7 @@ public class Enemy extends Tank {
                 11, 7, 1, BulletType.ENEMY);
     }
 
+    //Removes tank from world and adds points to the player's score
     @Override
     public void onDeath() {
         World.instance().removeObject(this);
@@ -254,6 +270,7 @@ public class Enemy extends Tank {
         reloadStatus = Integer.parseInt(list[12]);
     }
 
+    //Getters and Setters 
     public EnemyState getState() {
         return state;
     }

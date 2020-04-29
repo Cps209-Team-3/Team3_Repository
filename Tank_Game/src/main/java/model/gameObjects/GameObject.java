@@ -1,8 +1,28 @@
+//-----------------------------------------------------------
+//File:   GameObject.java
+//Author: Austin Pennington, Andrew James, David Disler
+//Desc:   This class that all objects in the game inherit from
+//----------------------------------------------------------- 
+
 package model.gameObjects;
 
 import java.awt.Point;
 import javafx.scene.image.Image;
 
+/**
+ * Initalizes properities of all game objects
+ * 
+ * @param image :
+ * Image of the GameObject
+ * @param position :
+ * X and Y Position of the game object
+ * @param direction :
+ * Direction the gameobject is facing in degrees
+ * @param height :
+ * Height of the GameObject's Image
+ * @param width :
+ * Width of the GameObject's Image
+ */
 public abstract class GameObject {
 
     protected Image image;
@@ -59,6 +79,8 @@ public abstract class GameObject {
      */
     public abstract void onCollision(GameObject object);
 
+
+    //Getters and Setters
     public Image getImage() {
         return image;
     }
