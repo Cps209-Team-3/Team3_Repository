@@ -89,11 +89,11 @@ public class MainWindow {
     Button rightHardSlideBtn = new Button("Hard ->");
 
     // Below are the images used for the menu screens.
-    final Image LOGO_GIF = new Image("/Images/title.png");
-    final Image PTANK_IMG = new Image("/Images/ControlsSlide.jpg");
-    final Image ETANK_IMG = new Image("/Images/EnemiesSlide.jpg");
-    final Image PUP_IMG = new Image("/Images/PowerupsSlide.jpg");
-    final Image SCORING_IMG = new Image("/Images/ScoringSlide.jpg");
+    final Image LOGO_IMG = new Image("/Images/title.png");
+    final Image PTANK_IMG = new Image("/Images/ControlsSlide.png");
+    final Image ETANK_IMG = new Image("/Images/EnemiesSlide.png");
+    final Image PUP_IMG = new Image("/Images/PowerupsSlide.png");
+    final Image SCORING_IMG = new Image("/Images/ScoringSlide.png");
 
     // This Audio file is a beep that plays when a button is pressed.
     final AudioClip AUDIO_BEEP = new AudioClip(getClass().getResource("/Media/selectsfx.wav").toString());
@@ -139,7 +139,7 @@ public class MainWindow {
         MainHbox.getChildren().add(MidVbox);
         MidVbox.setPrefWidth(1240);
         MidVbox.setAlignment(Pos.CENTER);
-        imgView.setImage(LOGO_GIF);
+        imgView.setImage(LOGO_IMG);
         MidVbox.getChildren().add(imgView);
 
         MainHbox.getChildren().add(RightVbox);
@@ -321,7 +321,7 @@ public class MainWindow {
         BHbox.getChildren().clear();
         RightVbox.getChildren().clear();
         LeftVbox.getChildren().clear();
-        imgView.setImage(LOGO_GIF);
+        imgView.setImage(LOGO_IMG);
         MidVbox.getChildren().addAll(imgView, firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, exitBtn);
     }
 
