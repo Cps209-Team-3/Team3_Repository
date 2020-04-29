@@ -1,8 +1,13 @@
+//-----------------------------------------------------------
+//File:   Player.java
+//Author: Austin Pennington, Andrew James, David Disler
+//Desc:   This file handles holds properities of the player tank, handles the player's input, 
+//        creates bullets based off the player tank's properities, and moves the player tank. 
+//----------------------------------------------------------- 
 package model.gameObjects;
 
 import java.awt.Point;
 import java.util.ArrayList;
-
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
@@ -13,16 +18,26 @@ public class Player extends Tank {
     /**
      * Initializes a new Player using parameters.
      * 
-     * @param position
-     * @param direction
-     * @param height
-     * @param width
-     * @param health
-     * @param speed
-     * @param turretDirection
-     * @param reloadTime
-     * @param reloadStatus
-     * @param lastPosition
+     * @param position :
+     * X and Y Position of the Tank on the Screen
+     * @param direction :
+     * Direction the player is facing in degrees
+     * @param height :
+     * Height of the Player tank's image
+     * @param width :
+     * Width of the Player tank's image
+     * @param health :
+     * Amount of times the Player tank can be hit before dying
+     * @param speed :
+     * How quickly the player will move 
+     * @param turretDirection :
+     * Direction the cannon should face in degrees
+     * @param reloadTime :
+     * How many milliseconds the player must wait before being able to fire again
+     * @param reloadStatus :
+     * How many seconds the player has already waited. Initially should be the 
+     * @param lastPosition :
+     * X and Y Position of the Tank in the last frame. [UNUSED]
      */
     public Player(Point position, int direction, int height, int width, int health, int speed, int turretDirection,
             int reloadTime, int reloadStatus, Point lastPosition) {
@@ -48,7 +63,7 @@ public class Player extends Tank {
     public void move(ArrayList<KeyEvent> keys) {
         final AudioClip AUDIO_RELOAD = new AudioClip(getClass().getResource("/Media/reload.wav").toString());
         AUDIO_RELOAD.setPriority(4);
-        
+
         if (World.instance().getCycleCount() == (savedCycle + 18)%180) {
             turretImage = new Image("/Images/cannonbase.png");
         }
@@ -84,7 +99,7 @@ public class Player extends Tank {
         }
     }
 
-    // Move in the direction of This' direction.
+    // Move at this' speed in direction (angle)
     public void calculateMove() {
         double newX = position.getX();
         double newY = position.getY();
@@ -104,9 +119,10 @@ public class Player extends Tank {
         }
     }
 
+    //Resets the Player's reload cooldown, plays the player's gunshot sound, and returns a new bullet. 
     @Override
     public Bullet fire() {
-        final AudioClip AUDIO_SHOT = new AudioClip(getClass().getResource("/Media/shot1.wav").toString());
+        final AudioClip AUDIO_SHOT = new AudioClip(getClass().getResource("/Media/shot1.wav").toString()); //Player Cannon Shot Sound
         savedCycle = World.instance().getCycleCount();
         turretImage = new Image("/Images/cannonfiresprites.gif");
         reloadStatus = 0; 
@@ -119,6 +135,7 @@ public class Player extends Tank {
                 11, 13, 1, BulletType.PLAYER);
     }
 
+    //Removes the player's tank from the game
     @Override
     public void onDeath() {
         if (!World.instance().isCheatMode()) {
